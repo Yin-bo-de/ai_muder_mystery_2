@@ -1,0 +1,29 @@
+# FastAPI Web框架
+fastapi>=0.109.0
+uvicorn[standard]>=0.27.0
+
+# Pydantic数据验证
+pydantic>=2.5.0
+pydantic-settings>=2.1.0
+
+# LangChain AI框架
+langchain>=0.1.0
+langchain-openai>=0.0.2
+langchain-anthropic>=0.1.0
+langchain-community
+
+# 日志框架
+loguru>=0.7.0
+
+# 异步工具
+httpx>=0.26.0
+
+# 测试框架
+pytest>=7.4.0
+pytest-asyncio>=0.23.0
+pytest-cov>=4.1.0
+
+# 代码质量工具
+black>=24.1.0
+ruff>=0.1.0
+mypy>=1.8.0

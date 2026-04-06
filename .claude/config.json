@@ -1,0 +1,93 @@
+{
+  "$schema": "https://schemas.claude.ai/code/config.schema.json",
+  "description": "Claude Orchestra configuration for auto-approval and safe commands",
+  "version": "1.0.1",
+  "installedAt": "2026-04-05T11:52:31.092Z",
+  "lastUpdated": "2026-04-05T11:52:31.092Z",
+  "orchestration": {
+    "maxConcurrentAgents": 3,
+    "contextBudgetPerAgent": 15000
+  },
+  "toolUsePermissions": {
+    "bash": {
+      "npm": "allow",
+      "npx": "allow",
+      "yarn": "allow",
+      "just": "allow",
+      "mkdir": "allow",
+      "git status": "allow",
+      "git log": "allow",
+      "git diff": "allow",
+      "git show": "allow",
+      "ls": "allow",
+      "cat": "allow",
+      "grep": "allow",
+      "find": "allow",
+      "pwd": "allow",
+      "echo": "allow",
+      "timeout": "allow",
+      "printf": "allow",
+      "cd": "allow"
+    }
+  },
+  "safeCommands": {
+    "readOnly": [
+      "ls",
+      "cat",
+      "grep",
+      "find",
+      "git status",
+      "git log",
+      "git diff",
+      "git show",
+      "pwd"
+    ],
+    "development": [
+      "npm install",
+      "npm run",
+      "npm version",
+      "npm run build",
+      "npm run validate",
+      "npm run state:view",
+      "npm run state:clear",
+      "npm run context:status",
+      "npm run context:next",
+      "npm run context:detect",
+      "npm run context:task",
+      "npm run context:conflicts",
+      "npm run context:register",
+      "npm run context:update",
+      "npm run context:can-start",
+      "npx",
+      "yarn install",
+      "yarn build",
+      "yarn validate",
+      "yarn state:view",
+      "yarn state:clear",
+      "yarn context:status",
+      "yarn context:next",
+      "yarn context:detect",
+      "yarn context:task",
+      "yarn context:conflicts",
+      "yarn context:register",
+      "yarn context:update",
+      "yarn context:can-start",
+      "just version",
+      "just validate",
+      "just tags",
+      "just show-tag",
+      "mkdir"
+    ],
+    "requireApproval": [
+      "git commit",
+      "git push",
+      "git tag",
+      "npm publish",
+      "rm",
+      "mv",
+      "just bump",
+      "just push",
+      "just release"
+    ]
+  }
+}
