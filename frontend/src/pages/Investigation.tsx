@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Typography, Row, Col, Card, Descriptions, message, Modal, Avatar, Tag, Collapse, Space } from 'antd'
+import { Typography, Row, Col, Card, Descriptions, Modal, Avatar, Tag, Collapse, Space, App as AntdApp } from 'antd'
 import { SearchOutlined, InfoCircleOutlined, TeamOutlined } from '@ant-design/icons'
 import SceneItem from '@/components/SceneItem'
 import ClueCard from '@/components/ClueCard'
@@ -7,14 +7,14 @@ import { useGameStore } from '@/store/gameStore'
 import { useClueStore } from '@/store/clueStore'
 import { submitInvestigation, getClueStatistics } from '@/services/gameApi'
 
-const { Title, Text } = Typography
-
+const { Title, Text, Paragraph } = Typography
 
 const Investigation = () => {
   const [scenes, setScenes] = useState<any[]>([])
   const [selectedScene, setSelectedScene] = useState<any>(null)
   const [selectedSuspect, setSelectedSuspect] = useState<any>(null)
   const [investigating, setInvestigating] = useState(false)
+  const { message } = AntdApp.useApp()
 
   const { sessionId, caseInfo, suspects, totalCluesCount, updateCluesCount } = useGameStore()
   const { addClue, collectedClues } = useClueStore()
@@ -27,7 +27,7 @@ const Investigation = () => {
         name: scene.name,
         description: scene.description,
         isInvestigated: false,
-        hasClue: true, // 默认都有可能有线索，勘查后更新
+        hasClue: true,
         isLocked: scene.is_locked,
       }))
       setScenes(initialScenes)

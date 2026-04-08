@@ -177,18 +177,25 @@ class DialogueManager:
         self.dialogue_mode = mode
 
         if mode == DialogueMode.SINGLE:
-            if not suspect_id or suspect_id not in self.suspect_agents:
+            # 单独审讯模式需要嫌疑人ID
+            if not suspect_id:
+                # 如果没有提供嫌疑人ID，使用第一个嫌疑人
+                suspect_id = next(iter(self.suspect_agents.keys()))
+
+            if suspect_id in self.suspect_agents:
+                self.current_interrogation_suspect = suspect_id
+                suspect_name = self.suspect_agents[suspect_id].name
+                logger.info(f"切换到单独审讯模式，审讯对象: {suspect_name}")
+                return {
+                    "mode": mode,
+                    "suspect_id": suspect_id,
+                    "suspect_name": suspect_name,
+                    "message": f"已切换到单独审讯模式，现在可以单独审讯 {suspect_name}",
+                }
+            else:
                 raise ValueError(f"无效的嫌疑人ID: {suspect_id}")
-            self.current_interrogation_suspect = suspect_id
-            suspect_name = self.suspect_agents[suspect_id].name
-            logger.info(f"切换到单独审讯模式，审讯对象: {suspect_name}")
-            return {
-                "mode": mode,
-                "suspect_id": suspect_id,
-                "suspect_name": suspect_name,
-                "message": f"已切换到单独审讯模式，现在可以单独审讯 {suspect_name}",
-            }
         else:
+            # 全体质询模式不需要嫌疑人ID
             self.current_interrogation_suspect = None
             logger.info("切换到全体质询模式")
             return {

@@ -1,5 +1,5 @@
-import { ReactNode, useState, useEffect } from 'react'
-import { Layout, Menu, Button, Badge, Space, Typography, Progress, message } from 'antd'
+import { ReactNode, useState, useEffect, useMemo, useCallback, useRef } from 'react'
+import { Layout, Menu, Button, Badge, Space, Typography, Progress, App as AntdApp } from 'antd'
 import { useNavigate, useLocation } from 'react-router-dom'
 import {
   HomeOutlined,
@@ -24,28 +24,45 @@ const GameLayout: React.FC<GameLayoutProps> = ({ children }) => {
   const navigate = useNavigate()
   const location = useLocation()
   const [collapsed, setCollapsed] = useState(false)
-  const [playTime, setPlayTime] = useState(0)
+  const { message } = AntdApp.useApp()
 
-  const { sessionId, currentMode, playTime: storePlayTime, incrementPlayTime, collectedCluesCount, totalCluesCount } = useGameStore()
-  const { collectedClues } = useClueStore()
+  // 稳定的 state 选择，避免不必要的重渲染
+  const incrementPlayTime = useGameStore(state => state.incrementPlayTime)
+  const sessionId = useGameStore(state => state.sessionId)
+  const playTime = useGameStore(state => state.playTime)
+  const collectedCluesCount = useGameStore(state => state.collectedCluesCount)
+  const totalCluesCount = useGameStore(state => state.totalCluesCount)
+  const collectedCluesLength = useClueStore(state => state.collectedClues.length)
+
+  // 使用 ref 记录是否已经重定向，避免重复导航
+  const redirectedRef = useRef(false)
 
   // 路由守卫：检查是否有有效的游戏会话
   useEffect(() => {
-    if (!sessionId) {
+    if (sessionId) {
+      // 有 sessionId，确保不重定向
+      redirectedRef.current = false
+      return
+    }
+
+    // 没有 sessionId，需要重定向
+    if (!redirectedRef.current) {
+      redirectedRef.current = true
       message.error('请先开始新案件')
       navigate('/')
     }
-  }, [sessionId, navigate])
+  }, [sessionId, navigate, message])
 
-  // 游戏计时器
+  // 游戏计时器 - 只依赖sessionId变化时设置
   useEffect(() => {
+    if (!sessionId) return  // 没有会话时不启动计时器
+
     const timer = setInterval(() => {
       incrementPlayTime()
-      setPlayTime(storePlayTime)
     }, 1000)
 
     return () => clearInterval(timer)
-  }, [incrementPlayTime, storePlayTime])
+  }, [sessionId, incrementPlayTime])
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60)
@@ -53,7 +70,8 @@ const GameLayout: React.FC<GameLayoutProps> = ({ children }) => {
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
   }
 
-  const menuItems = [
+  // 使用 useMemo 缓存 menuItems，避免每次渲染都创建新数组
+  const menuItems = useMemo(() => [
     {
       key: '/investigation',
       icon: <SearchOutlined />,
@@ -68,7 +86,7 @@ const GameLayout: React.FC<GameLayoutProps> = ({ children }) => {
       key: '/clues',
       icon: <FolderOpenOutlined />,
       label: '线索库',
-      badge: collectedClues.length,
+      badge: collectedCluesLength,
     },
     {
       key: '/accuse',
@@ -80,11 +98,12 @@ const GameLayout: React.FC<GameLayoutProps> = ({ children }) => {
       icon: <FileTextOutlined />,
       label: '结案报告',
     },
-  ]
+  ], [collectedCluesLength])
 
-  const handleMenuClick = ({ key }: { key: string }) => {
+  // 使用 useCallback 稳定 handleMenuClick
+  const handleMenuClick = useCallback(({ key }: { key: string }) => {
     navigate(key)
-  }
+  }, [navigate])
 
   const clueCompletionRate = totalCluesCount > 0 ? Math.round((collectedCluesCount / totalCluesCount) * 100) : 0
 
@@ -127,7 +146,7 @@ const GameLayout: React.FC<GameLayoutProps> = ({ children }) => {
             />
           </div>
 
-          <Badge count={collectedClues.length} color="#722ed1">
+          <Badge count={collectedCluesLength} color="#722ed1">
             <Button
               type="primary"
               icon={<FolderOpenOutlined />}
@@ -151,17 +170,7 @@ const GameLayout: React.FC<GameLayoutProps> = ({ children }) => {
             mode="inline"
             selectedKeys={[location.pathname]}
             style={{ height: '100%', borderRight: 0, background: '#141414' }}
-            items={menuItems.map((item) => ({
-              key: item.key,
-              icon: item.icon,
-              label: item.badge ? (
-                <Badge count={item.badge} offset={[10, 0]} color="#722ed1">
-                  {item.label}
-                </Badge>
-              ) : (
-                item.label
-              ),
-            }))}
+            items={menuItems}
             onClick={handleMenuClick}
           />
         </Sider>

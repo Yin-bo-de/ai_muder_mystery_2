@@ -2,6 +2,7 @@
 Agent相关数据模型
 包含消息结构、角色配置、对话上下文
 """
+import uuid
 from datetime import datetime
 from typing import List, Dict, Optional, Any
 from enum import Enum
@@ -35,10 +36,10 @@ class MessageType(str, Enum):
 
 class Message(BaseModel):
     """消息结构模型"""
-    message_id: str = Field(..., description="消息唯一标识")
+    message_id: str = Field(default_factory=lambda: f"msg_{uuid.uuid4().hex[:8]}", description="消息唯一标识")
     role: MessageRole = Field(..., description="消息角色")
-    sender_id: str = Field(..., description="发送者ID（用户或角色ID）")
-    sender_name: str = Field(..., description="发送者名称")
+    sender_id: str = Field(default="user", description="发送者ID（用户或角色ID）")
+    sender_name: str = Field(default="用户", description="发送者名称")
     content: str = Field(..., description="消息内容")
     message_type: MessageType = Field(default=MessageType.TEXT, description="消息类型")
     priority: MessagePriority = Field(default=MessagePriority.P1, description="消息优先级")

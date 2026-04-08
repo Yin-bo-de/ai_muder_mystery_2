@@ -84,19 +84,19 @@ async def get_collected_clues(
         clue_type=clue_type
     )
 
+@router.get("/{session_id}/clues/statistics", summary="获取线索统计信息")
+async def get_clue_statistics(session_id: str) -> Any:
+    """获取线索收集统计信息"""
+    return clue_service.get_clue_statistics(
+        session_id=session_id
+    )
+
 @router.get("/{session_id}/clues/{clue_id}", summary="获取线索详情")
 async def get_clue_detail(session_id: str, clue_id: str) -> Any:
     """获取指定线索的详细信息"""
     return clue_service.get_clue_detail(
         session_id=session_id,
         clue_id=clue_id
-    )
-
-@router.get("/{session_id}/clues/statistics", summary="获取线索统计信息")
-async def get_clue_statistics(session_id: str) -> Any:
-    """获取线索收集统计信息"""
-    return clue_service.get_clue_statistics(
-        session_id=session_id
     )
 
 @router.post("/{session_id}/clues/associate", summary="关联线索")

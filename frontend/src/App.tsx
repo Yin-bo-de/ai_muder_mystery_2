@@ -4,6 +4,7 @@ import zhCN from 'antd/locale/zh_CN'
 import './App.css'
 
 function AppWrapper() {
+  console.log('[AppWrapper] AppWrapper渲染中...')
   return (
     <ConfigProvider
       locale={zhCN}

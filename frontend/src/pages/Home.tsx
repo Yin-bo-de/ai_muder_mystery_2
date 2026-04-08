@@ -1,4 +1,4 @@
-import { Button, Card, Typography, Space, message } from 'antd'
+import { Button, Card, Typography, Space, App as AntdApp } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { PlayCircleOutlined, BookOutlined, TrophyOutlined } from '@ant-design/icons'
 
@@ -6,29 +6,27 @@ const { Title, Paragraph } = Typography
 
 const Home = () => {
   const navigate = useNavigate()
-  const [messageApi, contextHolder] = message.useMessage()
+  const { message } = AntdApp.useApp()
 
   const startNewGame = () => {
     navigate('/game')
   }
 
   const showUnderDevelopment = () => {
-    messageApi.info('功能开发中，敬请期待')
+    message.info('功能开发中，敬请期待')
   }
 
   return (
-    <>
-      {contextHolder}
-      <div style={{
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%)',
-        padding: '24px',
-      }}>
-        <Card
+    <div style={{
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%)',
+      padding: '24px',
+    }}>
+      <Card
         style={{
           maxWidth: 800,
           width: '100%',
@@ -101,12 +99,11 @@ const Home = () => {
 
         <div style={{ marginTop: '48px', textAlign: 'center' }}>
           <Paragraph style={{ color: 'rgba(255,255,255,0.45)', fontSize: '14px' }}>
-            🌌 每个案件由AI独立生成，剧情独一无二，逻辑严谨自洽
+            🌌 每个案件由AI独立。生成，剧情独一无二，逻辑严谨自洽
           </Paragraph>
         </div>
       </Card>
     </div>
-    </>
   )
 }
 

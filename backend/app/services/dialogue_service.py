@@ -2,7 +2,7 @@
 from typing import List, Dict, Any, Optional
 from datetime import datetime
 
-from app.core.constants import DialogueMode, MessageRole, MessageType
+from app.core.constants import DialogueMode, MessageRole, MessageType, GameStatus
 from app.core.exceptions import SessionNotFoundException, GameCompletedException
 from app.models.agent import Message
 from .game_service import game_service
@@ -31,7 +31,7 @@ class DialogueService:
         if not session:
             raise SessionNotFoundException()
 
-        if session.game_status != "in_progress":
+        if session.game_status != GameStatus.IN_PROGRESS:
             raise GameCompletedException()
 
         # 获取对话管理器
@@ -42,8 +42,10 @@ class DialogueService:
         # 保存用户消息到历史
         user_message = Message(
             role=MessageRole.USER,
+            sender_id="user",
+            sender_name="用户",
             content=message,
-            type=message_type,
+            message_type=message_type,
             timestamp=datetime.now(),
         )
         session_service.add_dialogue_message(session_id, user_message)
@@ -60,11 +62,10 @@ class DialogueService:
         for resp in responses:
             suspect_message = Message(
                 role=MessageRole.SUSPECT,
-                content=resp["content"],
                 sender_id=resp["suspect_id"],
                 sender_name=resp["name"],
-                mood=resp["mood"],
-                type=MessageType.TEXT,
+                content=resp["content"],
+                message_type=MessageType.TEXT,
                 timestamp=datetime.now(),
             )
             session_service.add_dialogue_message(session_id, suspect_message)
@@ -73,8 +74,10 @@ class DialogueService:
         for prompt in system_prompts:
             system_message = Message(
                 role=MessageRole.SYSTEM,
+                sender_id="system",
+                sender_name="系统",
                 content=prompt,
-                type=MessageType.SYSTEM_PROMPT,
+                message_type=MessageType.SYSTEM,
                 timestamp=datetime.now(),
             )
             session_service.add_dialogue_message(session_id, system_message)
@@ -116,7 +119,7 @@ class DialogueService:
         if not session:
             raise SessionNotFoundException()
 
-        if session.game_status != "in_progress":
+        if session.game_status != GameStatus.IN_PROGRESS:
             raise GameCompletedException()
 
         dialogue_manager = game_service.get_dialogue_manager(session_id)
@@ -135,8 +138,10 @@ class DialogueService:
         # 添加系统提示
         system_message = Message(
             role=MessageRole.SYSTEM,
+            sender_id="system",
+            sender_name="系统",
             content=result["message"],
-            type=MessageType.SYSTEM_PROMPT,
+            message_type=MessageType.SYSTEM,
             timestamp=datetime.now(),
         )
         session_service.add_dialogue_message(session_id, system_message)
@@ -155,7 +160,7 @@ class DialogueService:
         if not session:
             raise SessionNotFoundException()
 
-        if session.game_status != "in_progress":
+        if session.game_status != GameStatus.IN_PROGRESS:
             raise GameCompletedException()
 
         command_handlers = {
@@ -177,8 +182,10 @@ class DialogueService:
         # 添加系统提示
         system_message = Message(
             role=MessageRole.SYSTEM,
+            sender_id="system",
+            sender_name="系统",
             content=result_message,
-            type=MessageType.SYSTEM_PROMPT,
+            message_type=MessageType.SYSTEM,
             timestamp=datetime.now(),
         )
         session_service.add_dialogue_message(session_id, system_message)

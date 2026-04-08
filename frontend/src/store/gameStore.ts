@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { shallow } from 'zustand/shallow'
 
 interface GameState {
   sessionId: string | null
@@ -33,26 +34,47 @@ export const useGameStore = create<GameState>((set) => ({
   playTime: 0,
   wrongGuessCount: 0,
 
-  setSessionId: (id) => set({ sessionId: id }),
-  setCaseInfo: (info) => set({ caseInfo: info }),
-  setGameStatus: (status) => set({ gameStatus: status }),
-  setSuspects: (suspects) => set({ suspects }),
-  updateCluesCount: (collected, total) => set({
-    collectedCluesCount: collected,
-    totalCluesCount: total,
-  }),
-  setCurrentMode: (mode) => set({ currentMode: mode }),
+  setSessionId: (id) => {
+    console.log('[gameStore] setSessionId被调用:', id)
+    set({ sessionId: id })
+  },
+  setCaseInfo: (info) => {
+    console.log('[gameStore] setCaseInfo被调用:', info)
+    set({ caseInfo: info })
+  },
+  setGameStatus: (status) => {
+    console.log('[gameStore] setGameStatus被调用:', status)
+    set({ gameStatus: status })
+  },
+  setSuspects: (suspects) => {
+    console.log('[gameStore] setSuspects被调用，数量:', suspects.length)
+    set({ suspects })
+  },
+  updateCluesCount: (collected, total) => {
+    console.log('[gameStore] updateCluesCount被调用:', { collected, total })
+    set({
+      collectedCluesCount: collected,
+      totalCluesCount: total,
+    })
+  },
+  setCurrentMode: (mode) => {
+    console.log('[gameStore] setCurrentMode被调用:', mode)
+    set({ currentMode: mode })
+  },
   incrementPlayTime: () => set((state) => ({ playTime: state.playTime + 1 })),
   incrementWrongGuess: () => set((state) => ({ wrongGuessCount: state.wrongGuessCount + 1 })),
-  resetGame: () => set({
-    sessionId: null,
-    caseInfo: null,
-    gameStatus: 'preparing',
-    suspects: [],
-    collectedCluesCount: 0,
-    totalCluesCount: 0,
-    currentMode: 'investigation',
-    playTime: 0,
-    wrongGuessCount: 0,
-  }),
+  resetGame: () => {
+    console.log('[gameStore] resetGame被调用')
+    set({
+      sessionId: null,
+      caseInfo: null,
+      gameStatus: 'preparing',
+      suspects: [],
+      collectedCluesCount: 0,
+      totalCluesCount: 0,
+      currentMode: 'investigation',
+      playTime: 0,
+      wrongGuessCount: 0,
+    })
+  },
 }))

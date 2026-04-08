@@ -97,6 +97,6 @@ export const getDialogueHistory = async (
 export const getSuspectStates = async (
   sessionId: string
 ): Promise<SuspectState[]> => {
-  return request.get(`/agent/${session_id}/suspects/states`)
+  return request.get(`/agent/${sessionId}/suspects/states`)
 }
 

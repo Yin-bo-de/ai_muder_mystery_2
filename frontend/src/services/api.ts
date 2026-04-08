@@ -4,7 +4,7 @@ import { message } from 'antd'
 // 创建Axios实例
 const request = axios.create({
   baseURL: '/api/v1',
-  timeout: 120000, // 延长超时到120秒，适配LLM生成案件的时间
+  timeout: 180000, // 延长超时到180秒，适配LLM生成案件的时间
   headers: {
     'Content-Type': 'application/json',
   },
@@ -13,11 +13,19 @@ const request = axios.create({
 // 请求拦截器
 request.interceptors.request.use(
   (config) => {
+    console.log('[api] 请求发送:', {
+      url: config.url,
+      method: config.method,
+      baseURL: config.baseURL,
+      fullUrl: `${config.baseURL}${config.url}`,
+      params: config.params,
+      data: config.data,
+    })
     // 可以在这里添加token等认证信息
     return config
   },
   (error) => {
-    console.error('Request error:', error)
+    console.error('[api] 请求错误:', error)
     return Promise.reject(error)
   }
 )
@@ -25,16 +33,27 @@ request.interceptors.request.use(
 // 响应拦截器
 request.interceptors.response.use(
   (response) => {
+    console.log('[api] 响应接收:', {
+      url: response.config.url,
+      status: response.status,
+      data: response.data,
+    })
     const res = response.data
     // 如果返回的是错误格式
     if (res.code && res.code !== 200) {
+      console.error('[api] API返回错误:', res)
       message.error(res.message || '请求失败')
       return Promise.reject(new Error(res.message || '请求失败'))
     }
     return res
   },
   (error) => {
-    console.error('Response error:', error)
+    console.error('[api] 响应错误:', {
+      message: error.message,
+      config: error.config,
+      response: error.response,
+      request: error.request,
+    })
     let errorMessage = '网络错误，请稍后重试'
 
     if (error.response) {

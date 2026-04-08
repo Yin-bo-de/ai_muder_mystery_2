@@ -75,12 +75,13 @@ const Interrogation = () => {
       return
     }
 
+    const messageContent = inputMessage.trim()
     const targetSuspects = dialogueMode === 'single' && selectedSuspect ? [selectedSuspect] : undefined
 
     // 添加用户消息
     addMessage({
       role: 'user',
-      content: inputMessage.trim(),
+      content: messageContent,
       type: 'text',
     })
 
@@ -88,7 +89,7 @@ const Interrogation = () => {
     setIsSending(true)
 
     try {
-      const res = await sendMessage(sessionId, inputMessage.trim(), targetSuspects)
+      const res = await sendMessage(sessionId, { message: messageContent, target_suspects: targetSuspects })
 
       // 添加嫌疑人回复
       res.responses.forEach((resp: any) => {
@@ -125,7 +126,11 @@ const Interrogation = () => {
     }
 
     try {
-      await switchInterrogationMode(sessionId, mode, mode === 'single' ? selectedSuspect : undefined)
+      const params: any = { mode }
+      if (mode === 'single' && selectedSuspect) {
+        params.suspect_id = selectedSuspect
+      }
+      await switchInterrogationMode(sessionId, params)
       setDialogueMode(mode)
       message.success(`已切换到${mode === 'single' ? '单独审讯' : '全体质询'}模式`)
     } catch (error) {
@@ -133,10 +138,26 @@ const Interrogation = () => {
     }
   }
 
-  const handleSuspectSelect = (suspectId: string) => {
+  const handleSuspectSelect = async (suspectId: string) => {
     setSelectedSuspect(suspectId)
     if (dialogueMode === 'single') {
-      handleSwitchMode('single')
+      // 已经是 single 模式，不需要重复切换
+      message.success(`已选择 ${displaySuspects.find(s => s.suspect_id === suspectId)?.name} 为审讯对象`)
+    } else {
+      // 切换到 single 模式，需要先设置 selectedSuspect 再切换
+      if (!sessionId) {
+        message.error('游戏会话不存在，请重新开始')
+        return
+      }
+
+      try {
+        const params: any = { mode: 'single', suspect_id: suspectId }
+        await switchInterrogationMode(sessionId, params)
+        setDialogueMode('single')
+        message.success(`已切换到单独审讯模式，现在可以单独审讯 ${displaySuspects.find(s => s.suspect_id === suspectId)?.name}`)
+      } catch (error) {
+        message.error('切换模式失败')
+      }
     }
   }
 

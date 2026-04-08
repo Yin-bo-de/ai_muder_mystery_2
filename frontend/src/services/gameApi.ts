@@ -47,13 +47,21 @@ export interface CreateGameResponse {
 let isCreatingCase = false
 
 export const createNewCase = async (params?: CreateGameRequest): Promise<CreateGameResponse> => {
+  console.log('[gameApi] createNewCase被调用，参数:', params)
   if (isCreatingCase) {
+    console.warn('[gameApi] 案件生成中，拒绝重复请求')
     throw new Error('案件生成中，请不要重复点击')
   }
 
   try {
     isCreatingCase = true
-    return await request.post('/game/new', params || {})
+    console.log('[gameApi] 发送POST请求到 /game/new')
+    const result = await request.post('/game/new', params || {})
+    console.log('[gameApi] API响应:', result)
+    return result
+  } catch (error) {
+    console.error('[gameApi] 请求失败:', error)
+    throw error
   } finally {
     // 1秒后重置标记，防止短时间内重复请求
     setTimeout(() => {

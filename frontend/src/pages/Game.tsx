@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Spin, Typography, Card, Progress, message } from 'antd'
+import { Spin, Typography, Card, Progress, App as AntdApp } from 'antd'
 import { useGameStore } from '@/store/gameStore'
 import { createNewCase, type CreateGameResponse } from '@/services/gameApi'
 
@@ -10,17 +10,12 @@ const Game = () => {
   const navigate = useNavigate()
   const [progress, setProgress] = useState(0)
   const [error, setError] = useState(false)
-  const [messageApi, contextHolder] = message.useMessage()
-  const { sessionId, setSessionId, setCaseInfo, setGameStatus, setSuspects, updateCluesCount } = useGameStore()
+  const { message } = AntdApp.useApp()
+  const { setSessionId, setCaseInfo, setGameStatus, setSuspects, updateCluesCount } = useGameStore()
   const initialized = useRef(false)
+  const navigatingRef = useRef(false)
 
   useEffect(() => {
-    // 如果已经有sessionId，直接跳转
-    if (sessionId) {
-      navigate('/investigation')
-      return
-    }
-
     // 防止重复初始化
     if (initialized.current) return
     initialized.current = true
@@ -56,41 +51,39 @@ const Game = () => {
         })
         setSuspects(res.suspects)
         setGameStatus('in_progress')
-        updateCluesCount(0, 0) // 初始总线索数为0，后续从线索统计接口获取
+        updateCluesCount(0, 0)
 
-        messageApi.success('案件生成成功！开始你的探案之旅吧')
+        message.success('案件生成成功！开始你的探案之旅吧')
 
-        // 延迟1秒后跳转到现场勘查页面
+        // 延迟后跳转到现场勘查页面 - 确保状态已更新
+        navigatingRef.current = true
         setTimeout(() => {
-          navigate('/investigation')
-        }, 1000)
+          navigate('/investigation', { replace: true })
+        }, 800)
 
       } catch (error: any) {
-        console.error('Failed to create case:', error)
+        console.error('[Game] 创建案件失败:', error)
         setError(true)
-        messageApi.error('案件生成失败，请重试')
+        message.error('案件生成失败，请重试')
       }
     }
 
     initGame()
 
-    // 清理函数
     return () => {
       if (progressInterval) clearInterval(progressInterval)
     }
-  }, [navigate, sessionId, setSessionId, setCaseInfo, setGameStatus, setSuspects, updateCluesCount])
+  }, [setSessionId, setCaseInfo, setSuspects, setGameStatus, updateCluesCount, navigate, message])
 
   return (
-    <>
-      {contextHolder}
-      <div style={{
-        minHeight: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%)',
-      }}>
-        <Card
+    <div style={{
+      minHeight: '100vh',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%)',
+    }}>
+      <Card
         style={{
           maxWidth: 600,
           width: '90%',
@@ -150,7 +143,6 @@ const Game = () => {
         )}
       </Card>
     </div>
-    </>
   )
 }
 

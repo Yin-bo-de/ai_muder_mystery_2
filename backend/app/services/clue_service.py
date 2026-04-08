@@ -73,23 +73,40 @@ class ClueService:
         if not session:
             raise SessionNotFoundException()
 
-        total_clues = len(session.case.clues)
-        collected_clues = len(session.collected_clues)
+        # 确保案件数据存在
+        if not hasattr(session, "case") or not session.case:
+            return {
+                "total_clues": 0,
+                "collected_clues": 0,
+                "completion_rate": 0,
+                "type_statistics": {},
+                "status_statistics": {},
+                "scene_statistics": {},
+                "undiscovered_clues_count": 0,
+            }
+
+        # 确保案件有线索列表
+        total_clues = len(session.case.clues) if hasattr(session.case, "clues") and session.case.clues else 0
+        collected_clues_list = session.collected_clues if hasattr(session, "collected_clues") and session.collected_clues else []
+        collected_clues = len(collected_clues_list)
 
         # 按类型统计
         type_stats = defaultdict(int)
-        for clue in session.collected_clues:
-            type_stats[clue.clue_type] += 1
+        for clue in collected_clues_list:
+            if clue and hasattr(clue, "clue_type"):
+                type_stats[clue.clue_type] += 1
 
         # 按状态统计
         status_stats = defaultdict(int)
-        for clue in session.collected_clues:
-            status_stats[clue.status] += 1
+        for clue in collected_clues_list:
+            if clue and hasattr(clue, "status"):
+                status_stats[clue.status] += 1
 
         # 按场景统计
         scene_stats = defaultdict(int)
-        for clue in session.collected_clues:
-            scene_stats[clue.scene] += 1
+        for clue in collected_clues_list:
+            if clue and hasattr(clue, "scene"):
+                scene_stats[clue.scene] += 1
 
         return {
             "total_clues": total_clues,
@@ -187,18 +204,27 @@ class ClueService:
         if not session:
             raise SessionNotFoundException()
 
+        # 确保案件数据存在
+        if not hasattr(session, "case") or not session.case:
+            return []
+
+        # 确保案件有线索列表
+        if not hasattr(session.case, "clues") or not session.case.clues:
+            return []
+
         # 找到未发现的线索
-        undiscovered_clues = [
-            clue for clue in session.case.clues
-            if clue.status == ClueStatus.UNDISCOVERED
-        ]
+        undiscovered_clues = []
+        for clue in session.case.clues:
+            if clue and hasattr(clue, "status") and clue.status == ClueStatus.UNDISCOVERED:
+                undiscovered_clues.append(clue)
 
         hints = []
         for clue in undiscovered_clues[:3]:  # 最多给3个提示
-            hints.append({
-                "hint": f"在{clue.scene}似乎还有值得注意的东西...",
-                "scene": clue.scene,
-            })
+            if clue and hasattr(clue, "scene"):
+                hints.append({
+                    "hint": f"在{clue.scene}似乎还有值得注意的东西...",
+                    "scene": clue.scene,
+                })
 
         return hints
 
