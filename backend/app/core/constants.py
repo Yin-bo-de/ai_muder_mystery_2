@@ -11,10 +11,11 @@ class GameStatus(str, Enum):
 class OperationType(str, Enum):
     """用户操作类型"""
     INVESTIGATE = "investigate"  # 勘查
-    TALK = "talk"  # 对话
+    SEND_MESSAGE = "send_message"  # 发送消息
     ACCUSE = "accuse"  # 指认
     DECRYPT = "decrypt"  # 解密
-    SWITCH_MODE = "switch_mode"  # 切换模式
+    CHANGE_MODE = "change_mode"  # 切换模式
+    COMMAND = "command"  # 执行指令
 
 class DialogueMode(str, Enum):
     """对话模式"""
@@ -35,6 +36,7 @@ class ClueType(str, Enum):
     TESTIMONY = "testimony"  # 证词
     ASSOCIATION = "association"  # 关联线索
     DECRYPT = "decrypt"  # 需解密线索
+    DOCUMENT = "document"  # 文档类线索
 
 class ClueStatus(str, Enum):
     """线索状态枚举"""
@@ -66,6 +68,13 @@ class MessageType(str, Enum):
     SYSTEM_PROMPT = "system_prompt"  # 系统提示
     EVIDENCE = "evidence"  # 出示证据
     ACCUSATION = "accusation"  # 指控
+
+
+class ContradictionType(str, Enum):
+    """矛盾类型枚举"""
+    TIMELINE = "timeline"  # 时间线矛盾
+    SPATIAL = "spatial"  # 空间/视野关系矛盾
+    EVIDENCE = "evidence"  # 证据矛盾
 
 # 错误码定义
 ERROR_CODE = {

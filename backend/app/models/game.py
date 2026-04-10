@@ -124,6 +124,8 @@ class GameSession(BaseModel):
     last_active_time: datetime = Field(default_factory=datetime.utcnow, description="最后活跃时间")
     clue_reveal_count: int = Field(default=0, description="线索发现数量")
     reasoning_score: float = Field(default=0.0, ge=0.0, le=1.0, description="推理分数，0.0-1.0")
+    refusal_count: int = Field(default=0, description="本轮对话已发生的反驳次数")
+    last_refusal_reset: datetime = Field(default_factory=datetime.utcnow, description="上次重置反驳计数的时间")
 
     model_config = {
         "json_schema_extra": {

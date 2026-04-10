@@ -1,5 +1,6 @@
 import { Avatar, Typography, Tag, Tooltip } from 'antd'
 import { UserOutlined, RobotOutlined, SoundOutlined } from '@ant-design/icons'
+import TypewriterText from './TypewriterText'
 import type { MessageRole, MessageType, SuspectMood } from '../types/game'
 
 const { Text, Paragraph } = Typography
@@ -14,6 +15,7 @@ interface MessageBoxProps {
   mood?: SuspectMood
   type?: MessageType
   isNew?: boolean
+  enableTypewriter?: boolean
 }
 
 const roleConfig = {
@@ -53,7 +55,28 @@ const moodConfig = {
   angry: { color: '#f5222d', text: '愤怒' },
   scared: { color: '#722ed1', text: '害怕' },
   guilty: { color: '#eb2f96', text: '心虚' },
+  sad: { color: '#1890ff', text: '悲伤' },
+  surprised: { color: '#13c2c2', text: '惊讶' },
 }
+
+const SystemHint = ({ content }: { content: string }) => (
+  <div style={{
+    background: 'linear-gradient(135deg, #ffd700 0%, #ff8c00 100%)',
+    borderRadius: 8,
+    padding: '12px 16px',
+    margin: '12px 0',
+    border: '1px solid #ffd700',
+    boxShadow: '0 4px 12px rgba(255, 215, 0, 0.2)'
+  }}>
+    <span style={{
+      color: '#000',
+      fontWeight: 'bold',
+      fontSize: 14
+    }}>
+      📌 {content}
+    </span>
+  </div>
+)
 
 const MessageBox: React.FC<MessageBoxProps> = ({
   role,
@@ -64,13 +87,23 @@ const MessageBox: React.FC<MessageBoxProps> = ({
   mood,
   type = 'text',
   isNew = false,
+  enableTypewriter = false,
 }) => {
   const config = roleConfig[role]
   const isSystem = role === 'system' || role === 'judge'
+  const isSystemPrompt = type === 'system_prompt'
 
   const formatTime = (ts: number) => {
     const date = new Date(ts)
     return `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`
+  }
+
+  if (isSystemPrompt || (isSystem && content.includes('【'))) {
+    return (
+      <div style={{ textAlign: 'center', margin: '16px 0' }} className="fade-in">
+        <SystemHint content={content} />
+      </div>
+    )
   }
 
   if (isSystem) {
@@ -131,9 +164,9 @@ const MessageBox: React.FC<MessageBoxProps> = ({
               <Text strong style={{ color: '#fff', fontSize: '14px' }}>
                 {senderName || config.name}
               </Text>
-              {mood && (
-                <Tag color={moodConfig[mood].color}>
-                  {moodConfig[mood].text}
+              {mood && moodConfig[mood as keyof typeof moodConfig] && (
+                <Tag color={moodConfig[mood as keyof typeof moodConfig].color}>
+                  {moodConfig[mood as keyof typeof moodConfig].text}
                 </Tag>
               )}
               <Text type="secondary" style={{ fontSize: '12px' }}>
@@ -166,7 +199,11 @@ const MessageBox: React.FC<MessageBoxProps> = ({
           }}
         >
           <Paragraph style={{ margin: 0, color: config.textColor }}>
-            {content}
+            {enableTypewriter && role === 'suspect' ? (
+              <TypewriterText text={content} mood={mood} />
+            ) : (
+              content
+            )}
           </Paragraph>
         </div>
       </div>

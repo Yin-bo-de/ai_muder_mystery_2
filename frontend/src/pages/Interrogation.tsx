@@ -3,16 +3,17 @@ import { Typography, Row, Col, Input, Button, Space, Radio, message, Empty } fro
 import { MessageOutlined, SendOutlined, UserSwitchOutlined } from '@ant-design/icons'
 import SuspectAvatar from '@/components/SuspectAvatar'
 import MessageBox from '@/components/MessageBox'
+import SuspectMentions from '@/components/SuspectMentions'
 import { useGameStore } from '@/store/gameStore'
 import { useDialogueStore } from '@/store/dialogueStore'
 import { sendMessage, switchInterrogationMode } from '@/services/agentApi'
-import type { DialogueMode } from '@/types/game'
+import type { DialogueMode, Suspect } from '@/types/game'
 
 const { Title } = Typography
 const { TextArea } = Input
 
 // 模拟嫌疑人数据
-const mockSuspects = [
+const mockSuspects: Suspect[] = [
   {
     suspect_id: 's1',
     name: '李四',
@@ -23,8 +24,8 @@ const mockSuspects = [
     alibi: '案发时我在送外卖',
     secret: '他最近赌博输了很多钱',
     personality: '脾气暴躁，容易冲动',
-    mood: 'calm',
-    stress_level: 15,
+    avatar: '',
+    gender: '男',
   },
   {
     suspect_id: 's2',
@@ -36,8 +37,8 @@ const mockSuspects = [
     alibi: '案发时我在公司加班',
     secret: '他偷偷挪用了公款',
     personality: '内向，心思缜密',
-    mood: 'nervous',
-    stress_level: 35,
+    avatar: '',
+    gender: '男',
   },
   {
     suspect_id: 's3',
@@ -49,16 +50,32 @@ const mockSuspects = [
     alibi: '案发时我在收其他房租',
     secret: '他有过犯罪前科',
     personality: '势利，贪小便宜',
-    mood: 'angry',
-    stress_level: 55,
+    avatar: '',
+    gender: '男',
   },
 ]
+
+// 保密标签组件
+const SecretLabel = () => (
+  <div style={{
+    display: 'inline-block',
+    background: '#dc2626',
+    color: '#fff',
+    padding: '2px 8px',
+    borderRadius: 4,
+    fontSize: 12,
+    fontWeight: 'bold'
+  }}>
+    保密
+  </div>
+)
 
 const Interrogation = () => {
   const [inputMessage, setInputMessage] = useState('')
   const [dialogueMode, setDialogueMode] = useState<DialogueMode>('group')
   const [selectedSuspect, setSelectedSuspect] = useState<string | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const [targetSuspects, setTargetSuspects] = useState<string[]>([])
 
   const { sessionId, suspects } = useGameStore()
   const { messages, isSending, addMessage, setIsSending } = useDialogueStore()
@@ -68,6 +85,11 @@ const Interrogation = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
+  const handleInputChange = (value: string, newTargetSuspects: string[]) => {
+    setInputMessage(value)
+    setTargetSuspects(newTargetSuspects)
+  }
+
   const handleSendMessage = async () => {
     if (!inputMessage.trim()) return
     if (!sessionId) {
@@ -76,7 +98,9 @@ const Interrogation = () => {
     }
 
     const messageContent = inputMessage.trim()
-    const targetSuspects = dialogueMode === 'single' && selectedSuspect ? [selectedSuspect] : undefined
+    const finalTargetSuspects = dialogueMode === 'single' && selectedSuspect
+      ? [selectedSuspect]
+      : (targetSuspects.length > 0 ? targetSuspects : undefined)
 
     // 添加用户消息
     addMessage({
@@ -86,10 +110,14 @@ const Interrogation = () => {
     })
 
     setInputMessage('')
+    setTargetSuspects([])
     setIsSending(true)
 
     try {
-      const res = await sendMessage(sessionId, { message: messageContent, target_suspects: targetSuspects })
+      const res = await sendMessage(sessionId, {
+        message: messageContent,
+        target_suspects: finalTargetSuspects
+      })
 
       // 添加嫌疑人回复
       res.responses.forEach((resp: any) => {
@@ -99,7 +127,7 @@ const Interrogation = () => {
           sender_id: resp.suspect_id,
           sender_name: resp.name,
           mood: resp.mood,
-          type: 'text',
+          type: resp.is_refusal ? 'text' : 'text',
         })
       })
 
@@ -163,11 +191,39 @@ const Interrogation = () => {
 
   const displaySuspects = suspects.length > 0 ? suspects : mockSuspects
 
+  // 单独审讯模式的背景变暗效果
+  const interrogationOverlayStyle = {
+    position: 'fixed' as const,
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: 'rgba(0, 0, 0, 0.7)',
+    zIndex: 99,
+    display: dialogueMode === 'single' ? 'block' : 'none',
+    pointerEvents: 'none' as const,
+  }
+
   return (
-    <div style={{ height: 'calc(100vh - 140px)', display: 'flex', flexDirection: 'column' }}>
-      <div style={{ marginBottom: 24, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+    <div style={{ position: 'relative', height: 'calc(100vh - 140px)', display: 'flex', flexDirection: 'column' }}>
+      {/* 单独审讯模式背景变暗效果 */}
+      <div style={interrogationOverlayStyle} />
+
+      <div style={{
+        marginBottom: 24,
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        position: 'relative' as const,
+        zIndex: 100,
+      }}>
         <Title level={2} style={{ color: '#fff', margin: 0 }}>
           <MessageOutlined /> 质询嫌疑人
+          {dialogueMode === 'single' && (
+            <span style={{ marginLeft: 12 }}>
+              <SecretLabel />
+            </span>
+          )}
         </Title>
 
         <Space>
@@ -192,16 +248,37 @@ const Interrogation = () => {
       </div>
 
       {/* 嫌疑人列表 */}
-      <div style={{ marginBottom: 24, display: 'flex', gap: 24, flexWrap: 'wrap' }}>
-        {displaySuspects.map(suspect => (
-          <SuspectAvatar
-            key={suspect.suspect_id}
-            name={suspect.name}
-            mood={suspect.mood}
-            stressLevel={suspect.stress_level}
-            onClick={() => handleSuspectSelect(suspect.suspect_id)}
-          />
-        ))}
+      <div style={{
+        marginBottom: 24,
+        display: 'flex',
+        gap: 24,
+        flexWrap: 'wrap',
+        position: 'relative' as const,
+        zIndex: 100,
+      }}>
+        {displaySuspects.map(suspect => {
+          const isSelected = selectedSuspect === suspect.suspect_id
+          const isGrayscale = dialogueMode === 'single' && !isSelected
+
+          return (
+            <div
+              key={suspect.suspect_id}
+              style={{
+                filter: isGrayscale ? 'grayscale(100%)' : 'none',
+                opacity: isGrayscale ? 0.5 : 1,
+                transition: 'all 0.3s ease',
+              }}
+            >
+              <SuspectAvatar
+                name={suspect.name}
+                mood={(suspect as any).mood || 'calm'}
+                stressLevel={(suspect as any).stress_level || 0}
+                onClick={() => handleSuspectSelect(suspect.suspect_id)}
+                selected={isSelected}
+              />
+            </div>
+          )
+        })}
       </div>
 
       {/* 对话区域 */}
@@ -214,6 +291,8 @@ const Interrogation = () => {
           padding: 24,
           marginBottom: 24,
           border: '1px solid #303030',
+          position: 'relative' as const,
+          zIndex: 100,
         }}
       >
         {messages.length === 0 ? (
@@ -233,6 +312,7 @@ const Interrogation = () => {
               timestamp={msg.timestamp}
               mood={msg.mood}
               type={msg.type}
+              enableTypewriter={true}
             />
           ))
         )}
@@ -240,20 +320,13 @@ const Interrogation = () => {
       </div>
 
       {/* 输入区域 */}
-      <div style={{ display: 'flex', gap: 12 }}>
-        <TextArea
+      <div style={{ display: 'flex', gap: 12, position: 'relative' as const, zIndex: 100 }}>
+        <SuspectMentions
+          suspects={displaySuspects}
           value={inputMessage}
-          onChange={(e) => setInputMessage(e.target.value)}
-          placeholder={`${dialogueMode === 'single' ? '对' + (selectedSuspect ? displaySuspects.find(s => s.suspect_id === selectedSuspect)?.name : '嫌疑人') : '对所有嫌疑人'}说点什么...`}
-          rows={3}
-          onPressEnter={(e) => {
-            if (!e.shiftKey) {
-              e.preventDefault()
-              handleSendMessage()
-            }
-          }}
+          onChange={handleInputChange}
+          placeholder={`${dialogueMode === 'single' ? '对' + (selectedSuspect ? displaySuspects.find(s => s.suspect_id === selectedSuspect)?.name : '嫌疑人') : '对所有嫌疑人'}说点什么... (输入@可指定嫌疑人)`}
           disabled={isSending || (dialogueMode === 'single' && !selectedSuspect)}
-          style={{ background: '#1e1e1e', border: '1px solid #303030', color: '#fff' }}
         />
         <Button
           type="primary"

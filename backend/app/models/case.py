@@ -6,7 +6,7 @@ from datetime import datetime
 from typing import List, Optional, Dict, Any
 from pydantic import BaseModel, Field
 
-from app.core.constants import ClueType, ClueStatus
+from app.core.constants import ClueType, ClueStatus, ContradictionType
 
 
 class Victim(BaseModel):
@@ -90,6 +90,30 @@ class Suspect(BaseModel):
     is_murderer: bool = Field(default=False, description="是否为真凶", example=False)
     avatar: str = Field(default="", description="嫌疑人头像URL", example="https://example.com/avatar/suspect_001.jpg")
     background_story: str = Field(..., description="嫌疑人背景故事", example="与死者结婚10年，婚后成为家庭主妇")
+    refusal_threshold: float = Field(
+        default=0.7,
+        ge=0.0,
+        le=1.0,
+        description="反驳阈值（0-1，越高越难触发反驳）",
+        example=0.7
+    )
+    counter_evidence: Dict[str, str] = Field(
+        default_factory=dict,
+        description="反驳证据库（key: 被质疑的点, value: 反驳理由）",
+        example={"不在场证明": "我有监控录像证明当时在商场"}
+    )
+    personality_modifier: float = Field(
+        default=1.0,
+        ge=0.5,
+        le=1.5,
+        description="性格修正系数（暴躁/冲动型>1.0，冷静/谨慎型<1.0）",
+        example=1.0
+    )
+    spatial_relationships: Dict[str, str] = Field(
+        default_factory=dict,
+        description="与其他地点/人物的空间关系",
+        example={"卧室窗户": "能看到车库入口"}
+    )
 
     model_config = {
         "json_schema_extra": {
@@ -285,6 +309,10 @@ class Case(BaseModel):
         description="干扰剧情分支种子",
         example=["嫌疑人王五与死者有债务纠纷", "现场发现的陌生人指纹"]
     )
+    contradiction_points: List["ContradictionPoint"] = Field(
+        default_factory=list,
+        description="本案件的所有矛盾点"
+    )
     created_at: datetime = Field(default_factory=datetime.utcnow, description="案件生成时间")
 
     model_config = {
@@ -332,6 +360,56 @@ class CaseBasicInfo(BaseModel):
                 "victim_name": "张三",
                 "suspect_count": 4,
                 "difficulty": 2
+            }
+        }
+    }
+
+
+class ContradictionPoint(BaseModel):
+    """矛盾点模型"""
+    contradiction_id: str = Field(..., description="矛盾点唯一标识", example="contradiction_001")
+    type: ContradictionType = Field(..., description="矛盾类型", example=ContradictionType.SPATIAL)
+    description: str = Field(..., description="矛盾描述", example="张小姐的卧室窗户能看到车库")
+    involved_suspects: List[str] = Field(
+        default_factory=list,
+        description="涉及的嫌疑人ID列表",
+        example=["suspect_001", "suspect_002"]
+    )
+    trigger_condition: Dict[str, Any] = Field(
+        default_factory=dict,
+        description="触发条件配置",
+        example={"requires_both_speaking": True, "keywords": ["车库", "没看到", "在卧室"]}
+    )
+    hint_for_user: str = Field(
+        ...,
+        description="给用户的系统提示文案",
+        example="张小姐的卧室窗户能看到车库，但她说没看到任何人？"
+    )
+    related_clue_id: Optional[str] = Field(
+        None,
+        description="关联的线索ID（用户可勘查发现）",
+        example="clue_015"
+    )
+    clue_location: Optional[str] = Field(
+        None,
+        description="关联线索所在位置（用于生成线索）",
+        example="张小姐卧室"
+    )
+
+    model_config = {
+        "json_schema_extra": {
+            "example": {
+                "contradiction_id": "contradiction_001",
+                "type": "spatial",
+                "description": "张小姐的卧室窗户能看到车库",
+                "involved_suspects": ["suspect_001", "suspect_002"],
+                "trigger_condition": {
+                    "requires_both_speaking": True,
+                    "keywords": ["车库", "没看到", "在卧室"]
+                },
+                "hint_for_user": "张小姐的卧室窗户能看到车库，但她说没看到任何人？",
+                "related_clue_id": "clue_015",
+                "clue_location": "张小姐卧室"
             }
         }
     }

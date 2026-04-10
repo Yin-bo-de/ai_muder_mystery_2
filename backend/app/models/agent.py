@@ -12,26 +12,24 @@ from pydantic import BaseModel, Field
 class MessageRole(str, Enum):
     """消息角色枚举"""
     USER = "user"  # 用户
-    ASSISTANT = "assistant"  # AI角色
+    SUSPECT = "suspect"  # 嫌疑人
     SYSTEM = "system"  # 系统消息
-    FUNCTION = "function"  # 函数调用
+    JUDGE = "judge"  # 裁判
 
 
 class MessagePriority(int, Enum):
     """消息优先级枚举"""
-    P0 = 0  # 最高优先级：用户直接提问/指令
-    P1 = 1  # 高优先级：被点名/诬陷/出示不利证据/单独审讯
-    P2 = 2  # 中优先级：主动发言（压力释放、剧情推进）
-    P3 = 3  # 低优先级：自然互动、背景对话
+    P0 = 0  # 最高优先级（用户指令、直接提问）
+    P1 = 1  # 高优先级（被点名、被出示证据）
+    P2 = 2  # 普通优先级（主动发言）
 
 
 class MessageType(str, Enum):
     """消息类型枚举"""
     TEXT = "text"  # 文本消息
-    IMAGE = "image"  # 图片消息
-    SYSTEM = "system"  # 系统提示
-    ACTION = "action"  # 角色动作
+    SYSTEM_PROMPT = "system_prompt"  # 系统提示
     EVIDENCE = "evidence"  # 出示证据
+    ACCUSATION = "accusation"  # 指控
 
 
 class Message(BaseModel):

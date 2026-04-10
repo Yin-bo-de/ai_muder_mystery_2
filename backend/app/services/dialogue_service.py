@@ -131,7 +131,7 @@ class DialogueService:
         # 记录操作
         session_service.add_user_operation(
             session_id,
-            "switch_mode",
+            "change_mode",
             {"mode": mode, "suspect_id": suspect_id}
         )
 

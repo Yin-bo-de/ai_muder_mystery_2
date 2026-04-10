@@ -6,7 +6,7 @@
 export type GameStatus = 'preparing' | 'in_progress' | 'completed' | 'failed'
 
 // 用户操作类型
-export type OperationType = 'investigate' | 'talk' | 'accuse' | 'decrypt' | 'switch_mode'
+export type OperationType = 'investigate' | 'send_message' | 'accuse' | 'decrypt' | 'change_mode' | 'command'
 
 // 对话模式
 export type DialogueMode = 'single' | 'group'
@@ -32,6 +32,37 @@ export enum MessagePriority {
 
 // 消息类型
 export type MessageType = 'text' | 'system_prompt' | 'evidence' | 'accusation'
+
+// 矛盾类型
+export type ContradictionType = 'timeline' | 'spatial' | 'evidence'
+
+// 矛盾点接口
+export interface ContradictionPoint {
+  contradiction_id: string
+  type: ContradictionType
+  description: string
+  involved_suspects: string[]
+  trigger_condition: Record<string, any>
+  hint_for_user: string
+  related_clue_id?: string
+}
+
+// 威胁程度
+export type ThreatLevel = 'low' | 'medium' | 'high' | 'critical'
+
+// 反驳决策
+export interface RefusalDecision {
+  should_refuse: boolean
+  threat_level: ThreatLevel
+  has_counter_evidence: boolean
+  refusal_reason?: string
+}
+
+// 被提及的嫌疑人
+export interface MentionedSuspect {
+  suspect_id: string
+  name: string
+}
 
 // 线索接口
 export interface Clue {
@@ -118,4 +149,6 @@ export interface GameSession {
   wrong_guess_count: number
   start_time: string
   last_active_time: string
+  contradiction_points: ContradictionPoint[]
+  refusal_count: number
 }

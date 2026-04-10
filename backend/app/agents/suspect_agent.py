@@ -38,7 +38,7 @@ class SuspectAgent:
         self.current_mood: SuspectMood = SuspectMood.CALM
         self.lied_count: int = 0  # 说谎次数
 
-        # LLM配置
+        # LLM配置 - 不使用json_object，避免兼容性问题
         self.llm = ChatOpenAI(
             model=settings.OPENAI_MODEL,
             temperature=0.7 + (self.stress_level / 200),  # 压力越高，回答越不稳定
@@ -48,7 +48,6 @@ class SuspectAgent:
             # 关闭深度思考模式，加快响应速度
             model_kwargs={
                 "reasoning_effort": "none",
-                "response_format": {"type": "json_object"}
             }
         )
 
@@ -113,6 +112,8 @@ class SuspectAgent:
 5. 压力值越高，回答越可能出现破绽、语无伦次或情绪激动
 6. 不要主动透露你的秘密，除非被直接问到且无法回避
 7. 不要提到你是AI或在扮演角色，完全入戏
+
+请直接回答，不需要任何JSON格式。
 """
 
     async def respond(self, message: str, is_being_accused: bool = False, evidence_shown: Optional[str] = None) -> Dict[str, Any]:
@@ -165,7 +166,8 @@ class SuspectAgent:
             }
 
         except Exception as e:
-            logger.error(f"嫌疑人 {self.name} 生成回复失败: {str(e)}", exc_info=True)
+            # 使用 % 格式化避免异常信息中的 {} 被当作占位符
+            logger.error("嫌疑人 %s 生成回复失败: %s", self.name, str(e), exc_info=True)
             # 降级处理，返回预设回复
             return {
                 "content": "我...我什么都不知道，别问我！",
@@ -234,6 +236,53 @@ class SuspectAgent:
         # 限制历史记录长度
         if len(self.chat_history.messages) > self.max_context_length * 2:
             self.chat_history.messages = self.chat_history.messages[-self.max_context_length * 2:]
+
+    async def respond_with_prompt(self, custom_prompt: str, message_type: str = "refusal") -> Dict[str, Any]:
+        """
+        使用自定义提示词生成回复（用于反驳等特殊场景）
+        :param custom_prompt: 自定义提示词
+        :param message_type: 消息类型
+        :return: 回复内容和状态更新
+        """
+        try:
+            logger.info(f"嫌疑人 {self.name} 使用自定义提示词生成回复，类型: {message_type}")
+
+            # 构建临时提示词模板
+            from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+
+            temp_prompt = ChatPromptTemplate.from_messages([
+                ("system", custom_prompt),
+                MessagesPlaceholder(variable_name="chat_history"),
+                ("human", "请根据上面的提示进行回应。"),
+            ])
+
+            # 构建临时链
+            temp_chain = temp_prompt | self.llm
+
+            # 调用LLM生成回复
+            response = await temp_chain.ainvoke({
+                "chat_history": self.chat_history.messages[-self.max_context_length:]
+            })
+
+            response_content = response.content.strip()
+
+            logger.info(f"嫌疑人 {self.name} 自定义回复: {response_content}")
+
+            return {
+                "content": response_content,
+                "mood": self.current_mood,
+                "stress_level": self.stress_level,
+                "lied": False,
+            }
+
+        except Exception as e:
+            logger.error("嫌疑人 %s 自定义回复生成失败: %s", self.name, str(e), exc_info=True)
+            return {
+                "content": "你胡说！我才没有那样！",
+                "mood": SuspectMood.ANGRY,
+                "stress_level": self.stress_level,
+                "lied": False,
+            }
 
     def clear_memory(self) -> None:
         """清空对话记忆"""
