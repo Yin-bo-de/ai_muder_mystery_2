@@ -1,6 +1,6 @@
 import { Card, Tag, Typography, Button, Tooltip } from 'antd'
 import { SearchOutlined, LockOutlined, UnlockOutlined, LinkOutlined } from '@ant-design/icons'
-import type { ClueType, ClueStatus } from '../types/game'
+import type { ClueType, ClueStatus, Suspect } from '../types/game'
 
 const { Text, Paragraph } = Typography
 
@@ -12,6 +12,7 @@ interface ClueCardProps {
   status: ClueStatus
   scene: string
   relatedSuspects: string[]
+  suspects?: Suspect[]
   unlockCondition?: string
   onDecrypt?: () => void
   onAssociate?: () => void
@@ -24,13 +25,19 @@ const typeConfig = {
   testimony: { color: '#52c41a', text: '证词', icon: <LinkOutlined /> },
   association: { color: '#faad14', text: '关联线索', icon: <LinkOutlined /> },
   decrypted: { color: '#722ed1', text: '解密线索', icon: <UnlockOutlined /> },
+  document: { color: '#13c2c2', text: '文档', icon: <SearchOutlined /> },
+  decrypt: { color: '#722ed1', text: '需解密', icon: <LockOutlined /> },
 }
 
 const statusConfig = {
   undiscovered: { color: '#8c8c8c', text: '未发现' },
+  hidden: { color: '#8c8c8c', text: '未发现' },
   discovered: { color: '#1890ff', text: '已发现' },
+  collected: { color: '#1890ff', text: '已收集' },
   decrypted: { color: '#722ed1', text: '已解密' },
+  unlocked: { color: '#722ed1', text: '已解锁' },
   associated: { color: '#52c41a', text: '已关联' },
+  locked: { color: '#faad14', text: '已锁定' },
 }
 
 const ClueCard: React.FC<ClueCardProps> = ({
@@ -41,18 +48,27 @@ const ClueCard: React.FC<ClueCardProps> = ({
   status,
   scene,
   relatedSuspects,
+  suspects = [],
   unlockCondition,
   onDecrypt,
   onAssociate,
   onClick,
   size = 'default',
 }) => {
-  const typeInfo = typeConfig[type]
-  const statusInfo = statusConfig[status]
+  const typeInfo = typeConfig[type] || { color: '#8c8c8c', text: '未知类型', icon: <SearchOutlined /> }
+  const statusInfo = statusConfig[status] || { color: '#8c8c8c', text: '未知状态' }
 
   const isLocked = status === 'undiscovered'
   const canDecrypt = type === 'decrypted' && status === 'discovered'
   const canAssociate = type === 'association' && status === 'discovered'
+
+  // 将嫌疑人ID转换为名字
+  const getSuspectName = (suspectId: string): string => {
+    const suspect = suspects.find(s => s.suspect_id === suspectId)
+    return suspect?.name || suspectId
+  }
+
+  const relatedSuspectNames = relatedSuspects.map(getSuspectName)
 
   return (
     <Card
@@ -137,7 +153,7 @@ const ClueCard: React.FC<ClueCardProps> = ({
       {relatedSuspects.length > 0 && !isLocked && (
         <div style={{ marginTop: 8 }}>
           <Text type="secondary" style={{ fontSize: '12px' }}>
-            相关嫌疑人: {relatedSuspects.join(', ')}
+            相关嫌疑人: {relatedSuspectNames.join(', ')}
           </Text>
         </div>
       )}

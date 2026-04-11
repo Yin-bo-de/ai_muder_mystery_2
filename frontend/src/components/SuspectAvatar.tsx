@@ -10,6 +10,7 @@ interface SuspectAvatarProps {
   isMurderer?: boolean
   size?: 'small' | 'default' | 'large'
   onClick?: () => void
+  selected?: boolean
 }
 
 const moodConfig = {
@@ -28,6 +29,7 @@ const SuspectAvatar: React.FC<SuspectAvatarProps> = ({
   isMurderer = false,
   size = 'default',
   onClick,
+  selected = false,
 }) => {
   const moodInfo = moodConfig[mood]
   const sizeMap = {
@@ -57,8 +59,15 @@ const SuspectAvatar: React.FC<SuspectAvatarProps> = ({
       <div
         style={{
           position: 'relative',
-          display: 'inline-block',
+          display: 'inline-flex',
+          flexDirection: 'column',
+          alignItems: 'center',
           cursor: onClick ? 'pointer' : 'default',
+          padding: '8px',
+          borderRadius: '8px',
+          backgroundColor: selected ? 'rgba(114, 46, 209, 0.2)' : 'transparent',
+          border: selected ? '2px solid #722ed1' : '2px solid transparent',
+          transition: 'all 0.3s ease',
         }}
         onClick={onClick}
       >
@@ -67,9 +76,10 @@ const SuspectAvatar: React.FC<SuspectAvatarProps> = ({
           text={moodInfo.text}
           style={{
             position: 'absolute',
-            top: -8,
-            right: -8,
+            top: 0,
+            right: 8,
             fontSize: '12px',
+            zIndex: 1,
           }}
         />
         <Avatar
@@ -89,7 +99,7 @@ const SuspectAvatar: React.FC<SuspectAvatarProps> = ({
         {/* 压力值进度条 */}
         <div
           style={{
-            width: '100%',
+            width: sizeMap[size],
             height: 4,
             backgroundColor: '#303030',
             borderRadius: 2,
@@ -105,6 +115,23 @@ const SuspectAvatar: React.FC<SuspectAvatarProps> = ({
               transition: 'width 0.5s ease',
             }}
           />
+        </div>
+
+        {/* 角色名字 */}
+        <div
+          style={{
+            marginTop: 8,
+            color: '#fff',
+            fontSize: '14px',
+            fontWeight: selected ? 'bold' : 'normal',
+            textAlign: 'center' as const,
+            maxWidth: sizeMap[size] + 16,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {name}
         </div>
       </div>
     </Tooltip>

@@ -8,3 +8,9 @@ backend/.env
 frontend/node_modules/
 *.png
 __pycache__/
+playwright-report/
+.env
+.env1
+logs/
+.DS_Store
+test-results/

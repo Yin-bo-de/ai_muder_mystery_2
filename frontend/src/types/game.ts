@@ -39,12 +39,13 @@ export type ContradictionType = 'timeline' | 'spatial' | 'evidence'
 // 矛盾点接口
 export interface ContradictionPoint {
   contradiction_id: string
-  type: ContradictionType
+  contradiction_type: ContradictionType
   description: string
   involved_suspects: string[]
   trigger_condition: Record<string, any>
   hint_for_user: string
   related_clue_id?: string
+  clue_location?: string
 }
 
 // 威胁程度
@@ -68,12 +69,20 @@ export interface MentionedSuspect {
 export interface Clue {
   clue_id: string
   name: string
-  description: string
-  type: ClueType
+  clue_type: ClueType
   status: ClueStatus
+  description: string
+  location: string
   scene: string
+  content?: string
+  hidden_content?: string
+  related_clues: string[]
+  required_password?: string
+  required_clues: string[]
+  importance: number
+  points_to_suspect?: string
   related_suspects: string[]
-  unlock_condition?: string
+  is_red_herring: boolean
 }
 
 // 嫌疑人接口
@@ -83,12 +92,21 @@ export interface Suspect {
   age: number
   gender: string
   occupation: string
+  description: string
+  personality_traits: string[]
   relationship_with_victim: string
-  motive: string
+  motive?: string
   alibi: string
-  secret: string
-  personality: string
+  alibi_reliability: number
+  timeline: Record<string, string>
+  secrets: string[]
+  is_murderer: boolean
   avatar?: string
+  background_story: string
+  refusal_threshold: number
+  counter_evidence: string[]
+  personality_modifier: number
+  spatial_relationships: Record<string, string>
 }
 
 // 嫌疑人状态

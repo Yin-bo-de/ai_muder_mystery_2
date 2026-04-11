@@ -53,7 +53,7 @@ class SuspectState(BaseModel):
         default_factory=list,
         description="已暴露的秘密列表"
     )
-    last_interaction_time: Optional[datetime] = Field(None, description="最后交互时间")
+    last_interaction_time: Optional[datetime] = Field(default=None, description="最后交互时间")
     answer_count: int = Field(default=0, description="回答次数")
 
     model_config = {
@@ -75,10 +75,10 @@ class UserOperation(BaseModel):
     operation_id: str = Field(..., description="操作ID")
     operation_type: OperationType = Field(..., description="操作类型")
     timestamp: datetime = Field(default_factory=datetime.utcnow, description="操作时间")
-    target_id: Optional[str] = Field(None, description="操作目标ID（线索ID/嫌疑人ID/场景ID）")
-    content: Optional[str] = Field(None, description="操作内容（消息内容/解密密码等）")
+    target_id: Optional[str] = Field(default=None, description="操作目标ID（线索ID/嫌疑人ID/场景ID）")
+    content: Optional[str] = Field(default=None, description="操作内容（消息内容/解密密码等）")
     result: str = Field(..., description="操作结果")
-    details: Optional[Dict[str, Any]] = Field(None, description="详细信息")
+    details: Optional[Dict[str, Any]] = Field(default=None, description="详细信息")
 
     model_config = {
         "json_schema_extra": {
@@ -119,7 +119,7 @@ class GameSession(BaseModel):
     )
     wrong_guess_count: int = Field(default=0, description="错误指认次数")
     current_mode: DialogueMode = Field(default=DialogueMode.GROUP, description="当前对话模式")
-    target_suspect: Optional[str] = Field(None, description="当前审讯的目标嫌疑人ID")
+    target_suspect: Optional[str] = Field(default=None, description="当前审讯的目标嫌疑人ID")
     start_time: datetime = Field(default_factory=datetime.utcnow, description="游戏开始时间")
     last_active_time: datetime = Field(default_factory=datetime.utcnow, description="最后活跃时间")
     clue_reveal_count: int = Field(default=0, description="线索发现数量")
@@ -364,7 +364,7 @@ class GameStats(BaseModel):
     success_rate: float = Field(..., description="成功结案率")
     average_score: float = Field(..., description="平均推理分数")
     favorite_themes: List[str] = Field(..., description="最受欢迎的题材")
-    completed_difficulties: Dict[int, int] = Field(..., description="各难度完成次数")
+    completed_difficulties: Dict[str, int] = Field(..., description="各难度完成次数")
 
     model_config = {
         "json_schema_extra": {
@@ -374,7 +374,7 @@ class GameStats(BaseModel):
                 "success_rate": 0.68,
                 "average_score": 0.72,
                 "favorite_themes": ["modern", "mystery"],
-                "completed_difficulties": {1: 45, 2: 35, 3: 28, 4: 12, 5: 5}
+                "completed_difficulties": {"1": 45, "2": 35, "3": 28, "4": 12, "5": 5}
             }
         }
     }

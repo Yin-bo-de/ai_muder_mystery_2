@@ -6,9 +6,8 @@ from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import PydanticOutputParser
 from langchain_core.runnables import RunnablePassthrough
-
 from app.core.config import settings
-from app.core.constants import ClueType, ContradictionType
+from app.core.constants import ClueType, ContradictionType, ClueStatus
 from app.core.exceptions import CaseGenerateException
 from app.models.case import Case, Victim, Suspect, Clue, EvidenceChain, Scene, EvidenceChainItem, ContradictionPoint
 from app.utils.logger import logger
@@ -223,7 +222,7 @@ class CaseGeneratorAgent:
             # 2. 添加personality_modifier（0.5-1.5之间）
             if not hasattr(suspect, 'personality_modifier') or suspect.personality_modifier is None:
                 # 根据性格描述判断
-                personality_lower = suspect.personality.lower() if suspect.personality else ""
+                personality_lower = suspect.personality_traits if suspect.personality_traits else ""
                 if any(keyword in personality_lower for keyword in ['暴躁', '冲动', '易怒', '急躁']):
                     suspect.personality_modifier = random.uniform(1.2, 1.5)
                 elif any(keyword in personality_lower for keyword in ['冷静', '沉稳', '内向', '谨慎']):
@@ -275,8 +274,8 @@ class CaseGeneratorAgent:
                 evidences.append(f"我和死者关系一直很好，没有理由害他")
 
         # 基于性格生成反驳
-        if suspect.personality:
-            if "内向" in suspect.personality or "懦弱" in suspect.personality:
+        if suspect.personality_traits:
+            if "内向" in suspect.personality_traits or "懦弱" in suspect.personality_traits:
                 evidences.append("我这个人胆子很小，根本不敢做这种事")
 
         # 补充通用反驳
@@ -448,11 +447,11 @@ class CaseGeneratorAgent:
                 clue_id=clue_id,
                 name="模糊的时间记录",
                 clue_type=ClueType.DOCUMENT,
-                status="available",
+                status=ClueStatus.HIDDEN,
                 description=f"一份损坏的监控记录，似乎能证明某些人的时间线有问题",
                 location="保安室",
                 scene=case.scenes[0].scene_id if case.scenes else "s1",
-                importance=3,
+                importance=0.9,
                 related_suspects=cp.involved_suspects
             )
         elif cp.contradiction_type == ContradictionType.SPATIAL:
@@ -460,11 +459,11 @@ class CaseGeneratorAgent:
                 clue_id=clue_id,
                 name="路人的证词",
                 clue_type=ClueType.TESTIMONY,
-                status="available",
+                status=ClueStatus.HIDDEN,
                 description="一位路人说好像看到了什么，但记不太清了",
                 location="小区门口",
                 scene=case.scenes[0].scene_id if case.scenes else "s1",
-                importance=2,
+                importance=0.7,
                 related_suspects=cp.involved_suspects
             )
         elif cp.contradiction_type == ContradictionType.EVIDENCE:
@@ -472,11 +471,11 @@ class CaseGeneratorAgent:
                 clue_id=clue_id,
                 name="补充鉴定报告",
                 clue_type=ClueType.DOCUMENT,
-                status="available",
+                status=ClueStatus.HIDDEN,
                 description="一份详细的鉴定报告，可能揭示更多细节",
                 location="法医室",
                 scene=case.scenes[0].scene_id if case.scenes else "s1",
-                importance=4,
+                importance=0.95,
                 related_suspects=cp.involved_suspects
             )
         return None

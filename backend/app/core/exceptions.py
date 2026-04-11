@@ -55,7 +55,7 @@ class ConflictException(AppBaseException):
 
 class ValidationException(AppBaseException):
     """数据验证失败"""
-    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    status_code = status.HTTP_422_UNPROCESSABLE_CONTENT
     default_detail = "数据验证失败"
     default_code = 42200
 
@@ -99,6 +99,7 @@ class ClueDecryptException(BusinessException):
 
 class AccusationInvalidException(BusinessException):
     """指认信息无效"""
+    status_code = status.HTTP_422_UNPROCESSABLE_CONTENT
     default_detail = "指认信息不完整，请补充必要信息"
     default_code = 30003
 

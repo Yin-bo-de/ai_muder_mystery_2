@@ -42,7 +42,8 @@ class ContradictionDetector:
                 logger.info(f"矛盾点满足触发条件: {contradiction.contradiction_id}")
 
                 # 生成系统提示
-                system_hints.append(contradiction.hint_for_user)
+                if contradiction.hint_for_user:
+                    system_hints.append(contradiction.hint_for_user)
 
                 # 检查是否可以触发反驳
                 if self._can_trigger_refusal(contradiction):
@@ -133,7 +134,7 @@ class ContradictionDetector:
         :return: 是否可以触发反驳
         """
         # 只有特定类型的矛盾才触发反驳
-        if contradiction.type in [
+        if contradiction.contradiction_type in [
             ContradictionType.TIMELINE,
             ContradictionType.EVIDENCE
         ]:
@@ -146,8 +147,8 @@ class ContradictionDetector:
         :param contradiction: 矛盾点
         :return: 被反驳目标的嫌疑人ID
         """
-        if hasattr(contradiction, "refusal_target") and contradiction.refusal_target:
-            return contradiction.refusal_target
+        if hasattr(contradiction, "refutation_target") and contradiction.refutation_target:
+            return contradiction.refutation_target
 
         # 默认返回第一个涉及的嫌疑人
         if contradiction.involved_suspects:

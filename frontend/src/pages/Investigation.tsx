@@ -189,10 +189,11 @@ const Investigation = () => {
                   id={clue.clue_id}
                   name={clue.name}
                   description={clue.description}
-                  type={clue.type}
-                  status={clue.status}
+                  type={(clue.type || clue.clue_type || 'physical').toLowerCase() as any}
+                  status={(clue.status || 'discovered').toLowerCase() as any}
                   scene={clue.scene}
-                  relatedSuspects={clue.related_suspects}
+                  relatedSuspects={clue.related_suspects || []}
+                  suspects={suspects}
                 />
               </Col>
             ))}

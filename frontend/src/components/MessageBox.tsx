@@ -16,6 +16,7 @@ interface MessageBoxProps {
   type?: MessageType
   isNew?: boolean
   enableTypewriter?: boolean
+  onTypewriterComplete?: (messageId: string) => void
 }
 
 const roleConfig = {
@@ -79,6 +80,7 @@ const SystemHint = ({ content }: { content: string }) => (
 )
 
 const MessageBox: React.FC<MessageBoxProps> = ({
+  id,
   role,
   content,
   senderName,
@@ -88,6 +90,7 @@ const MessageBox: React.FC<MessageBoxProps> = ({
   type = 'text',
   isNew = false,
   enableTypewriter = false,
+  onTypewriterComplete,
 }) => {
   const config = roleConfig[role]
   const isSystem = role === 'system' || role === 'judge'
@@ -200,9 +203,13 @@ const MessageBox: React.FC<MessageBoxProps> = ({
         >
           <Paragraph style={{ margin: 0, color: config.textColor }}>
             {enableTypewriter && role === 'suspect' ? (
-              <TypewriterText text={content} mood={mood} />
+              <TypewriterText
+                text={content.replace(/@\[([^\]]+)\]\([^)]+\)/g, '@$1')}
+                mood={mood}
+                onComplete={onTypewriterComplete ? () => onTypewriterComplete(id) : undefined}
+              />
             ) : (
-              content
+              content.replace(/@\[([^\]]+)\]\([^)]+\)/g, '@$1')
             )}
           </Paragraph>
         </div>

@@ -2,6 +2,9 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## 重要提示
+**请先读取 `PROJECT_OVERVIEW.md` 文件**，该文件包含了完整的项目概览、目录结构、关键文件说明和最近修复记录，可以帮助您快速了解项目。
+
 ## 项目概述
 本项目是**AI驱动的案件解谜应用**，用户以侦探视角参与，所有嫌疑人角色由AI扮演，支持自由探案、线索搜查、对话质询、指认凶手上核心玩法，无需读本、无需等待队友，随时随地可体验完整案件解谜推理乐趣。
 

@@ -347,10 +347,69 @@
 
 ---
 
+## Wave 8：Post-launch Bug修复 ✅ 进行中
+### 开始时间：2026-04-11
+### 已完成任务：
+
+1. ✅ **修复Bug 5：ContradictionPoint字段名不一致**
+   - **根因**：`ContradictionPoint` 模型中定义字段名为 `type`，但使用方代码使用 `contradiction_type`
+   - **修复**：统一字段名为 `contradiction_type`
+     - 修改模型定义：`backend/app/models/case.py`
+     - 更新使用方代码：`contradiction_detector.py`、`refusal_decision_engine.py`
+     - 同步前端类型定义：`frontend/src/types/game.ts`
+   - **文件修改**：
+     - `backend/app/models/case.py`
+     - `backend/app/agents/contradiction_detector.py`
+     - `backend/app/agents/refusal_decision_engine.py`
+     - `frontend/src/types/game.ts`
+
+2. ✅ **修复Bug 6：Clue模型status和importance字段验证错误**
+   - **根因**：
+     - `status="available"` 不是合法的 `ClueStatus` 枚举值
+     - `importance=3/2/4` 超出模型定义的 `0.0-1.0` 范围
+   - **修复**：
+     - `status="available"` → `status=ClueStatus.HIDDEN`
+     - `importance=3` → `0.9`，`importance=2` → `0.7`，`importance=4` → `0.95`
+   - **文件修改**：`backend/app/agents/case_generator_agent.py`
+
+3. ✅ **修复Bug 7：Suspect.counter_evidence类型不一致**
+   - **根因**：模型定义为 `Dict[str, str]`，但生成器返回 `List[str]`，使用方期望字典
+   - **修复**：统一改为 `List[str]` 类型
+     - 修改模型定义：`counter_evidence: List[str]`
+     - 更新使用方代码：`refusal_decision_engine.py` 中字典遍历改为列表遍历
+   - **文件修改**：
+     - `backend/app/models/case.py`
+     - `backend/app/agents/refusal_decision_engine.py`
+     - `frontend/src/types/game.ts`
+
+4. ✅ **修复Bug 8：ContradictionPoint模型与提示词要求不匹配**
+   - **根因**：
+     - 提示词要求：`trigger_keywords`, `requires_both_speaking`, `refuting_suspect`, `refutation_target`
+     - 模型定义：`trigger_condition`, `hint_for_user`（必填）
+     - 提示词中未要求 `hint_for_user` 字段，但模型中它是必填的
+   - **修复**：采用兼容性方案，最小化改动
+     - 添加兼容字段：`trigger_keywords`, `requires_both_speaking`, `refuting_suspect`, `refutation_target`（可选）
+     - 将 `hint_for_user` 改为 Optional
+     - 添加 `model_validator` 自动转换逻辑：
+       - 从 `trigger_keywords` 和 `requires_both_speaking` 自动构建 `trigger_condition`
+       - 如果 `hint_for_user` 缺失，从 `description` 自动生成
+     - 更新使用方代码：`contradiction_detector.py` 中添加对 `hint_for_user` 可选的检查
+   - **文件修改**：
+     - `backend/app/models/case.py`
+     - `backend/app/agents/contradiction_detector.py`
+
+### 测试验证：
+- ✅ ContradictionPoint 字段一致性测试通过
+- ✅ Clue 字段验证测试通过
+- ✅ Suspect.counter_evidence 类型测试通过
+- ✅ ContradictionPoint 兼容性测试通过（LLM格式/原生格式/混合格式）
+
+---
+
 ## 项目总进度更新
-- **当前阶段**：Wave 7 矛盾检测与反驳机制已完成！
+- **当前阶段**：Wave 8 Post-launch Bug修复进行中
 - **总进度**：100%
-- **状态**：✅ 所有功能已实现，项目v1.0版本完整交付！
+- **状态**：✅ 所有功能已实现，项目v1.0版本完整交付，持续进行bug修复和优化
 
 ### 关键技术决策实现确认：
 | 决策项 | 选择方案 | 实现状态 |
@@ -361,6 +420,7 @@
 | @嫌疑人功能 | Ant Design Mentions 组件 | ✅ 已实现 |
 | 反驳次数限制 | 每轮最多2次 | ✅ 已实现 |
 | 案件生成器 | 自动生成矛盾点+嫌疑人增强 | ✅ 已实现 |
+| LLM输出兼容性 | 兼容层+自动转换 | ✅ 已实现 |
 
 ### 完整功能清单（Wave7新增）：
 1. **后端核心引擎**：
@@ -386,3 +446,134 @@
    - 打字机效果（TypewriterText组件，支持mood调速）
    - 系统提示金色渐变样式
    - 单独审讯模式增强（背景变暗、保密标签、头像变灰）
+
+### Bug修复总结（Wave8）：
+1. **数据模型一致性修复**：
+   - ContradictionPoint字段名统一（type→contradiction_type）
+   - Suspect.counter_evidence类型统一（Dict→List）
+   - 前后端类型定义同步
+
+2. **验证错误修复**：
+   - Clue.status使用合法枚举值
+   - Clue.importance限制在0.0-1.0范围内
+
+3. **LLM输出兼容性**：
+   - 兼容层设计，支持提示词要求的字段格式
+   - 自动转换和补全缺失字段
+   - 向后兼容原生格式
+
+---
+
+## Wave 9：前端体验优化与关键Bug修复 ✅ 100% 完成
+### 完成时间：2026-04-11
+### 已完成任务：
+
+1. ✅ **修复Bug 9：切换单独审讯角色不生效**
+   - **根因**：在单独审讯模式下切换嫌疑人时，只显示成功消息但未调用后端API更新`current_interrogation_suspect`
+   - **修复**：修改`handleSuspectSelect`函数，每次切换都调用后端API
+   - **文件修改**：`frontend/src/pages/Interrogation.tsx`
+
+2. ✅ **修复Bug 10：角色头像下方显示名字**
+   - **修复**：修改`SuspectAvatar.tsx`组件
+     - 添加`selected`属性支持选中状态样式
+     - 在头像下方添加名字显示
+     - 优化选中状态的视觉效果（边框、背景色）
+   - **文件修改**：`frontend/src/components/SuspectAvatar.tsx`
+
+3. ✅ **修复Bug 11：聊天记录按对话模式+角色维度区分**
+   - **修复**：扩展对话消息结构和状态管理
+     - 修改`dialogueStore.ts`：扩展`Message`接口，添加`dialogueMode`和`suspectId`字段
+     - 添加`getFilteredMessages`函数，根据当前模式和嫌疑人过滤消息
+     - 修改`Interrogation.tsx`：显示时使用过滤后的消息
+     - 单独审讯时只显示当前角色的对话 + 用户消息 + 系统消息
+   - **文件修改**：
+     - `frontend/src/store/dialogueStore.ts`
+     - `frontend/src/pages/Interrogation.tsx`
+
+4. ✅ **修复Bug 12：@功能显示名字而非ID**
+   - **修复**：重构`SuspectMentions.tsx`组件
+     - 使用嫌疑人名字作为Mentions的value
+     - 内部通过名字反向查找ID传递给后端
+     - 更新`MessageBox.tsx`正确处理`@[名字](名字)`格式，显示为`@名字`
+   - **文件修改**：
+     - `frontend/src/components/SuspectMentions.tsx`
+     - `frontend/src/components/MessageBox.tsx`
+
+5. ✅ **修复Bug 13：回车发送/Shift+Enter换行**
+   - **修复**：在`SuspectMentions.tsx`中添加键盘事件处理
+     - Enter键：发送消息
+     - Shift+Enter键：换行
+   - **文件修改**：`frontend/src/components/SuspectMentions.tsx`
+
+6. ✅ **修复Bug 14：页面跳转后保持消息滚动位置和打字机效果**
+   - **修复**：
+     - 记录`componentMountedAt`时间戳
+     - 只有在组件挂载后收到的新消息才使用打字机效果
+     - 初始加载时直接跳转到最新消息，不使用平滑滚动
+   - **文件修改**：`frontend/src/pages/Interrogation.tsx`
+
+7. ✅ **修复Bug 15：线索相关嫌疑人显示名字而非代号**
+   - **修复**：
+     - 修改`ClueCard.tsx`：添加`suspects`可选属性
+     - 增加`getSuspectName`函数将ID转换为名字
+     - 修改`ClueLibrary.tsx`和`Investigation.tsx`：传递嫌疑人列表给ClueCard
+   - **文件修改**：
+     - `frontend/src/components/ClueCard.tsx`
+     - `frontend/src/pages/ClueLibrary.tsx`
+     - `frontend/src/pages/Investigation.tsx`
+
+---
+
+## Wave 10：项目知识库建立 ✅ 100% 完成
+### 完成时间：2026-04-11
+### 已完成任务：
+
+1. ✅ **创建PROJECT_OVERVIEW.md项目概览文档**
+   - **内容包含**：
+     - 项目简介和技术栈
+     - 完整项目目录结构
+     - 核心架构说明
+     - 最近修复的关键问题（带日期）
+     - 常用命令速查
+     - 关键文件速查表
+     - 数据模型关键说明
+     - 开发注意事项
+   - **文件创建**：`PROJECT_OVERVIEW.md`
+
+2. ✅ **更新CLAUDE.md**
+   - 在开头添加重要提示，要求先读取`PROJECT_OVERVIEW.md`
+   - **文件修改**：`CLAUDE.md`
+
+---
+
+## 项目总进度更新
+- **当前阶段**：Wave 10 完成，项目v1.0版本稳定运行中
+- **总进度**：100%
+- **状态**：✅ 所有功能已实现，所有已知Bug已修复，项目知识库建立完成
+- **可运行状态**：✅ 前后端服务可正常启动，完整游戏流程已验证
+
+### 完整游戏流程验证：
+1. ✅ 首页加载 → 点击开始案件 → 案件生成页面
+2. ✅ 自动跳转到调查页面 → 现场勘查正常
+3. ✅ 线索库页面 → 线索查看、筛选、关联功能正常
+4. ✅ 质询页面 → 全体质询/单独审讯模式切换正常
+5. ✅ @嫌疑人功能正常 → 显示名字而非ID
+6. ✅ 聊天记录按模式区分正常
+7. ✅ 打字机效果正常 → 页面跳转后不重复播放
+8. ✅ 线索相关嫌疑人显示名字正常
+
+### 前端体验优化总结（Wave9）：
+1. **交互体验优化**：
+   - 头像下方显示角色名字
+   - @功能显示名字而非ID
+   - 回车发送/Shift+Enter换行
+   - 页面跳转后直接显示最新消息
+
+2. **功能完善**：
+   - 聊天记录按对话模式+角色维度区分
+   - 线索相关嫌疑人显示名字
+   - 切换单独审讯角色功能修复
+
+3. **知识库建立**：
+   - PROJECT_OVERVIEW.md 项目概览文档
+   - 便于后续开发和维护

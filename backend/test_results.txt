@@ -1,0 +1,962 @@
+============================= test session starts ==============================
+collecting ... collected 134 items
+
+tests/functional/test_agent_api.py::TestSendMessageAPI::test_send_message_to_all FAILED [  0%]
+tests/functional/test_agent_api.py::TestSendMessageAPI::test_send_message_at_single_suspect FAILED [  1%]
+tests/functional/test_agent_api.py::TestSendMessageAPI::test_send_message_at_multiple_suspects FAILED [  2%]
+tests/functional/test_agent_api.py::TestSendMessageAPI::test_send_message_in_single_mode FAILED [  2%]
+tests/functional/test_agent_api.py::TestSendMessageAPI::test_message_added_to_history FAILED [  3%]
+tests/functional/test_agent_api.py::TestSendMessageAPI::test_send_message_nonexistent_session PASSED [  4%]
+tests/functional/test_agent_api.py::TestSendMessageAPI::test_send_empty_message FAILED [  5%]
+tests/functional/test_agent_api.py::TestSendMessageAPI::test_send_message_triggers_contradiction FAILED [  5%]
+tests/functional/test_agent_api.py::TestSendMessageAPI::test_send_message_triggers_refusal FAILED [  6%]
+tests/functional/test_agent_api.py::TestSendMessageAPI::test_control_command_obeyed PASSED [  7%]
+tests/functional/test_agent_api.py::TestSwitchModeAPI::test_switch_to_single_mode FAILED [  8%]
+tests/functional/test_agent_api.py::TestSwitchModeAPI::test_switch_to_group_mode FAILED [  8%]
+tests/functional/test_agent_api.py::TestSwitchModeAPI::test_switch_single_missing_suspect FAILED [  9%]
+tests/functional/test_agent_api.py::TestSwitchModeAPI::test_switch_nonexistent_session PASSED [ 10%]
+tests/functional/test_agent_api.py::TestSwitchModeAPI::test_switch_same_mode FAILED [ 11%]
+tests/functional/test_agent_api.py::TestControlCommandAPI::test_execute_keep_quiet_command FAILED [ 11%]
+tests/functional/test_agent_api.py::TestControlCommandAPI::test_execute_let_speak_command FAILED [ 12%]
+tests/functional/test_agent_api.py::TestControlCommandAPI::test_execute_summarize_command FAILED [ 13%]
+tests/functional/test_agent_api.py::TestControlCommandAPI::test_execute_invalid_command FAILED [ 14%]
+tests/functional/test_agent_api.py::TestControlCommandAPI::test_command_nonexistent_session PASSED [ 14%]
+tests/functional/test_agent_api.py::TestDialogueHistoryAPI::test_get_full_history FAILED [ 15%]
+tests/functional/test_agent_api.py::TestDialogueHistoryAPI::test_get_history_with_pagination FAILED [ 16%]
+tests/functional/test_agent_api.py::TestDialogueHistoryAPI::test_history_order_correct PASSED [ 17%]
+tests/functional/test_agent_api.py::TestDialogueHistoryAPI::test_new_session_empty_history FAILED [ 17%]
+tests/functional/test_agent_api.py::TestDialogueHistoryAPI::test_history_contains_metadata PASSED [ 18%]
+tests/functional/test_agent_api.py::TestSuspectStatesAPI::test_get_all_suspect_states FAILED [ 19%]
+tests/functional/test_agent_api.py::TestSuspectStatesAPI::test_states_contain_mood FAILED [ 20%]
+tests/functional/test_agent_api.py::TestSuspectStatesAPI::test_states_contain_stress_level FAILED [ 20%]
+tests/functional/test_agent_api.py::TestSuspectStatesAPI::test_stress_changes_with_interrogation FAILED [ 21%]
+tests/functional/test_agent_api_fixed.py::TestSendMessageAPI::test_send_message_to_all PASSED [ 22%]
+tests/functional/test_agent_api_fixed.py::TestSendMessageAPI::test_send_message_at_single_suspect PASSED [ 23%]
+tests/functional/test_agent_api_fixed.py::TestSendMessageAPI::test_send_message_at_multiple_suspects PASSED [ 23%]
+tests/functional/test_agent_api_fixed.py::TestSendMessageAPI::test_send_message_in_single_mode PASSED [ 24%]
+tests/functional/test_agent_api_fixed.py::TestSendMessageAPI::test_message_added_to_history PASSED [ 25%]
+tests/functional/test_agent_api_fixed.py::TestSendMessageAPI::test_send_message_nonexistent_session PASSED [ 26%]
+tests/functional/test_agent_api_fixed.py::TestSendMessageAPI::test_send_empty_message PASSED [ 26%]
+tests/functional/test_agent_api_fixed.py::TestSendMessageAPI::test_send_message_triggers_contradiction PASSED [ 27%]
+tests/functional/test_agent_api_fixed.py::TestSendMessageAPI::test_send_message_triggers_refusal PASSED [ 28%]
+tests/functional/test_agent_api_fixed.py::TestSendMessageAPI::test_control_command_obeyed PASSED [ 29%]
+tests/functional/test_agent_api_fixed.py::TestSwitchModeAPI::test_switch_to_single_mode PASSED [ 29%]
+tests/functional/test_agent_api_fixed.py::TestSwitchModeAPI::test_switch_to_group_mode PASSED [ 30%]
+tests/functional/test_agent_api_fixed.py::TestSwitchModeAPI::test_switch_single_missing_suspect PASSED [ 31%]
+tests/functional/test_agent_api_fixed.py::TestSwitchModeAPI::test_switch_nonexistent_session PASSED [ 32%]
+tests/functional/test_agent_api_fixed.py::TestSwitchModeAPI::test_switch_same_mode PASSED [ 32%]
+tests/functional/test_agent_api_fixed.py::TestControlCommandAPI::test_execute_keep_quiet_command PASSED [ 33%]
+tests/functional/test_agent_api_fixed.py::TestControlCommandAPI::test_execute_let_speak_command PASSED [ 34%]
+tests/functional/test_agent_api_fixed.py::TestControlCommandAPI::test_execute_summarize_command PASSED [ 35%]
+tests/functional/test_agent_api_fixed.py::TestControlCommandAPI::test_execute_invalid_command PASSED [ 35%]
+tests/functional/test_agent_api_fixed.py::TestControlCommandAPI::test_command_nonexistent_session PASSED [ 36%]
+tests/functional/test_agent_api_fixed.py::TestDialogueHistoryAPI::test_get_full_history PASSED [ 37%]
+tests/functional/test_agent_api_fixed.py::TestDialogueHistoryAPI::test_get_history_with_pagination PASSED [ 38%]
+tests/functional/test_agent_api_fixed.py::TestDialogueHistoryAPI::test_history_order_correct PASSED [ 38%]
+tests/functional/test_agent_api_fixed.py::TestDialogueHistoryAPI::test_new_session_empty_history PASSED [ 39%]
+tests/functional/test_agent_api_fixed.py::TestDialogueHistoryAPI::test_history_contains_metadata PASSED [ 40%]
+tests/functional/test_agent_api_fixed.py::TestSuspectStatesAPI::test_get_all_suspect_states PASSED [ 41%]
+tests/functional/test_agent_api_fixed.py::TestSuspectStatesAPI::test_states_contain_mood PASSED [ 41%]
+tests/functional/test_agent_api_fixed.py::TestSuspectStatesAPI::test_states_contain_stress_level PASSED [ 42%]
+tests/functional/test_agent_api_fixed.py::TestSuspectStatesAPI::test_stress_changes_with_interrogation PASSED [ 43%]
+tests/functional/test_game_api.py::TestGameCreationAPI::test_create_new_case_success FAILED [ 44%]
+tests/functional/test_game_api.py::TestGameCreationAPI::test_create_case_with_easy_difficulty FAILED [ 44%]
+tests/functional/test_game_api.py::TestGameCreationAPI::test_create_case_with_hard_difficulty FAILED [ 45%]
+tests/functional/test_game_api.py::TestGameCreationAPI::test_create_case_without_user_id FAILED [ 46%]
+tests/functional/test_game_api.py::TestGameCreationAPI::test_create_case_without_parameters FAILED [ 47%]
+tests/functional/test_game_api.py::TestGameCreationAPI::test_create_case_with_invalid_difficulty FAILED [ 47%]
+tests/functional/test_game_api.py::TestGameStatusAPI::test_get_game_status_success FAILED [ 48%]
+tests/functional/test_game_api.py::TestGameStatusAPI::test_get_nonexistent_session_status PASSED [ 49%]
+tests/functional/test_game_api.py::TestGameStatusAPI::test_game_status_is_investigating FAILED [ 50%]
+tests/functional/test_game_api.py::TestGameStatusAPI::test_status_contains_suspect_list FAILED [ 50%]
+tests/functional/test_game_api.py::TestGameStatusAPI::test_status_contains_clue_statistics FAILED [ 51%]
+tests/functional/test_game_api.py::TestInvestigationAPI::test_submit_investigation_success FAILED [ 52%]
+tests/functional/test_game_api.py::TestInvestigationAPI::test_investigation_finds_new_clue FAILED [ 52%]
+tests/functional/test_game_api.py::TestInvestigationAPI::test_investigation_already_searched FAILED [ 53%]
+tests/functional/test_game_api.py::TestInvestigationAPI::test_investigation_nonexistent_session PASSED [ 54%]
+tests/functional/test_game_api.py::TestInvestigationAPI::test_investigation_missing_scene PASSED [ 55%]
+tests/functional/test_game_api.py::TestInvestigationAPI::test_investigation_encrypted_clue FAILED [ 55%]
+tests/functional/test_game_api.py::TestDecryptClueAPI::test_decrypt_with_password_success FAILED [ 56%]
+tests/functional/test_game_api.py::TestDecryptClueAPI::test_decrypt_with_wrong_password FAILED [ 57%]
+tests/functional/test_game_api.py::TestDecryptClueAPI::test_decrypt_with_association FAILED [ 58%]
+tests/functional/test_game_api.py::TestDecryptClueAPI::test_decrypt_incomplete_association FAILED [ 58%]
+tests/functional/test_game_api.py::TestDecryptClueAPI::test_decrypt_nonexistent_clue PASSED [ 59%]
+tests/functional/test_game_api.py::TestDecryptClueAPI::test_decrypt_unencrypted_clue FAILED [ 60%]
+tests/functional/test_game_api.py::TestAccuseAPI::test_accuse_correct_murderer FAILED [ 61%]
+tests/functional/test_game_api.py::TestAccuseAPI::test_accuse_wrong_murderer FAILED [ 61%]
+tests/functional/test_game_api.py::TestAccuseAPI::test_first_wrong_accusation FAILED [ 62%]
+tests/functional/test_game_api.py::TestAccuseAPI::test_second_wrong_accusation FAILED [ 63%]
+tests/functional/test_game_api.py::TestAccuseAPI::test_third_wrong_accusation FAILED [ 64%]
+tests/functional/test_game_api.py::TestAccuseAPI::test_accuse_nonexistent_session PASSED [ 64%]
+tests/functional/test_game_api.py::TestAccuseAPI::test_accuse_missing_parameters PASSED [ 65%]
+tests/functional/test_game_api.py::TestAccuseAPI::test_accuse_already_closed_game FAILED [ 66%]
+tests/functional/test_game_api.py::TestCluesAPI::test_get_collected_clues FAILED [ 67%]
+tests/functional/test_game_api.py::TestCluesAPI::test_get_clues_by_physical_type FAILED [ 67%]
+tests/functional/test_game_api.py::TestCluesAPI::test_get_clues_by_testimony_type FAILED [ 68%]
+tests/functional/test_game_api.py::TestCluesAPI::test_get_clues_new_game_empty FAILED [ 69%]
+tests/functional/test_game_api.py::TestCluesAPI::test_get_clues_nonexistent_session PASSED [ 70%]
+tests/functional/test_game_api.py::TestCluesAPI::test_get_clue_statistics FAILED [ 70%]
+tests/functional/test_game_api.py::TestCluesAPI::test_associate_clues_success FAILED [ 71%]
+tests/functional/test_game_api.py::TestCluesAPI::test_associate_clues_unrelatable FAILED [ 72%]
+tests/functional/test_game_api.py::TestCluesAPI::test_associate_clues_insufficient FAILED [ 73%]
+tests/functional/test_game_api.py::TestCluesAPI::test_associate_clues_duplicate FAILED [ 73%]
+tests/functional/test_game_api.py::TestCluesAPI::test_get_clue_hints FAILED [ 74%]
+tests/functional/test_game_api.py::TestCluesAPI::test_hint_does_not_reveal_answer PASSED [ 75%]
+tests/functional/test_game_api.py::TestCluesAPI::test_all_clues_collected_hint FAILED [ 76%]
+tests/integration/test_api.py::TestAPI::test_health_check PASSED         [ 76%]
+tests/integration/test_api.py::TestAPI::test_docs_accessible PASSED      [ 77%]
+tests/integration/test_api.py::TestAPI::TestUserAPI::test_get_user_info PASSED [ 78%]
+tests/integration/test_api.py::TestAPI::TestUserAPI::test_get_user_history PASSED [ 79%]
+tests/integration/test_api.py::TestAPI::TestUserAPI::test_get_user_statistics PASSED [ 79%]
+tests/integration/test_api.py::TestAPI::TestGameAPI::test_get_nonexistent_session_status PASSED [ 80%]
+tests/integration/test_api.py::TestAPI::TestGameAPI::test_submit_investigation_nonexistent_session PASSED [ 81%]
+tests/integration/test_api.py::TestAPI::TestGameAPI::test_decrypt_clue_nonexistent_session PASSED [ 82%]
+tests/integration/test_api.py::TestAPI::TestGameAPI::test_accuse_nonexistent_session PASSED [ 82%]
+tests/integration/test_api.py::TestAPI::TestGameAPI::test_get_clues_nonexistent_session PASSED [ 83%]
+tests/integration/test_api.py::TestAPI::TestAgentAPI::test_send_message_nonexistent_session PASSED [ 84%]
+tests/integration/test_api.py::TestAPI::TestAgentAPI::test_switch_mode_nonexistent_session PASSED [ 85%]
+tests/integration/test_api.py::TestAPI::TestAgentAPI::test_execute_command_nonexistent_session PASSED [ 85%]
+tests/integration/test_api.py::TestAPI::TestAgentAPI::test_get_history_nonexistent_session PASSED [ 86%]
+tests/integration/test_api.py::TestAPI::test_invalid_endpoint PASSED     [ 87%]
+tests/integration/test_api.py::TestAPI::test_method_not_allowed PASSED   [ 88%]
+tests/unit/test_clue_service.py::TestClueService::test_get_collected_clues PASSED [ 88%]
+tests/unit/test_clue_service.py::TestClueService::test_get_collected_clues_by_type PASSED [ 89%]
+tests/unit/test_clue_service.py::TestClueService::test_get_clue_detail PASSED [ 90%]
+tests/unit/test_clue_service.py::TestClueService::test_get_clue_statistics PASSED [ 91%]
+tests/unit/test_clue_service.py::TestClueService::test_get_related_clues PASSED [ 91%]
+tests/unit/test_clue_service.py::TestClueService::test_associate_clues PASSED [ 92%]
+tests/unit/test_clue_service.py::TestClueService::test_associate_clues_less_than_two PASSED [ 93%]
+tests/unit/test_clue_service.py::TestClueService::test_get_undiscovered_clue_hints PASSED [ 94%]
+tests/unit/test_session_service.py::TestSessionService::test_create_session PASSED [ 94%]
+tests/unit/test_session_service.py::TestSessionService::test_get_nonexistent_session PASSED [ 95%]
+tests/unit/test_session_service.py::TestSessionService::test_update_session PASSED [ 96%]
+tests/unit/test_session_service.py::TestSessionService::test_update_game_status PASSED [ 97%]
+tests/unit/test_session_service.py::TestSessionService::test_increment_wrong_guess PASSED [ 97%]
+tests/unit/test_session_service.py::TestSessionService::test_delete_session PASSED [ 98%]
+tests/unit/test_session_service.py::TestSessionService::test_cleanup_expired_sessions PASSED [ 99%]
+tests/unit/test_session_service.py::TestSessionService::test_add_user_operation PASSED [100%]
+
+=================================== FAILURES ===================================
+_________________ TestSendMessageAPI.test_send_message_to_all __________________
+tests/functional/test_agent_api.py:48: in test_send_message_to_all
+    assert response.status_code == 200
+E   assert 404 == 200
+E    +  where 404 = <Response [404 Not Found]>.status_code
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:24:58.167 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/agent/test_session_001/send, 方法: POST
+____________ TestSendMessageAPI.test_send_message_at_single_suspect ____________
+tests/functional/test_agent_api.py:61: in test_send_message_at_single_suspect
+    assert response.status_code == 200
+E   assert 404 == 200
+E    +  where 404 = <Response [404 Not Found]>.status_code
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:24:58.210 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/agent/test_session_001/send, 方法: POST
+__________ TestSendMessageAPI.test_send_message_at_multiple_suspects ___________
+tests/functional/test_agent_api.py:94: in test_send_message_at_multiple_suspects
+    assert len(data["replies"]) >= 1
+               ^^^^^^^^^^^^^^^
+E   KeyError: 'replies'
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:24:58.213 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/agent/test_session_001/send, 方法: POST
+_____________ TestSendMessageAPI.test_send_message_in_single_mode ______________
+tests/functional/test_agent_api.py:117: in test_send_message_in_single_mode
+    assert response.status_code == 200
+E   assert 404 == 200
+E    +  where 404 = <Response [404 Not Found]>.status_code
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:24:58.217 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/agent/test_session_001/send, 方法: POST
+_______________ TestSendMessageAPI.test_message_added_to_history _______________
+tests/functional/test_agent_api.py:126: in test_message_added_to_history
+    assert response.status_code == 200
+E   assert 404 == 200
+E    +  where 404 = <Response [404 Not Found]>.status_code
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:24:58.220 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/agent/test_session_001/send, 方法: POST
+__________________ TestSendMessageAPI.test_send_empty_message __________________
+tests/functional/test_agent_api.py:147: in test_send_empty_message
+    assert response.status_code in [200, 422]
+E   assert 404 in [200, 422]
+E    +  where 404 = <Response [404 Not Found]>.status_code
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:24:58.225 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/agent/test_session_001/send, 方法: POST
+_________ TestSendMessageAPI.test_send_message_triggers_contradiction __________
+tests/functional/test_agent_api.py:176: in test_send_message_triggers_contradiction
+    assert len(data["system_hints"]) >= 1
+               ^^^^^^^^^^^^^^^^^^^^
+E   KeyError: 'system_hints'
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:24:58.228 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/agent/test_session_001/send, 方法: POST
+____________ TestSendMessageAPI.test_send_message_triggers_refusal _____________
+tests/functional/test_agent_api.py:210: in test_send_message_triggers_refusal
+    refusal_found = any(r.get("is_refusal") for r in data["replies"])
+                                                     ^^^^^^^^^^^^^^^
+E   KeyError: 'replies'
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:24:58.232 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/agent/test_session_001/send, 方法: POST
+_________________ TestSwitchModeAPI.test_switch_to_single_mode _________________
+tests/functional/test_agent_api.py:246: in test_switch_to_single_mode
+    assert response.status_code == 200
+E   assert 404 == 200
+E    +  where 404 = <Response [404 Not Found]>.status_code
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:24:58.235 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/agent/test_session_001/mode, 方法: POST
+_________________ TestSwitchModeAPI.test_switch_to_group_mode __________________
+tests/functional/test_agent_api.py:263: in test_switch_to_group_mode
+    assert data["mode"] == "group" or "全体" in data["message"]
+           ^^^^^^^^^^^^
+E   KeyError: 'mode'
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:24:58.238 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/agent/test_session_001/mode, 方法: POST
+_____________ TestSwitchModeAPI.test_switch_single_missing_suspect _____________
+tests/functional/test_agent_api.py:271: in test_switch_single_missing_suspect
+    assert response.status_code in [200, 422]
+E   assert 404 in [200, 422]
+E    +  where 404 = <Response [404 Not Found]>.status_code
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:24:58.241 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/agent/test_session_001/mode, 方法: POST
+___________________ TestSwitchModeAPI.test_switch_same_mode ____________________
+tests/functional/test_agent_api.py:299: in test_switch_same_mode
+    assert "已是" in data["message"] or data["success"] is True
+                                      ^^^^^^^^^^^^^^^
+E   KeyError: 'success'
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:24:58.245 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/agent/test_session_001/mode, 方法: POST
+____________ TestControlCommandAPI.test_execute_keep_quiet_command _____________
+tests/functional/test_agent_api.py:326: in test_execute_keep_quiet_command
+    assert response.status_code == 200
+E   assert 404 == 200
+E    +  where 404 = <Response [404 Not Found]>.status_code
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:24:58.248 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/agent/test_session_001/command, 方法: POST
+_____________ TestControlCommandAPI.test_execute_let_speak_command _____________
+tests/functional/test_agent_api.py:341: in test_execute_let_speak_command
+    assert response.status_code == 200
+E   assert 404 == 200
+E    +  where 404 = <Response [404 Not Found]>.status_code
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:24:58.251 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/agent/test_session_001/command, 方法: POST
+_____________ TestControlCommandAPI.test_execute_summarize_command _____________
+tests/functional/test_agent_api.py:356: in test_execute_summarize_command
+    assert response.status_code == 200
+E   assert 404 == 200
+E    +  where 404 = <Response [404 Not Found]>.status_code
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:24:58.254 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/agent/test_session_001/command, 方法: POST
+______________ TestControlCommandAPI.test_execute_invalid_command ______________
+tests/functional/test_agent_api.py:364: in test_execute_invalid_command
+    assert response.status_code in [200, 422]
+E   assert 404 in [200, 422]
+E    +  where 404 = <Response [404 Not Found]>.status_code
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:24:58.258 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/agent/test_session_001/command, 方法: POST
+_________________ TestDialogueHistoryAPI.test_get_full_history _________________
+tests/functional/test_agent_api.py:417: in test_get_full_history
+    assert response.status_code == 200
+E   assert 404 == 200
+E    +  where 404 = <Response [404 Not Found]>.status_code
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:24:58.263 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/agent/test_session_001/history, 方法: GET
+___________ TestDialogueHistoryAPI.test_get_history_with_pagination ____________
+tests/functional/test_agent_api.py:428: in test_get_history_with_pagination
+    assert response.status_code == 200
+E   assert 404 == 200
+E    +  where 404 = <Response [404 Not Found]>.status_code
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:24:58.266 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/agent/test_session_001/history, 方法: GET
+____________ TestDialogueHistoryAPI.test_new_session_empty_history _____________
+tests/functional/test_agent_api.py:451: in test_new_session_empty_history
+    assert data["total"] == 0 or len(data["messages"]) == 0
+           ^^^^^^^^^^^^^
+E   KeyError: 'total'
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:24:58.270 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/agent/test_session_001/history, 方法: GET
+_______________ TestSuspectStatesAPI.test_get_all_suspect_states _______________
+tests/functional/test_agent_api.py:506: in test_get_all_suspect_states
+    assert response.status_code == 200
+E   assert 404 == 200
+E    +  where 404 = <Response [404 Not Found]>.status_code
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:24:58.297 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/agent/test_session_001/suspects/states, 方法: GET
+________________ TestSuspectStatesAPI.test_states_contain_mood _________________
+tests/functional/test_agent_api.py:522: in test_states_contain_mood
+    assert "mood" in suspect or "情绪" in str(suspect)
+           ^^^^^^^^^^^^^^^^^
+E   TypeError: argument of type 'int' is not iterable
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:24:58.300 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/agent/test_session_001/suspects/states, 方法: GET
+____________ TestSuspectStatesAPI.test_states_contain_stress_level _____________
+tests/functional/test_agent_api.py:539: in test_states_contain_stress_level
+    assert "stress_level" in suspect
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: argument of type 'int' is not iterable
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:24:58.304 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/agent/test_session_001/suspects/states, 方法: GET
+_________ TestSuspectStatesAPI.test_stress_changes_with_interrogation __________
+tests/functional/test_agent_api.py:549: in test_stress_changes_with_interrogation
+    assert response.status_code == 200
+E   assert 404 == 200
+E    +  where 404 = <Response [404 Not Found]>.status_code
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:24:58.307 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/agent/test_session_001/suspects/states, 方法: GET
+_______________ TestGameCreationAPI.test_create_new_case_success _______________
+tests/functional/test_game_api.py:50: in test_create_new_case_success
+    assert response.status_code == 200
+E   assert 400 == 200
+E    +  where 400 = <Response [400 Bad Request]>.status_code
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:24:58.344 | INFO     | app.agents.case_generator_agent:generate_case:153 | 开始生成新案件...
+2026-04-10 22:27:01.416 | INFO     | app.agents.case_generator_agent:generate_case:157 | 案件生成内容：case_id='case_849201' title='雨夜画廊的沉默' difficulty=3 theme='modern' description='著名艺术品收藏家赵天成在自家私人画廊被发现身亡，死因为中毒。案发当晚暴雨如注，只有三名访客在场。警方需要在封闭的空间内找出真凶。' victim=Victim(victim_id='v001', name='赵天成', age=58, gender='男', occupation='艺术品收藏家/画廊老板', description='身材微胖，穿着考究，性格傲慢且控制欲极强，对艺术有极高的鉴赏力但人品备受争议。', cause_of_death='氰化物中毒', death_time=datetime.datetime(2023, 11, 14, 21, 15), death_location='私人画廊展厅中央', social_relationships={'s1': '前妻/画廊经理', 's2': '负债累累的画家', 's3': '私人医生'}, background_story='白手起家的艺术大亨，近期因财务造假传闻陷入危机，同时正在筹备一场重要的拍卖会的压轴展品《静默之眼》。') suspects=[Suspect(suspect_id='s1', name='林婉', age=45, gender='女', occupation='画廊经理/前妻', description='气质优雅但神情疲惫，穿着黑色职业装，眼神中透着隐忍。', personality_traits=['冷静', '理智', '压抑'], relationship_with_victim='前妻', motive='赵天成掌握着她挪用公款的证据，并威胁要让她坐牢，且长期精神虐待。', alibi='案发时在画廊门口的接待台整理文件，声称一直未离开，但监控死角较多。', alibi_reliability=0.6, timeline={'20:00': '确认最终展品清单', '20:30': '与赵天成在办公室争吵', '20:45': '回到接待台', '21:00': '给赵天成送了一杯咖啡', '21:15': '听到倒地的声音'}, secrets=['挪用画廊资金填补弟弟赌债', '私下联系买家准备出售《静默之眼》', '曾在咖啡中放入安眠药（非致死）'], is_murderer=False, avatar='', background_story='与赵天成结婚十年，离婚后被返聘为经理，实则被赵当作免费劳动力及把柄控制者。', refusal_threshold=0.4, counter_evidence={'下毒指控': '我只放了安眠药想让他睡一觉，没想到他会死，而且毒药不在咖啡里。', '时间线质疑': '接待台的打卡记录证明我20:45后就在那里。'}, personality_modifier=0.8, spatial_relationships={'s2': 'negative', 's3': 'neutral'}), Suspect(suspect_id='s2', name='陈默', age=32, gender='男', occupation='落魄画家', description='头发凌乱，衣着廉价，手指沾有颜料，情绪激动，眼神游离。', personality_traits=['冲动', '敏感', '才华横溢'], relationship_with_victim='签约画家', motive='赵天成剽窃了他的创意并拒绝支付尾款，还扬言要封杀他。', alibi='案发时在画廊二楼的洗手间抽烟，声称因为紧张而待了很久。', alibi_reliability=0.3, timeline={'20:10': '到达画廊，要求见赵天成', '20:20': '与赵天成在展厅激烈争执', '20:40': '冲上二楼洗手间', '21:10': '下楼看到尸体'}, secrets=['偷偷在画作《静默之眼》的颜料中混入了微量毒素（原本只想破坏画作）', '欠下高利贷', '案发前曾接触过赵天成的酒杯'], is_murderer=False, avatar='', background_story='天才画家，被赵天成以低价长约绑定，生活困顿，精神处于崩溃边缘。', refusal_threshold=0.7, counter_evidence={'杀人指控': '我恨他，但我没胆量杀人！我只是想毁掉那幅画！', '指纹解释': '我碰过酒杯是因为我想看看他喝的是什么酒，但我没投毒。'}, personality_modifier=1.3, spatial_relationships={'s1': 'negative', 's3': 'neutral'}), Suspect(suspect_id='s3', name='张致远', age=50, gender='男', occupation='私人医生', description='戴金丝眼镜，西装笔挺，举止从容，说话慢条斯理，给人一种冷峻的感觉。', personality_traits=['谨慎', '冷酷', '洁癖'], relationship_with_victim='私人医生', motive='赵天成掌握了张致远非法开具处方药致人死亡的证据，以此勒索巨额封口费。', alibi='案发时在画廊一楼的休息室查阅医疗记录，自称一直在打电话。', alibi_reliability=0.8, timeline={'20:00': '到达画廊为赵天成做例行检查', '20:30': '检查结束，在休息室等待', '20:50': '接到一个电话，走出休息室在走廊徘徊', '21:00': '返回休息室', '21:15': '被叫去查看尸体'}, secrets=['非法行医导致病人死亡', '随身携带氰化物胶囊（用于自保或安乐死道具）', '调换了赵天成的降压药'], is_murderer=True, avatar='', background_story='曾是名医，因一次医疗事故被吊销执照，现为地下黑市医生，被赵天成抓住把柄。', refusal_threshold=0.3, counter_evidence={'毒药来源': '我是医生，接触毒药很正常，但这不能证明我杀人。', '时间线': '我的通话记录可以证明我一直在走廊打电话，没有进入展厅。'}, personality_modifier=0.6, spatial_relationships={'s1': 'neutral', 's2': 'positive'})] clues=[Clue(clue_id='c1', name='半杯红酒', clue_type=<ClueType.PHYSICAL: 'physical'>, status=<ClueStatus.DISCOVERED: 'discovered'>, description='死者手边的红酒杯，残留少量红色液体，经检测含有氰化物。杯口有死者的指纹，杯身外侧有另一组模糊指纹。', location='展厅中央茶几', scene='scene_gallery', content='检测到高浓度氰化物。', hidden_content='杯身外侧的模糊指纹属于陈默（s2）。', related_clues=['c2', 'c5'], required_password=None, required_clues=[], importance=0.9, points_to_suspect='s2', related_suspects=['s2', 'v001'], is_red_herring=False), Clue(clue_id='c2', name='陈默的指纹', clue_type=<ClueType.TESTIMONY: 'testimony'>, status=<ClueStatus.DISCOVERED: 'discovered'>, description='法医鉴定报告指出，酒杯外侧的指纹与陈默的指纹匹配度99%。', location='法医实验室报告', scene='scene_lab', content='指纹匹配确认。', hidden_content=None, related_clues=['c1'], required_password=None, required_clues=[], importance=0.8, points_to_suspect='s2', related_suspects=['s2'], is_red_herring=False), Clue(clue_id='c3', name='林婉的咖啡', clue_type=<ClueType.PHYSICAL: 'physical'>, status=<ClueStatus.DISCOVERED: 'discovered'>, description='办公桌上的一杯冷咖啡，检测出含有安定成分，但未发现氰化物。', location='赵天成办公室', scene='scene_office', content='含有安定，无氰化物。', hidden_content=None, related_clues=['c4'], required_password=None, required_clues=[], importance=0.5, points_to_suspect='s1', related_suspects=['s1'], is_red_herring=True), Clue(clue_id='c4', name='林婉的日记', clue_type=<ClueType.DOCUMENT: 'document'>, status=<ClueStatus.HIDDEN: 'hidden'>, description='藏在林婉包里的日记本，记录了她想给赵天成下药让他昏睡，以便偷取文件的计划。', location='林婉的手提包', scene='scene_reception', content='11月14日：今晚必须拿到那份合同，我在他的咖啡里加了安眠药。', hidden_content=None, related_clues=['c3'], required_password=None, required_clues=['c3'], importance=0.6, points_to_suspect='s1', related_suspects=['s1'], is_red_herring=True), Clue(clue_id='c5', name='陈默的证词', clue_type=<ClueType.TESTIMONY: 'testimony'>, status=<ClueStatus.DISCOVERED: 'discovered'>, description='陈默承认自己碰过酒杯，但坚称当时酒是满的，他只是好奇拿起来看了看，然后放回去了。', location='审讯室', scene='scene_interrogation', content='我碰了杯子，但我没下毒！那时候他还没喝！', hidden_content=None, related_clues=['c1', 'c2'], required_password=None, required_clues=[], importance=0.7, points_to_suspect='s2', related_suspects=['s2'], is_red_herring=False), Clue(clue_id='c6', name='张致远的药箱', clue_type=<ClueType.PHYSICAL: 'physical'>, status=<ClueStatus.DISCOVERED: 'discovered'>, description='张致远的随身药箱，里面少了一格存放急救药物的位置，且在夹层中发现了一张购买氰化物的黑市收据复印件。', location='休息室沙发缝隙', scene='scene_lounge', content='购买收据显示日期为上周。', hidden_content='药箱底层有一副一次性橡胶手套，指尖有微量氰化物残留。', related_clues=['c7', 'c9'], required_password=None, required_clues=[], importance=0.9, points_to_suspect='s3', related_suspects=['s3'], is_red_herring=False), Clue(clue_id='c7', name='消失的冰块', clue_type=<ClueType.ASSOCIATION: 'association'>, status=<ClueStatus.HIDDEN: 'hidden'>, description='现场照片显示，死者手中的酒杯里有冰块融化的水渍，但酒杯旁没有冰桶。据服务员回忆，赵天成喜欢加冰，但冰块是由张致远在20:30从休息室冰箱取出的。', location='现场勘查记录', scene='scene_gallery', content='冰块来源可疑。', hidden_content='冰块模具中检测出氰化物残留，说明毒药是通过冰块投放的。', related_clues=['c6', 'c8'], required_password=None, required_clues=['c1'], importance=0.95, points_to_suspect='s3', related_suspects=['s3'], is_red_herring=False), Clue(clue_id='c8', name='休息室的冰箱', clue_type=<ClueType.PHYSICAL: 'physical'>, status=<ClueStatus.DISCOVERED: 'discovered'>, description='休息室冰箱里的制冰盒，其中两个格子是空的，其余冰块正常。', location='休息室', scene='scene_lounge', content='缺失两块冰。', hidden_content=None, related_clues=['c7'], required_password=None, required_clues=[], importance=0.7, points_to_suspect='s3', related_suspects=['s3'], is_red_herring=False), Clue(clue_id='c9', name='张致远的通话记录', clue_type=<ClueType.DOCUMENT: 'document'>, status=<ClueStatus.DISCOVERED: 'discovered'>, description='张致远声称20:50-21:00在走廊打电话，但基站数据显示，他的手机在20:55曾连接到休息室附近的Wi-Fi热点，而非走廊信号塔。', location='电信运营商数据', scene='scene_data', content='信号定位在休息室内部。', hidden_content=None, related_clues=['c6'], required_password=None, required_clues=[], importance=0.8, points_to_suspect='s3', related_suspects=['s3'], is_red_herring=False), Clue(clue_id='c10', name='《静默之眼》的异常', clue_type=<ClueType.PHYSICAL: 'physical'>, status=<ClueStatus.DISCOVERED: 'discovered'>, description='画作表面有轻微的化学腐蚀痕迹，经检测是陈默使用的特殊颜料与某种酸性物质反应的结果，但与死因无关。', location='展厅画作', scene='scene_gallery', content='颜料中含有弱酸性成分。', hidden_content=None, related_clues=[], required_password=None, required_clues=[], importance=0.4, points_to_suspect='s2', related_suspects=['s2'], is_red_herring=True), Clue(clue_id='c11', name='湿漉漉的雨伞', clue_type=<ClueType.PHYSICAL: 'physical'>, status=<ClueStatus.DISCOVERED: 'discovered'>, description='门口伞架上有一把黑色的雨伞，伞尖滴着水，伞柄上有张致远的指纹。', location='画廊入口', scene='scene_entrance', content='伞是干的，除了伞尖。', hidden_content=None, related_clues=[], required_password=None, required_clues=[], importance=0.3, points_to_suspect='s3', related_suspects=['s3'], is_red_herring=True), Clue(clue_id='c12', name='赵天成的遗嘱草稿', clue_type=<ClueType.DOCUMENT: 'document'>, status=<ClueStatus.HIDDEN: 'hidden'>, description='在办公室碎纸机里发现的未完全粉碎的文件，显示赵天成打算修改遗嘱，将大部分财产捐赠，只留给林婉极少部分。', location='办公室碎纸机', scene='scene_office', content='财产捐赠计划。', hidden_content=None, related_clues=['c4'], required_password=None, required_clues=['c3'], importance=0.6, points_to_suspect='s1', related_suspects=['s1'], is_red_herring=True)] scenes=[Scene(scene_id='scene_gallery', name='主展厅', description='宽敞明亮的展厅，中央挂着《静默之眼》，周围摆放着雕塑。地面铺着厚地毯，吸音效果极好。', items=['《静默之眼》画作', '中央茶几', '红酒杯', '地毯'], is_crime_scene=True, is_locked=False), Scene(scene_id='scene_office', name='赵天成办公室', description='装修奢华的办公室，桌上堆满文件，有一个保险柜和碎纸机。', items=['办公桌', '咖啡杯', '碎纸机', '保险柜'], is_crime_scene=False, is_locked=False), Scene(scene_id='scene_lounge', name='VIP休息室', description='供贵宾休息的地方，配有沙发、电视和小型吧台，吧台后有冰箱。', items=['沙发', '冰箱', '制冰盒', '药箱'], is_crime_scene=False, is_locked=False), Scene(scene_id='scene_reception', name='接待区', description='画廊入口处，有前台和监控摄像头，但角度有限。', items=['前台', '监控显示器', '伞架'], is_crime_scene=False, is_locked=False)] evidence_chains=[EvidenceChain(chain_id='chain_001', name='毒药来源链', description='证明毒药来自张致远的药箱并通过冰块投入酒杯。', items=[EvidenceChainItem(clue_id='c6', description='张致远药箱中有购买氰化物的收据及残留物。', connects_to=['c7'], logical_order=1), EvidenceChainItem(clue_id='c7', description='死者酒杯中的毒药是通过含毒冰块融化释放的。', connects_to=['c8'], logical_order=2), EvidenceChainItem(clue_id='c8', description='休息室的制冰盒缺失两块冰，且张致远是唯一接触过冰箱的人。', connects_to=[], logical_order=3)], conclusion='张致远利用职务之便，将氰化物注入冰块，进而毒杀赵天成。', required_clues=['c6', 'c7', 'c8']), EvidenceChain(chain_id='chain_002', name='作案时机链', description='证明张致远在案发前有作案时间和机会。', items=[EvidenceChainItem(clue_id='c9', description='张致远的手机信号证明他在说谎，他当时在休息室而非走廊。', connects_to=['c6'], logical_order=1), EvidenceChainItem(clue_id='c1', description='死者饮用了含有毒药的酒，而酒中的冰块由张致远提供。', connects_to=[], logical_order=2)], conclusion='张致远伪造不在场证明，实则在休息室准备毒冰块。', required_clues=['c9', 'c1']), EvidenceChain(chain_id='chain_003', name='排除嫌疑人链', description='排除林婉和陈默的直接杀人嫌疑。', items=[EvidenceChainItem(clue_id='c3', description='林婉的咖啡中只有安眠药，无氰化物。', connects_to=['c5'], logical_order=1), EvidenceChainItem(clue_id='c5', description='陈默虽接触过酒杯，但当时酒未喝，且他无法接触到冰箱里的冰块。', connects_to=[], logical_order=2)], conclusion='林婉和陈默虽有动机和行为，但并非致死原因的实施者。', required_clues=['c3', 'c5'])] murderer_id='s3' murder_weapon='含有氰化物的冰块' murder_motive='赵天成长期勒索张致远，并要求其在即将进行的体检报告中做手脚以掩盖赵自己的健康问题从而抬高画作价格。张致远担心事情败露导致自己彻底身败名裂甚至入狱，遂起杀心。' murder_method='张致远在20:30为赵天成检查结束后，借口去休息室拿水，将预先准备好的氰化物注入制冰盒的两块冰中。随后他将这两块特制冰块放入赵天成的酒杯（或让赵自行添加，但他知道赵的习惯）。由于冰块融化需要时间，毒药在21:00左右才完全释放并被赵天成饮用，此时张致远已回到休息室制造不在场证明。' true_timeline={'20:00': '张致远到达画廊，为赵天成进行身体检查。', '20:30': '检查结束，张致远进入休息室，将氰化物注入制冰盒的两块冰中，等待其稍微冻结表面以防立刻融化。', '20:40': '张致远将处理过的冰块交给赵天成，或者放入赵的酒瓶中（赵习惯加冰饮酒）。', '20:50': '张致远回到休息室，故意拨打一个电话，但手机连接Wi-Fi以制造在走廊的假象（实际上他在观察情况）。', '21:00': '赵天成在展厅独自饮酒，冰块融化，氰化物释放。', '21:15': '赵天成毒发身亡。', '21:16': '林婉听到动静，陈默从洗手间出来，三人汇聚现场。'} red_herrings=['林婉在咖啡中下安眠药的行为容易被误认为是投毒。', '陈默在酒杯上留下的指纹以及他对画作的破坏行为。', '赵天成修改遗嘱的动机可能让人怀疑林婉因财害命。'] contradiction_points=[ContradictionPoint(contradiction_id='cp1', type=<ContradictionType.EVIDENCE: 'evidence'>, description='陈默声称自己只是碰了一下酒杯就放下了，但指纹位置显示他是握持杯身较长时间，这与他说‘只是好奇看一眼’不符，暗示他可能在犹豫是否下毒或寻找下毒机会，但实际上他并未成功下毒，因为毒药在冰块里。', involved_suspects=['s2'], trigger_condition={'keywords': ['指纹', '酒杯', '陈默'], 'requires_both_speaking': False}, hint_for_user='陈默的指纹位置和时长与他简单的‘好奇’说辞有出入，但他真的下毒了吗？', related_clue_id='c2', clue_location='法医实验室报告'), ContradictionPoint(contradiction_id='cp2', type=<ContradictionType.TIMELINE: 'timeline'>, description='张致远声称20:50-21:00在走廊打电话，但通讯记录显示他的手机连接了休息室的Wi-Fi，这与他的人所在位置矛盾。', involved_suspects=['s3'], trigger_condition={'keywords': ['电话', '走廊', '张致远'], 'requires_both_speaking': False}, hint_for_user='张致远的手机信号出卖了他的真实位置。', related_clue_id='c9', clue_location='电信运营商数据'), ContradictionPoint(contradiction_id='cp3', type=<ContradictionType.SPATIAL: 'spatial'>, description='林婉声称20:45后一直在接待台，但接待台正对办公室门，她应该能看到张致远从办公室出来后的动向，但她证词中未提及张致远去过休息室，这在空间视野上是一个盲点或谎言。', involved_suspects=['s1', 's3'], trigger_condition={'keywords': ['接待台', '视线', '张致远'], 'requires_both_speaking': True}, hint_for_user='林婉的位置真的能监控到所有人的动向吗？', related_clue_id=None, clue_location=None)] created_at=datetime.datetime(2023, 11, 15, 9, 0)
+2026-04-10 22:27:01.418 | ERROR    | app.agents.case_generator_agent:generate_case:189 | 案件生成失败: %s
+2026-04-10 22:27:01.419 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 案件生成失败: 'ContradictionPoint' object has no attribute 'contradiction_type', 路径: /api/v1/game/new, 方法: POST
+__________ TestGameCreationAPI.test_create_case_with_easy_difficulty ___________
+tests/functional/test_game_api.py:83: in test_create_case_with_easy_difficulty
+    assert response.status_code == 200
+E   assert 400 == 200
+E    +  where 400 = <Response [400 Bad Request]>.status_code
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:27:01.430 | INFO     | app.agents.case_generator_agent:generate_case:153 | 开始生成新案件...
+2026-04-10 22:29:07.883 | INFO     | app.agents.case_generator_agent:generate_case:157 | 案件生成内容：case_id='case_849201' title='雨夜画廊的静默' difficulty=3 theme='modern_mystery' description='著名画廊老板林萧在暴雨夜的私人预展中离奇死亡，死因是中毒。现场只有三位关键嫌疑人，每个人都似乎有不可告人的秘密。' victim=Victim(victim_id='v001', name='林萧', age=52, gender='男', occupation='画廊老板/艺术收藏家', description='身材消瘦，眼神锐利，穿着考究但略显陈旧，性格傲慢且控制欲极强。', cause_of_death='氰化物中毒', death_time=datetime.datetime(2024, 5, 20, 21, 15), death_location='画廊VIP休息室', social_relationships={'s1': '前合伙人/现任策展人', 's2': '负债累累的新锐画家', 's3': '私人助理/情人'}, background_story='林萧靠炒作艺术品起家，近年来因投资失败陷入财务危机，经常压榨下属和艺术家，并涉嫌洗钱。') suspects=[Suspect(suspect_id='s1', name='陈默', age=48, gender='男', occupation='画廊策展人', description='戴金丝眼镜，文质彬彬，说话慢条斯理，手指上有长期接触化学试剂留下的轻微痕迹。', personality_traits=['冷静', '严谨', '隐忍'], relationship_with_victim='前合伙人', motive='林萧侵吞了两人共同创立画廊时的启动资金，并威胁要揭露陈默早年伪造学历的黑历史。', alibi='案发时（21:00-21:30）声称在画廊大厅整理展品目录，有监控拍到他在远处，但画面模糊。', alibi_reliability=0.6, timeline={'20:00': '到达画廊，检查展品', '20:45': '进入VIP休息室与死者交谈', '21:00': '离开休息室，前往大厅', '21:30': '发现尸体并报警'}, secrets=['曾伪造常春藤盟校学历', '私下联系买家准备跳槽', '精通化学知识'], is_murderer=True, avatar='', background_story='与林萧合作十年，功劳被林萧独占，最近被林萧以把柄要挟，被迫签署不平等的离职协议。', refusal_threshold=0.4, counter_evidence={'chemical_knowledge': '我是艺术史出身，虽然懂一些保存知识，但不具备合成剧毒物的能力。', 'timeline_gap': '监控虽然模糊，但足以证明我没有进入过休息室的内部区域。'}, personality_modifier=0.8, spatial_relationships={'s2': 'negative', 's3': 'neutral'}), Suspect(suspect_id='s2', name='苏雅', age=26, gender='女', occupation='新锐画家', description='穿着前卫，神情焦虑，指甲油剥落，眼神中透着绝望和愤怒。', personality_traits=['冲动', '敏感', '情绪化'], relationship_with_victim='签约画家', motive='林萧扣押了她的画作并拒绝支付尾款，导致她无法偿还高利贷，面临生命威胁。', alibi='案发时在画廊后门的吸烟区抽烟，声称没人能证明，因为雨太大没人出去。', alibi_reliability=0.3, timeline={'20:30': '与死者发生激烈争吵', '20:40': '冲出VIP休息室', '20:45': '在后门吸烟区逗留', '21:10': '返回大厅，声称去洗手间'}, secrets=['欠下巨额高利贷', '曾在网上搜索过毒药相关知识', '案发当天购买过不明粉末（实为颜料固化剂）'], is_murderer=False, avatar='', background_story='天才少女画家，被林萧的合同陷阱束缚，作品被低价买断后高价卖出，自己却一无所有。', refusal_threshold=0.7, counter_evidence={'purchase_record': '我买的是丙烯颜料固化剂，收据上写得很清楚，不是毒药！', 'search_history': '我搜索毒药是因为我想写一部悬疑小说，这是创作素材！'}, personality_modifier=1.3, spatial_relationships={'s1': 'negative', 's3': 'positive'}), Suspect(suspect_id='s3', name='李婉', age=35, gender='女', occupation='私人助理', description='妆容精致，举止得体，但眼底有黑眼圈，显得疲惫不堪，对死者既敬畏又厌恶。', personality_traits=['谨慎', '细心', '压抑'], relationship_with_victim='助理/情人', motive='长期遭受林萧的精神控制和身体虐待，且发现林萧准备甩掉她并转移资产。', alibi='案发时在茶水间清洗咖啡杯，有指纹为证，但无法确定具体时间段。', alibi_reliability=0.5, timeline={'20:50': '为死者送进一杯手冲咖啡', '21:00': '在茶水间工作', '21:20': '听到尖叫声跑出'}, secrets=['偷偷录音林萧的违法行为', '正在办理出国签证准备逃离', '知道陈默和苏雅的矛盾'], is_murderer=False, avatar='', background_story='跟随林萧五年，青春耗尽，最近发现林萧不仅在情感上背叛她，还要让她背锅承担税务问题。', refusal_threshold=0.5, counter_evidence={'coffee_cup': '我只负责送咖啡，杯子是我洗的，但如果有人中途下毒，我根本不知道。', 'recording': '我录音是为了自保，不是为了杀人。'}, personality_modifier=0.9, spatial_relationships={'s1': 'neutral', 's2': 'positive'})] clues=[Clue(clue_id='c1', name='半杯苦杏仁味咖啡', clue_type=<ClueType.PHYSICAL: 'physical'>, status=<ClueStatus.DISCOVERED: 'discovered'>, description='在死者办公桌上发现的一杯喝了一半的咖啡，散发出明显的苦杏仁气味，经初步检测含有氰化物。', location='VIP休息室办公桌', scene='scene_vip_room', content='咖啡残渣检测出高浓度氰化钾。', hidden_content=None, related_clues=['c2', 'c3'], required_password=None, required_clues=[], importance=0.95, points_to_suspect='s3', related_suspects=['s3', 'v001'], is_red_herring=False), Clue(clue_id='c2', name='清洗过的咖啡杯', clue_type=<ClueType.PHYSICAL: 'physical'>, status=<ClueStatus.DISCOVERED: 'discovered'>, description='在茶水间水槽里发现的一个刚清洗过的咖啡杯，内壁残留微量氰化物反应，但把手上只有李婉的指纹。', location='茶水间水槽', scene='scene_pantry', content='杯子被仔细清洗过，试图毁灭证据。', hidden_content='杯底缝隙中检测到微量的‘松节油’成分，这通常用于油画清洗，而非咖啡杯。', related_clues=['c1', 'c4'], required_password=None, required_clues=[], importance=0.8, points_to_suspect='s3', related_suspects=['s3'], is_red_herring=True), Clue(clue_id='c3', name='陈默的实验笔记', clue_type=<ClueType.DOCUMENT: 'document'>, status=<ClueStatus.HIDDEN: 'hidden'>, description='在陈默的储物柜中发现的一本旧笔记，里面记录了多种化学物质的性质，其中一页关于氰化物的提取被折角。', location='员工储物柜', scene='scene_staff_area', content='详细记录了从杏仁中提取氰化物的方法。', hidden_content='笔记最后一页的日期是昨天，上面写着‘必须结束这一切’。', related_clues=['c1'], required_password=None, required_clues=['c5'], importance=0.7, points_to_suspect='s1', related_suspects=['s1'], is_red_herring=False), Clue(clue_id='c4', name='苏雅的购物小票', clue_type=<ClueType.DOCUMENT: 'document'>, status=<ClueStatus.DISCOVERED: 'discovered'>, description='在苏雅的外套口袋里发现的一张美术用品店小票，显示购买了大量丙烯颜料和一种强力固化剂。', location='苏雅的外套口袋', scene='scene_gallery_hall', content='购买时间：今天下午16:00。物品：丙烯固化剂X型。', hidden_content=None, related_clues=['c2'], required_password=None, required_clues=[], importance=0.6, points_to_suspect='s2', related_suspects=['s2'], is_red_herring=True), Clue(clue_id='c5', name='破碎的相框', clue_type=<ClueType.PHYSICAL: 'physical'>, status=<ClueStatus.DISCOVERED: 'discovered'>, description='在VIP休息室垃圾桶深处发现的破碎相框，照片是陈默和林萧早期的合影，背面有陈默的指纹和泪痕。', location='VIP休息室垃圾桶', scene='scene_vip_room', content='照片被刻意撕碎。', hidden_content=None, related_clues=['c3'], required_password=None, required_clues=[], importance=0.5, points_to_suspect='s1', related_suspects=['s1', 'v001'], is_red_herring=False), Clue(clue_id='c6', name='李婉的录音笔', clue_type=<ClueType.DECRYPT: 'decrypt'>, status=<ClueStatus.LOCKED: 'locked'>, description='在李婉的包里发现的一支录音笔，需要密码解锁。', location='李婉的手提包', scene='scene_gallery_hall', content='加密文件。', hidden_content='录音内容：林萧威胁陈默说‘如果你不签字，我就把你造假的事发给所有博物馆’。时间是20:30。', related_clues=['c7'], required_password='19850520', required_clues=['c7'], importance=0.85, points_to_suspect='s1', related_suspects=['s3', 's1'], is_red_herring=False), Clue(clue_id='c7', name='李婉的生日提示', clue_type=<ClueType.ASSOCIATION: 'association'>, status=<ClueStatus.DISCOVERED: 'discovered'>, description='在李婉的手机锁屏壁纸上，显示着她已故母亲的忌日，也是她常用的密码组合。', location='李婉的手机', scene='scene_gallery_hall', content='日期：1985年5月20日。', hidden_content=None, related_clues=['c6'], required_password=None, required_clues=[], importance=0.4, points_to_suspect='s3', related_suspects=['s3'], is_red_herring=False), Clue(clue_id='c8', name='通风口的白色粉末', clue_type=<ClueType.PHYSICAL: 'physical'>, status=<ClueStatus.HIDDEN: 'hidden'>, description='在VIP休息室通往天花板的通风口边缘发现的少量白色粉末。', location='VIP休息室通风口', scene='scene_vip_room', content='经检测为氰化钾粉末。', hidden_content='粉末分布呈现喷洒状，且方向指向办公桌下方的地板缝隙。', related_clues=['c1', 'c9'], required_password=None, required_clues=['c9'], importance=0.9, points_to_suspect='s1', related_suspects=['s1'], is_red_herring=False), Clue(clue_id='c9', name='陈默的维修工具包', clue_type=<ClueType.PHYSICAL: 'physical'>, status=<ClueStatus.DISCOVERED: 'discovered'>, description='在陈默的办公室发现的一个工具包，里面有螺丝刀和手电筒，螺丝刀尖端有新鲜的刮痕和白色粉末残留。', location='陈默的办公室', scene='scene_staff_area', content='工具包里有近期使用过的痕迹。', hidden_content='螺丝刀上的粉末与通风口的粉末成分一致。', related_clues=['c8'], required_password=None, required_clues=[], importance=0.85, points_to_suspect='s1', related_suspects=['s1'], is_red_herring=False), Clue(clue_id='c10', name='监控录像片段', clue_type=<ClueType.DOCUMENT: 'document'>, status=<ClueStatus.DISCOVERED: 'discovered'>, description='画廊走廊的监控录像，显示20:45分陈默从VIP室出来，神色慌张地看了一眼天花板方向。', location='保安室硬盘', scene='scene_security_room', content='视频时间戳：20:45:12。', hidden_content='放大后可见陈默手中拿着一个类似小型喷雾瓶或工具的物体，迅速放入口袋。', related_clues=['c9'], required_password=None, required_clues=[], importance=0.75, points_to_suspect='s1', related_suspects=['s1'], is_red_herring=False), Clue(clue_id='c11', name='苏雅的短信草稿', clue_type=<ClueType.DOCUMENT: 'document'>, status=<ClueStatus.DISCOVERED: 'discovered'>, description='在苏雅手机里发现的一条未发送短信：‘如果我死了，一定是林萧逼我的，但我不会放过他。’', location='苏雅的手机', scene='scene_gallery_hall', content='编辑时间：20:35。', hidden_content=None, related_clues=[], required_password=None, required_clues=[], importance=0.5, points_to_suspect='s2', related_suspects=['s2'], is_red_herring=True), Clue(clue_id='c12', name='李婉的航班预订单', clue_type=<ClueType.DOCUMENT: 'document'>, status=<ClueStatus.DISCOVERED: 'discovered'>, description='在李婉的邮箱里发现的一张明天飞往巴黎的单程机票预订单。', location='李婉的电脑', scene='scene_staff_area', content='预订时间：今天上午。', hidden_content=None, related_clues=[], required_password=None, required_clues=[], importance=0.4, points_to_suspect='s3', related_suspects=['s3'], is_red_herring=True), Clue(clue_id='c13', name='VIP室空调遥控器', clue_type=<ClueType.PHYSICAL: 'physical'>, status=<ClueStatus.DISCOVERED: 'discovered'>, description='在死者手边发现的空调遥控器，设定温度为28度，且模式为‘送风’，风速最大。', location='VIP休息室办公桌', scene='scene_vip_room', content='遥控器上有死者和陈默的指纹。', hidden_content='这种设置会加速空气流通，有助于挥发性或粉末状毒素扩散。', related_clues=['c8'], required_password=None, required_clues=[], importance=0.6, points_to_suspect='s1', related_suspects=['s1', 'v001'], is_red_herring=False)] scenes=[Scene(scene_id='scene_vip_room', name='VIP休息室', description='豪华但压抑的房间，隔音效果极好。中央有一张大办公桌，死者趴在上面。空调出风口位于桌子正上方的天花板。', items=['办公桌', '咖啡杯', '空调遥控器', '垃圾桶', '通风口'], is_crime_scene=True, is_locked=False), Scene(scene_id='scene_gallery_hall', name='画廊大厅', description='宽敞明亮的展览空间，挂着多幅抽象画。地面铺着地毯，可以吸收脚步声。', items=['画作', '展台', '监控摄像头'], is_crime_scene=False, is_locked=False), Scene(scene_id='scene_pantry', name='茶水间', description='狭小的空间，有水槽、咖啡机和冰箱。水槽里有一个刚洗过的杯子。', items=['水槽', '咖啡机', '清洁布'], is_crime_scene=False, is_locked=False), Scene(scene_id='scene_staff_area', name='员工办公区', description='开放式办公区，陈默和李婉的工位在这里。陈默的柜子半开着。', items=['陈默的储物柜', '李婉的电脑', '工具包'], is_crime_scene=False, is_locked=False), Scene(scene_id='scene_security_room', name='保安室', description='狭小的房间，满是监控屏幕。硬盘录像机正在运行。', items=['监控屏幕', '硬盘录像机'], is_crime_scene=False, is_locked=True)] evidence_chains=[EvidenceChain(chain_id='chain_001', name='毒物来源与投放手法', description='证明凶手利用通风口投放氰化物粉末，并通过空调加速扩散。', items=[EvidenceChainItem(clue_id='c9', description='陈默的工具包螺丝刀上有氰化物粉末残留，证明他接触过毒物。', connects_to=['c8'], logical_order=1), EvidenceChainItem(clue_id='c8', description='通风口发现氰化物粉末，且呈喷洒状，说明是从外部投入。', connects_to=['c13'], logical_order=2), EvidenceChainItem(clue_id='c13', description='空调被设置为最大送风，意在将通风口落下的粉末吹向死者呼吸区。', connects_to=['c1'], logical_order=3), EvidenceChainItem(clue_id='c1', description='死者吸入粉末中毒，咖啡中的氰化物可能是为了掩盖苦杏仁味或作为双重保险，但主要死因是吸入。', connects_to=[], logical_order=4)], conclusion='陈默利用维修通风口的机会，将氰化物粉末投入通风口，并调整空调加速毒气扩散，导致林萧中毒。', required_clues=['c9', 'c8', 'c13', 'c1']), EvidenceChain(chain_id='chain_002', name='作案动机与机会', description='证明陈默有强烈的杀人动机和唯一的作案时间窗口。', items=[EvidenceChainItem(clue_id='c6', description='录音证明林萧以揭发黑历史要挟陈默，使其走投无路。', connects_to=['c3'], logical_order=1), EvidenceChainItem(clue_id='c3', description='陈默的笔记显示他有获取毒物的知识和预谋。', connects_to=['c10'], logical_order=2), EvidenceChainItem(clue_id='c10', description='监控显示陈默在案发前神色慌张，且持有可疑工具，随后只有他有机会接触通风口（需梯子/工具）。', connects_to=[], logical_order=3)], conclusion='陈默在被逼入绝境后，利用其化学知识和工作便利，精心策划了这起谋杀。', required_clues=['c6', 'c3', 'c10'])] murderer_id='s1' murder_weapon='氰化钾粉末' murder_motive='林萧掌握了陈默伪造学历的黑历史，并以此要挟他签署放弃画廊所有权益的协议，否则就毁掉他的职业生涯。陈默在绝望和愤怒中决定杀人灭口。' murder_method='陈默借口检查VIP室空调故障，携带装有氰化钾粉末的工具包进入房间。他趁林萧不注意（或林萧在打电话），爬上梯子打开通风口盖板，将粉末倒入通风管道，并特意将空调调整为最大送风模式，使粉末随气流落下并被林萧吸入。之后他清理了工具，并将少量粉末混入咖啡杯以混淆视听，让人以为是口服中毒。' true_timeline={'20:00': '陈默到达画廊，确认计划。', '20:30': '林萧与苏雅争吵，苏雅离开。', '20:40': '陈默进入VIP室，借口检查空调。', '20:45': '陈默将氰化物粉末投入通风口，调整空调，随后离开。', '20:50': '李婉送咖啡进入，林萧已感到不适但未发作。', '21:00': '林萧毒性发作，趴在桌上死亡。', '21:15': '李婉再次进入发现尸体。', '21:30': '警方到达现场。'} red_herrings=['苏雅购买的固化剂被误认为是毒药原料，且她有强烈的杀人动机和不在场证明漏洞。', '李婉清洗咖啡杯的行为看似毁灭证据，实则是因为她有洁癖且杯子洒了，她并不知道杯中有毒（毒主要在通风口）。', '陈默的学历造假黑历史让玩家误以为他是为了掩盖过去而杀人，实际上直接动因是财产剥夺和职业威胁。'] contradiction_points=[ContradictionPoint(contradiction_id='cp1', type=<ContradictionType.TIMELINE: 'timeline'>, description='陈默声称20:45离开VIP室后直接去了大厅，但监控显示他在走廊停留了2分钟并观察天花板，这与他的陈述不符。', involved_suspects=['s1'], trigger_condition={'keywords': ['监控', '20:45', '大厅', '走廊'], 'requires_both_speaking': False}, hint_for_user='陈默的时间线在监控面前出现了细微的裂痕，他在那两分钟里做了什么？', related_clue_id='c10', clue_location='保安室硬盘'), ContradictionPoint(contradiction_id='cp2', type=<ContradictionType.EVIDENCE: 'evidence'>, description='李婉声称咖啡是她亲手冲泡并端进去的，如果咖啡有毒，她应该在清洗前就知道，但她却清洗了杯子，这不符合常理，除非她知道毒不在咖啡里，或者她在掩饰其他事情。', involved_suspects=['s3'], trigger_condition={'keywords': ['咖啡', '清洗', '杯子', '毒'], 'requires_both_speaking': False}, hint_for_user='如果李婉是下毒者，她为什么要清洗带有指纹的杯子？这反而引起了怀疑。或者，她清洗杯子另有原因？', related_clue_id='c2', clue_location='茶水间水槽'), ContradictionPoint(contradiction_id='cp3', type=<ContradictionType.SPATIAL: 'spatial'>, description='苏雅声称一直在后门吸烟，但她的鞋底没有雨水痕迹，而后门外的地面非常泥泞。', involved_suspects=['s2'], trigger_condition={'keywords': ['吸烟', '后门', '雨', '鞋子'], 'requires_both_speaking': False}, hint_for_user='外面的雨那么大，苏雅的鞋底为什么这么干净？她真的去过室外吗？', related_clue_id=None, clue_location=None)] created_at=datetime.datetime(2024, 5, 21, 10, 0)
+2026-04-10 22:29:07.884 | ERROR    | app.agents.case_generator_agent:generate_case:189 | 案件生成失败: %s
+2026-04-10 22:29:07.884 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 案件生成失败: 'ContradictionPoint' object has no attribute 'contradiction_type', 路径: /api/v1/game/new, 方法: POST
+__________ TestGameCreationAPI.test_create_case_with_hard_difficulty ___________
+tests/functional/test_game_api.py:91: in test_create_case_with_hard_difficulty
+    assert response.status_code == 200
+E   assert 400 == 200
+E    +  where 400 = <Response [400 Bad Request]>.status_code
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:29:07.901 | INFO     | app.agents.case_generator_agent:generate_case:153 | 开始生成新案件...
+2026-04-10 22:29:08.726 | ERROR    | app.agents.case_generator_agent:generate_case:189 | 案件生成失败: %s
+2026-04-10 22:29:08.727 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 案件生成失败: Error code: 403 - {'error': {'message': 'The free tier of the model has been exhausted. If you wish to continue access the model on a paid basis, please disable the "use free tier only" mode in the management console.', 'type': 'AllocationQuota.FreeTierOnly', 'param': None, 'code': 'AllocationQuota.FreeTierOnly'}, 'id': 'chatcmpl-43b3d61d-a538-920d-8f23-6740cc6f7a3f', 'request_id': '43b3d61d-a538-920d-8f23-6740cc6f7a3f'}, 路径: /api/v1/game/new, 方法: POST
+_____________ TestGameCreationAPI.test_create_case_without_user_id _____________
+tests/functional/test_game_api.py:99: in test_create_case_without_user_id
+    assert response.status_code == 200
+E   assert 400 == 200
+E    +  where 400 = <Response [400 Bad Request]>.status_code
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:29:08.741 | INFO     | app.agents.case_generator_agent:generate_case:153 | 开始生成新案件...
+2026-04-10 22:29:09.463 | ERROR    | app.agents.case_generator_agent:generate_case:189 | 案件生成失败: %s
+2026-04-10 22:29:09.463 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 案件生成失败: Error code: 403 - {'error': {'message': 'The free tier of the model has been exhausted. If you wish to continue access the model on a paid basis, please disable the "use free tier only" mode in the management console.', 'type': 'AllocationQuota.FreeTierOnly', 'param': None, 'code': 'AllocationQuota.FreeTierOnly'}, 'id': 'chatcmpl-bb5a3b1d-15c3-9c23-9316-aafc99a3cd5e', 'request_id': 'bb5a3b1d-15c3-9c23-9316-aafc99a3cd5e'}, 路径: /api/v1/game/new, 方法: POST
+___________ TestGameCreationAPI.test_create_case_without_parameters ____________
+tests/functional/test_game_api.py:107: in test_create_case_without_parameters
+    assert response.status_code == 200
+E   assert 400 == 200
+E    +  where 400 = <Response [400 Bad Request]>.status_code
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:29:09.482 | INFO     | app.agents.case_generator_agent:generate_case:153 | 开始生成新案件...
+2026-04-10 22:29:10.285 | ERROR    | app.agents.case_generator_agent:generate_case:189 | 案件生成失败: %s
+2026-04-10 22:29:10.286 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 案件生成失败: Error code: 403 - {'error': {'message': 'The free tier of the model has been exhausted. If you wish to continue access the model on a paid basis, please disable the "use free tier only" mode in the management console.', 'type': 'AllocationQuota.FreeTierOnly', 'param': None, 'code': 'AllocationQuota.FreeTierOnly'}, 'id': 'chatcmpl-31cfc099-c7e3-9526-85e5-643f169096a8', 'request_id': '31cfc099-c7e3-9526-85e5-643f169096a8'}, 路径: /api/v1/game/new, 方法: POST
+_________ TestGameCreationAPI.test_create_case_with_invalid_difficulty _________
+tests/functional/test_game_api.py:117: in test_create_case_with_invalid_difficulty
+    assert response.status_code in [200, 422]
+E   assert 400 in [200, 422]
+E    +  where 400 = <Response [400 Bad Request]>.status_code
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:29:10.302 | INFO     | app.agents.case_generator_agent:generate_case:153 | 开始生成新案件...
+2026-04-10 22:29:11.096 | ERROR    | app.agents.case_generator_agent:generate_case:189 | 案件生成失败: %s
+2026-04-10 22:29:11.096 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 案件生成失败: Error code: 403 - {'error': {'message': 'The free tier of the model has been exhausted. If you wish to continue access the model on a paid basis, please disable the "use free tier only" mode in the management console.', 'type': 'AllocationQuota.FreeTierOnly', 'param': None, 'code': 'AllocationQuota.FreeTierOnly'}, 'id': 'chatcmpl-16951019-a86b-9a83-858a-1e62974662e3', 'request_id': '16951019-a86b-9a83-858a-1e62974662e3'}, 路径: /api/v1/game/new, 方法: POST
+________________ TestGameStatusAPI.test_get_game_status_success ________________
+tests/functional/test_game_api.py:152: in test_get_game_status_success
+    assert response.status_code == 200
+E   assert 404 == 200
+E    +  where 404 = <Response [404 Not Found]>.status_code
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:29:11.111 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/game/test_session_001/status, 方法: GET
+_____________ TestGameStatusAPI.test_game_status_is_investigating ______________
+tests/functional/test_game_api.py:178: in test_game_status_is_investigating
+    assert data["game_status"] in ["investigating", "IN_PROGRESS"]
+           ^^^^^^^^^^^^^^^^^^^
+E   KeyError: 'game_status'
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:29:11.123 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/game/test_session_001/status, 方法: GET
+_____________ TestGameStatusAPI.test_status_contains_suspect_list ______________
+tests/functional/test_game_api.py:184: in test_status_contains_suspect_list
+    assert "suspect_states" in data
+E   AssertionError: assert 'suspect_states' in {'code': 10001, 'data': {}, 'message': '游戏会话不存在'}
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:29:11.130 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/game/test_session_001/status, 方法: GET
+____________ TestGameStatusAPI.test_status_contains_clue_statistics ____________
+tests/functional/test_game_api.py:191: in test_status_contains_clue_statistics
+    assert "collected_clues_count" in data
+E   AssertionError: assert 'collected_clues_count' in {'code': 10001, 'data': {}, 'message': '游戏会话不存在'}
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:29:11.135 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/game/test_session_001/status, 方法: GET
+____________ TestInvestigationAPI.test_submit_investigation_success ____________
+tests/functional/test_game_api.py:228: in test_submit_investigation_success
+    assert response.status_code == 200
+E   assert 404 == 200
+E    +  where 404 = <Response [404 Not Found]>.status_code
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:29:11.141 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/game/test_session_001/investigate, 方法: POST
+____________ TestInvestigationAPI.test_investigation_finds_new_clue ____________
+tests/functional/test_game_api.py:238: in test_investigation_finds_new_clue
+    assert data["found_clue"] is True
+           ^^^^^^^^^^^^^^^^^^
+E   KeyError: 'found_clue'
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:29:11.146 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/game/test_session_001/investigate, 方法: POST
+___________ TestInvestigationAPI.test_investigation_already_searched ___________
+tests/functional/test_game_api.py:260: in test_investigation_already_searched
+    assert "已搜查过" in data["message"] or data["found_clue"] is False
+                                        ^^^^^^^^^^^^^^^^^^
+E   KeyError: 'found_clue'
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:29:11.151 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/game/test_session_001/investigate, 方法: POST
+____________ TestInvestigationAPI.test_investigation_encrypted_clue ____________
+tests/functional/test_game_api.py:306: in test_investigation_encrypted_clue
+    assert "needs_decryption" in str(data).lower() or "需解密" in str(data)
+E   assert ('needs_decryption' in "{'code': 10001, 'message': '游戏会话不存在', 'data': {}}" or '需解密' in "{'code': 10001, 'message': '游戏会话不存在', 'data': {}}")
+E    +  where "{'code': 10001, 'message': '游戏会话不存在', 'data': {}}" = <built-in method lower of str object at 0x11b9131b0>()
+E    +    where <built-in method lower of str object at 0x11b9131b0> = "{'code': 10001, 'message': '游戏会话不存在', 'data': {}}".lower
+E    +      where "{'code': 10001, 'message': '游戏会话不存在', 'data': {}}" = str({'code': 10001, 'data': {}, 'message': '游戏会话不存在'})
+E    +  and   "{'code': 10001, 'message': '游戏会话不存在', 'data': {}}" = str({'code': 10001, 'data': {}, 'message': '游戏会话不存在'})
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:29:11.158 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/game/test_session_001/investigate, 方法: POST
+____________ TestDecryptClueAPI.test_decrypt_with_password_success _____________
+tests/functional/test_game_api.py:340: in test_decrypt_with_password_success
+    assert response.status_code == 200
+E   assert 404 == 200
+E    +  where 404 = <Response [404 Not Found]>.status_code
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:29:11.164 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/game/test_session_001/decrypt, 方法: POST
+_____________ TestDecryptClueAPI.test_decrypt_with_wrong_password ______________
+tests/functional/test_game_api.py:357: in test_decrypt_with_wrong_password
+    assert data["decrypted"] is False
+           ^^^^^^^^^^^^^^^^^
+E   KeyError: 'decrypted'
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:29:11.168 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/game/test_session_001/decrypt, 方法: POST
+_______________ TestDecryptClueAPI.test_decrypt_with_association _______________
+tests/functional/test_game_api.py:382: in test_decrypt_with_association
+    assert data["decrypted"] is True
+           ^^^^^^^^^^^^^^^^^
+E   KeyError: 'decrypted'
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:29:11.172 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/game/test_session_001/decrypt, 方法: POST
+____________ TestDecryptClueAPI.test_decrypt_incomplete_association ____________
+tests/functional/test_game_api.py:400: in test_decrypt_incomplete_association
+    assert data["decrypted"] is False
+           ^^^^^^^^^^^^^^^^^
+E   KeyError: 'decrypted'
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:29:11.176 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/game/test_session_001/decrypt, 方法: POST
+_______________ TestDecryptClueAPI.test_decrypt_unencrypted_clue _______________
+tests/functional/test_game_api.py:428: in test_decrypt_unencrypted_clue
+    assert "无需解密" in data["message"] or data["decrypted"] is True
+                                        ^^^^^^^^^^^^^^^^^
+E   KeyError: 'decrypted'
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:29:11.181 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/game/test_session_001/decrypt, 方法: POST
+__________________ TestAccuseAPI.test_accuse_correct_murderer __________________
+tests/functional/test_game_api.py:475: in test_accuse_correct_murderer
+    assert response.status_code == 200
+E   assert 404 == 200
+E    +  where 404 = <Response [404 Not Found]>.status_code
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:29:11.185 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/game/test_session_001/accuse, 方法: POST
+___________________ TestAccuseAPI.test_accuse_wrong_murderer ___________________
+tests/functional/test_game_api.py:500: in test_accuse_wrong_murderer
+    assert data["accuse_result"] is False
+           ^^^^^^^^^^^^^^^^^^^^^
+E   KeyError: 'accuse_result'
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:29:11.189 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/game/test_session_001/accuse, 方法: POST
+__________________ TestAccuseAPI.test_first_wrong_accusation ___________________
+tests/functional/test_game_api.py:522: in test_first_wrong_accusation
+    assert data["remaining_guesses"] == 2
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+E   KeyError: 'remaining_guesses'
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:29:11.225 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/game/test_session_001/accuse, 方法: POST
+__________________ TestAccuseAPI.test_second_wrong_accusation __________________
+tests/functional/test_game_api.py:544: in test_second_wrong_accusation
+    assert data["remaining_guesses"] == 1
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+E   KeyError: 'remaining_guesses'
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:29:11.229 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/game/test_session_001/accuse, 方法: POST
+__________________ TestAccuseAPI.test_third_wrong_accusation ___________________
+tests/functional/test_game_api.py:570: in test_third_wrong_accusation
+    assert data["remaining_guesses"] == 0 or data["game_status"] == "failed"
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+E   KeyError: 'remaining_guesses'
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:29:11.232 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/game/test_session_001/accuse, 方法: POST
+________________ TestAccuseAPI.test_accuse_already_closed_game _________________
+tests/functional/test_game_api.py:619: in test_accuse_already_closed_game
+    assert "已结束" in data["message"] or data["success"] is False
+                                       ^^^^^^^^^^^^^^^
+E   KeyError: 'success'
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:29:11.238 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/game/test_session_001/accuse, 方法: POST
+____________________ TestCluesAPI.test_get_collected_clues _____________________
+tests/functional/test_game_api.py:696: in test_get_collected_clues
+    assert response.status_code == 200
+E   assert 404 == 200
+E    +  where 404 = <Response [404 Not Found]>.status_code
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:29:11.242 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/game/test_session_001/clues, 方法: GET
+_________________ TestCluesAPI.test_get_clues_by_physical_type _________________
+tests/functional/test_game_api.py:707: in test_get_clues_by_physical_type
+    assert response.status_code == 200
+E   assert 404 == 200
+E    +  where 404 = <Response [404 Not Found]>.status_code
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:29:11.246 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/game/test_session_001/clues, 方法: GET
+________________ TestCluesAPI.test_get_clues_by_testimony_type _________________
+tests/functional/test_game_api.py:715: in test_get_clues_by_testimony_type
+    assert response.status_code == 200
+E   assert 404 == 200
+E    +  where 404 = <Response [404 Not Found]>.status_code
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:29:11.250 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/game/test_session_001/clues, 方法: GET
+__________________ TestCluesAPI.test_get_clues_new_game_empty __________________
+tests/functional/test_game_api.py:722: in test_get_clues_new_game_empty
+    assert len(data) == 0
+E   AssertionError: assert 3 == 0
+E    +  where 3 = len({'code': 10001, 'data': {}, 'message': '游戏会话不存在'})
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:29:11.254 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/game/test_session_001/clues, 方法: GET
+____________________ TestCluesAPI.test_get_clue_statistics _____________________
+tests/functional/test_game_api.py:736: in test_get_clue_statistics
+    assert response.status_code == 200
+E   assert 404 == 200
+E    +  where 404 = <Response [404 Not Found]>.status_code
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:29:11.258 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/game/test_session_001/clues/statistics, 方法: GET
+__________________ TestCluesAPI.test_associate_clues_success ___________________
+tests/functional/test_game_api.py:750: in test_associate_clues_success
+    assert response.status_code == 200
+E   assert 404 == 200
+E    +  where 404 = <Response [404 Not Found]>.status_code
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:29:11.262 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/game/test_session_001/clues/associate, 方法: POST
+________________ TestCluesAPI.test_associate_clues_unrelatable _________________
+tests/functional/test_game_api.py:763: in test_associate_clues_unrelatable
+    assert data["success"] is False
+           ^^^^^^^^^^^^^^^
+E   KeyError: 'success'
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:29:11.266 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/game/test_session_001/clues/associate, 方法: POST
+________________ TestCluesAPI.test_associate_clues_insufficient ________________
+tests/functional/test_game_api.py:771: in test_associate_clues_insufficient
+    assert response.status_code in [200, 422]
+E   assert 404 in [200, 422]
+E    +  where 404 = <Response [404 Not Found]>.status_code
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:29:11.270 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/game/test_session_001/clues/associate, 方法: POST
+_________________ TestCluesAPI.test_associate_clues_duplicate __________________
+tests/functional/test_game_api.py:784: in test_associate_clues_duplicate
+    assert "已关联" in data["message"] or data["success"] is False
+                                       ^^^^^^^^^^^^^^^
+E   KeyError: 'success'
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:29:11.274 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/game/test_session_001/clues/associate, 方法: POST
+_______________________ TestCluesAPI.test_get_clue_hints _______________________
+tests/functional/test_game_api.py:789: in test_get_clue_hints
+    assert response.status_code == 200
+E   assert 404 == 200
+E    +  where 404 = <Response [404 Not Found]>.status_code
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:29:11.278 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/game/test_session_001/clues/hints, 方法: GET
+__________________ TestCluesAPI.test_all_clues_collected_hint __________________
+tests/functional/test_game_api.py:807: in test_all_clues_collected_hint
+    assert "所有线索已收集" in str(data)
+E   assert '所有线索已收集' in "{'code': 10001, 'message': '游戏会话不存在', 'data': {}}"
+E    +  where "{'code': 10001, 'message': '游戏会话不存在', 'data': {}}" = str({'code': 10001, 'data': {}, 'message': '游戏会话不存在'})
+----------------------------- Captured stdout call -----------------------------
+2026-04-10 22:29:11.282 | ERROR    | main:app_base_exception_handler:66 | 请求异常: 游戏会话不存在, 路径: /api/v1/game/test_session_001/clues/hints, 方法: GET
+=============================== warnings summary ===============================
+app/core/exceptions.py:56
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/core/exceptions.py:56: DeprecationWarning: 'HTTP_422_UNPROCESSABLE_ENTITY' is deprecated. Use 'HTTP_422_UNPROCESSABLE_CONTENT' instead.
+    class ValidationException(AppBaseException):
+
+app/models/case.py:14
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:14: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    victim_id: str = Field(..., description="死者唯一标识", example="victim_001")
+
+app/models/case.py:15
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:15: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    name: str = Field(..., description="死者姓名", example="张三")
+
+app/models/case.py:16
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:16: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    age: int = Field(..., description="死者年龄", example=45)
+
+app/models/case.py:17
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:17: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    gender: str = Field(..., description="死者性别", example="男")
+
+app/models/case.py:18
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:18: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    occupation: str = Field(..., description="死者职业", example="企业老板")
+
+app/models/case.py:19
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:19: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    description: str = Field(..., description="死者外貌、性格描述", example="中等身材，性格强势")
+
+app/models/case.py:20
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:20: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    cause_of_death: str = Field(..., description="死因", example="锐器刺入心脏")
+
+app/models/case.py:22
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:22: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    death_location: str = Field(..., description="死亡地点", example="张三的办公室")
+
+app/models/case.py:23
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:23: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    social_relationships: Dict[str, str] = Field(
+
+app/models/case.py:28
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:28: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    background_story: str = Field(..., description="死者背景故事", example="白手起家的企业家，近年与多人有利益纠纷")
+
+app/models/case.py:54
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:54: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    suspect_id: str = Field(..., description="嫌疑人唯一标识", example="suspect_001")
+
+app/models/case.py:55
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:55: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    name: str = Field(..., description="嫌疑人姓名", example="李四")
+
+app/models/case.py:56
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:56: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    age: int = Field(..., description="嫌疑人年龄", example=38)
+
+app/models/case.py:57
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:57: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    gender: str = Field(..., description="嫌疑人性别", example="女")
+
+app/models/case.py:58
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:58: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    occupation: str = Field(..., description="嫌疑人职业", example="家庭主妇")
+
+app/models/case.py:59
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:59: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    description: str = Field(..., description="嫌疑人外貌、性格描述", example="身材高挑，外表温柔")
+
+app/models/case.py:60
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:60: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    personality_traits: List[str] = Field(
+
+app/models/case.py:65
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:65: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    relationship_with_victim: str = Field(..., description="与死者关系", example="夫妻")
+
+app/models/case.py:66
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:66: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    motive: Optional[str] = Field(None, description="动机（仅真凶有完整动机，其他嫌疑人有潜在动机）", example="长期遭受家暴，为了离婚财产")
+
+app/models/case.py:67
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:67: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    alibi: str = Field(..., description="不在场证明", example="案发时在商场购物，有监控记录")
+
+app/models/case.py:68
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:68: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    alibi_reliability: float = Field(
+
+app/models/case.py:75
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:75: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    timeline: Dict[str, str] = Field(
+
+app/models/case.py:85
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:85: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    secrets: List[str] = Field(
+
+app/models/case.py:90
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:90: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    is_murderer: bool = Field(default=False, description="是否为真凶", example=False)
+
+app/models/case.py:91
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:91: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    avatar: str = Field(default="", description="嫌疑人头像URL", example="https://example.com/avatar/suspect_001.jpg")
+
+app/models/case.py:92
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:92: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    background_story: str = Field(..., description="嫌疑人背景故事", example="与死者结婚10年，婚后成为家庭主妇")
+
+app/models/case.py:93
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:93: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    refusal_threshold: float = Field(
+
+app/models/case.py:100
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:100: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    counter_evidence: Dict[str, str] = Field(
+
+app/models/case.py:105
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:105: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    personality_modifier: float = Field(
+
+app/models/case.py:112
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:112: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    spatial_relationships: Dict[str, str] = Field(
+
+app/models/case.py:149
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:149: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    clue_id: str = Field(..., description="线索唯一标识", example="clue_001")
+
+app/models/case.py:150
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:150: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    name: str = Field(..., description="线索名称", example="带血的水果刀")
+
+app/models/case.py:151
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:151: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    clue_type: ClueType = Field(..., description="线索类型", example=ClueType.PHYSICAL)
+
+app/models/case.py:152
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:152: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    status: ClueStatus = Field(default=ClueStatus.HIDDEN, description="线索状态", example=ClueStatus.HIDDEN)
+
+app/models/case.py:153
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:153: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    description: str = Field(..., description="线索描述", example="一把沾有血迹的水果刀，刀柄上有指纹")
+
+app/models/case.py:154
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:154: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    location: str = Field(..., description="线索所在位置", example="办公室书桌抽屉")
+
+app/models/case.py:155
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:155: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    scene: str = Field(..., description="所属场景", example="办公室")
+
+app/models/case.py:156
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:156: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    content: Optional[str] = Field(None, description="线索具体内容（证词内容、文件内容等）", example="刀上的指纹属于嫌疑人李四")
+
+app/models/case.py:157
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:157: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    hidden_content: Optional[str] = Field(None, description="隐藏内容（解密后显示）", example="刀上还有第三人的指纹")
+
+app/models/case.py:158
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:158: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    related_clues: List[str] = Field(
+
+app/models/case.py:163
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:163: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    required_password: Optional[str] = Field(None, description="解密密码（如需解密）", example="123456")
+
+app/models/case.py:164
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:164: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    required_clues: List[str] = Field(
+
+app/models/case.py:169
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:169: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    importance: float = Field(
+
+app/models/case.py:176
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:176: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    points_to_suspect: Optional[str] = Field(None, description="指向的嫌疑人ID", example="suspect_001")
+
+app/models/case.py:177
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:177: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    related_suspects: List[str] = Field(
+
+app/models/case.py:182
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:182: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    is_red_herring: bool = Field(default=False, description="是否为干扰性线索", example=False)
+
+app/models/case.py:209
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:209: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    clue_id: str = Field(..., description="线索ID", example="clue_001")
+
+app/models/case.py:210
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:210: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    description: str = Field(..., description="该线索在证据链中的作用描述", example="证明凶器是水果刀")
+
+app/models/case.py:211
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:211: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    connects_to: List[str] = Field(
+
+app/models/case.py:216
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:216: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    logical_order: int = Field(..., description="在证据链中的逻辑顺序", example=1)
+
+app/models/case.py:221
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:221: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    chain_id: str = Field(..., description="证据链唯一标识", example="chain_001")
+
+app/models/case.py:222
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:222: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    name: str = Field(..., description="证据链名称", example="核心证据链")
+
+app/models/case.py:223
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:223: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    description: str = Field(..., description="证据链描述", example="证明凶手身份的完整证据链")
+
+app/models/case.py:225
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:225: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    conclusion: str = Field(..., description="证据链指向的结论", example="嫌疑人李四是凶手")
+
+app/models/case.py:226
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:226: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    required_clues: List[str] = Field(
+
+app/models/case.py:255
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:255: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    scene_id: str = Field(..., description="场景唯一标识", example="scene_office")
+
+app/models/case.py:256
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:256: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    name: str = Field(..., description="场景名称", example="办公室")
+
+app/models/case.py:257
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:257: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    description: str = Field(..., description="场景描述", example="死者的办公室，整齐但有打斗痕迹")
+
+app/models/case.py:258
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:258: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    items: List[str] = Field(
+
+app/models/case.py:263
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:263: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    is_crime_scene: bool = Field(default=False, description="是否为第一案发现场", example=True)
+
+app/models/case.py:264
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:264: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    is_locked: bool = Field(default=False, description="场景是否锁定，需要解锁才能进入", example=False)
+
+app/models/case.py:282
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:282: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    case_id: str = Field(..., description="案件唯一标识", example="case_20240115_001")
+
+app/models/case.py:283
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:283: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    title: str = Field(..., description="案件标题", example="办公室命案")
+
+app/models/case.py:284
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:284: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    difficulty: int = Field(default=1, ge=1, le=5, description="难度等级，1-5", example=2)
+
+app/models/case.py:285
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:285: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    theme: str = Field(default="modern", description="案件题材", example="modern")
+
+app/models/case.py:286
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:286: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    description: str = Field(..., description="案件简介", example="企业老板张三死于办公室，警方锁定了四名嫌疑人")
+
+app/models/case.py:292
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:292: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    murderer_id: str = Field(..., description="真凶的嫌疑人ID", example="suspect_001")
+
+app/models/case.py:293
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:293: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    murder_weapon: str = Field(..., description="凶器", example="水果刀")
+
+app/models/case.py:294
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:294: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    murder_motive: str = Field(..., description="完整作案动机", example="长期遭受家暴，担心离婚分不到财产，遂起杀意")
+
+app/models/case.py:295
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:295: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    murder_method: str = Field(..., description="详细作案手法", example="以送文件为由进入办公室，趁死者不备拿出事先准备的水果刀刺向死者心脏")
+
+app/models/case.py:296
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:296: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    true_timeline: Dict[str, str] = Field(
+
+app/models/case.py:307
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:307: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    red_herrings: List[str] = Field(
+
+app/models/case.py:370
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:370: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    contradiction_id: str = Field(..., description="矛盾点唯一标识", example="contradiction_001")
+
+app/models/case.py:371
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:371: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    type: ContradictionType = Field(..., description="矛盾类型", example=ContradictionType.SPATIAL)
+
+app/models/case.py:372
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:372: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    description: str = Field(..., description="矛盾描述", example="张小姐的卧室窗户能看到车库")
+
+app/models/case.py:373
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:373: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    involved_suspects: List[str] = Field(
+
+app/models/case.py:378
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:378: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    trigger_condition: Dict[str, Any] = Field(
+
+app/models/case.py:383
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:383: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    hint_for_user: str = Field(
+
+app/models/case.py:388
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:388: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    related_clue_id: Optional[str] = Field(
+
+app/models/case.py:393
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/models/case.py:393: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    clue_location: Optional[str] = Field(
+
+app/services/game_service.py:17
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/services/game_service.py:17: UserWarning: Parameters {'reasoning_effort'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+    from app.agents.case_generator_agent import case_generator
+
+app/services/game_service.py:19
+  /Users/yinbo/AI_Project/ai_muder_mystery_2/backend/app/services/game_service.py:19: UserWarning: Parameters {'reasoning_effort'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+    from app.agents.judge_agent import judge_agent
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/functional/test_agent_api.py::TestSendMessageAPI::test_send_message_to_all
+FAILED tests/functional/test_agent_api.py::TestSendMessageAPI::test_send_message_at_single_suspect
+FAILED tests/functional/test_agent_api.py::TestSendMessageAPI::test_send_message_at_multiple_suspects
+FAILED tests/functional/test_agent_api.py::TestSendMessageAPI::test_send_message_in_single_mode
+FAILED tests/functional/test_agent_api.py::TestSendMessageAPI::test_message_added_to_history
+FAILED tests/functional/test_agent_api.py::TestSendMessageAPI::test_send_empty_message
+FAILED tests/functional/test_agent_api.py::TestSendMessageAPI::test_send_message_triggers_contradiction
+FAILED tests/functional/test_agent_api.py::TestSendMessageAPI::test_send_message_triggers_refusal
+FAILED tests/functional/test_agent_api.py::TestSwitchModeAPI::test_switch_to_single_mode
+FAILED tests/functional/test_agent_api.py::TestSwitchModeAPI::test_switch_to_group_mode
+FAILED tests/functional/test_agent_api.py::TestSwitchModeAPI::test_switch_single_missing_suspect
+FAILED tests/functional/test_agent_api.py::TestSwitchModeAPI::test_switch_same_mode
+FAILED tests/functional/test_agent_api.py::TestControlCommandAPI::test_execute_keep_quiet_command
+FAILED tests/functional/test_agent_api.py::TestControlCommandAPI::test_execute_let_speak_command
+FAILED tests/functional/test_agent_api.py::TestControlCommandAPI::test_execute_summarize_command
+FAILED tests/functional/test_agent_api.py::TestControlCommandAPI::test_execute_invalid_command
+FAILED tests/functional/test_agent_api.py::TestDialogueHistoryAPI::test_get_full_history
+FAILED tests/functional/test_agent_api.py::TestDialogueHistoryAPI::test_get_history_with_pagination
+FAILED tests/functional/test_agent_api.py::TestDialogueHistoryAPI::test_new_session_empty_history
+FAILED tests/functional/test_agent_api.py::TestSuspectStatesAPI::test_get_all_suspect_states
+FAILED tests/functional/test_agent_api.py::TestSuspectStatesAPI::test_states_contain_mood
+FAILED tests/functional/test_agent_api.py::TestSuspectStatesAPI::test_states_contain_stress_level
+FAILED tests/functional/test_agent_api.py::TestSuspectStatesAPI::test_stress_changes_with_interrogation
+FAILED tests/functional/test_game_api.py::TestGameCreationAPI::test_create_new_case_success
+FAILED tests/functional/test_game_api.py::TestGameCreationAPI::test_create_case_with_easy_difficulty
+FAILED tests/functional/test_game_api.py::TestGameCreationAPI::test_create_case_with_hard_difficulty
+FAILED tests/functional/test_game_api.py::TestGameCreationAPI::test_create_case_without_user_id
+FAILED tests/functional/test_game_api.py::TestGameCreationAPI::test_create_case_without_parameters
+FAILED tests/functional/test_game_api.py::TestGameCreationAPI::test_create_case_with_invalid_difficulty
+FAILED tests/functional/test_game_api.py::TestGameStatusAPI::test_get_game_status_success
+FAILED tests/functional/test_game_api.py::TestGameStatusAPI::test_game_status_is_investigating
+FAILED tests/functional/test_game_api.py::TestGameStatusAPI::test_status_contains_suspect_list
+FAILED tests/functional/test_game_api.py::TestGameStatusAPI::test_status_contains_clue_statistics
+FAILED tests/functional/test_game_api.py::TestInvestigationAPI::test_submit_investigation_success
+FAILED tests/functional/test_game_api.py::TestInvestigationAPI::test_investigation_finds_new_clue
+FAILED tests/functional/test_game_api.py::TestInvestigationAPI::test_investigation_already_searched
+FAILED tests/functional/test_game_api.py::TestInvestigationAPI::test_investigation_encrypted_clue
+FAILED tests/functional/test_game_api.py::TestDecryptClueAPI::test_decrypt_with_password_success
+FAILED tests/functional/test_game_api.py::TestDecryptClueAPI::test_decrypt_with_wrong_password
+FAILED tests/functional/test_game_api.py::TestDecryptClueAPI::test_decrypt_with_association
+FAILED tests/functional/test_game_api.py::TestDecryptClueAPI::test_decrypt_incomplete_association
+FAILED tests/functional/test_game_api.py::TestDecryptClueAPI::test_decrypt_unencrypted_clue
+FAILED tests/functional/test_game_api.py::TestAccuseAPI::test_accuse_correct_murderer
+FAILED tests/functional/test_game_api.py::TestAccuseAPI::test_accuse_wrong_murderer
+FAILED tests/functional/test_game_api.py::TestAccuseAPI::test_first_wrong_accusation
+FAILED tests/functional/test_game_api.py::TestAccuseAPI::test_second_wrong_accusation
+FAILED tests/functional/test_game_api.py::TestAccuseAPI::test_third_wrong_accusation
+FAILED tests/functional/test_game_api.py::TestAccuseAPI::test_accuse_already_closed_game
+FAILED tests/functional/test_game_api.py::TestCluesAPI::test_get_collected_clues
+FAILED tests/functional/test_game_api.py::TestCluesAPI::test_get_clues_by_physical_type
+FAILED tests/functional/test_game_api.py::TestCluesAPI::test_get_clues_by_testimony_type
+FAILED tests/functional/test_game_api.py::TestCluesAPI::test_get_clues_new_game_empty
+FAILED tests/functional/test_game_api.py::TestCluesAPI::test_get_clue_statistics
+FAILED tests/functional/test_game_api.py::TestCluesAPI::test_associate_clues_success
+FAILED tests/functional/test_game_api.py::TestCluesAPI::test_associate_clues_unrelatable
+FAILED tests/functional/test_game_api.py::TestCluesAPI::test_associate_clues_insufficient
+FAILED tests/functional/test_game_api.py::TestCluesAPI::test_associate_clues_duplicate
+FAILED tests/functional/test_game_api.py::TestCluesAPI::test_get_clue_hints
+FAILED tests/functional/test_game_api.py::TestCluesAPI::test_all_clues_collected_hint
+============ 59 failed, 75 passed, 83 warnings in 253.83s (0:04:13) ============

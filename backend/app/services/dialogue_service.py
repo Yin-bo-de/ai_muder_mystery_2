@@ -77,7 +77,7 @@ class DialogueService:
                 sender_id="system",
                 sender_name="系统",
                 content=prompt,
-                message_type=MessageType.SYSTEM,
+                message_type=MessageType.TEXT,
                 timestamp=datetime.now(),
             )
             session_service.add_dialogue_message(session_id, system_message)
@@ -141,7 +141,7 @@ class DialogueService:
             sender_id="system",
             sender_name="系统",
             content=result["message"],
-            message_type=MessageType.SYSTEM,
+            message_type=MessageType.TEXT,
             timestamp=datetime.now(),
         )
         session_service.add_dialogue_message(session_id, system_message)
@@ -185,7 +185,7 @@ class DialogueService:
             sender_id="system",
             sender_name="系统",
             content=result_message,
-            message_type=MessageType.SYSTEM,
+            message_type=MessageType.TEXT,
             timestamp=datetime.now(),
         )
         session_service.add_dialogue_message(session_id, system_message)

@@ -231,7 +231,17 @@ class DialogueManager:
         if self.dialogue_mode == DialogueMode.SINGLE and self.current_interrogation_suspect:
             return [(self.current_interrogation_suspect, MessagePriority.P0)]
 
-        # 分析用户意图
+        # 如果用户明确@了指定的嫌疑人，只有被@的人回复（除非触发反驳机制）
+        if target_suspects and len(target_suspects) > 0:
+            logger.info(f"用户@了指定嫌疑人: {target_suspects}，仅这些人回复")
+            for suspect_id in target_suspects:
+                if suspect_id in self.suspect_agents:
+                    priority_list.append((suspect_id, MessagePriority.P0))
+            # 按优先级排序并返回（只有被@的人）
+            priority_list.sort(key=lambda x: x[1])
+            return priority_list
+
+        # 分析用户意图（当没有明确@时）
         intent, intent_targets = self._analyze_user_intent(message)
 
         # 根据意图确定优先级
@@ -248,9 +258,9 @@ class DialogueManager:
                     priority_list.append((suspect_id, MessagePriority.P0))
 
         elif intent == UserIntent.ALL:
-            # 对所有人提问：所有人都可以回复，不限制人数
-            # P0优先级：用户直接@的嫌疑人或被指控的嫌疑人
-            if target_suspects:
+            # 对所有人提问：所有人都可以回复
+            # P0优先级：被指控的嫌疑人
+            if is_accusation and target_suspects:
                 for suspect_id in target_suspects:
                     if suspect_id in self.suspect_agents:
                         priority_list.append((suspect_id, MessagePriority.P0))
@@ -271,8 +281,8 @@ class DialogueManager:
             priority_list.sort(key=lambda x: x[1])
             return priority_list
 
-        # P0优先级：用户直接@的嫌疑人或被指控的嫌疑人（补充）
-        if target_suspects:
+        # P0优先级：被指控的嫌疑人（补充）
+        if is_accusation and target_suspects:
             for suspect_id in target_suspects:
                 if suspect_id in self.suspect_agents and suspect_id not in [x[0] for x in priority_list]:
                     priority_list.append((suspect_id, MessagePriority.P0))

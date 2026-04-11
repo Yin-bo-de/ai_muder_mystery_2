@@ -106,15 +106,15 @@ class RefusalDecisionEngine:
         评估威胁程度（0-1）
         """
         # 根据矛盾类型评估
-        if contradiction.type == ContradictionType.EVIDENCE:
+        if contradiction.contradiction_type == ContradictionType.EVIDENCE:
             # 被出示关键证据 - 高威胁
             return ThreatLevel.CRITICAL
 
-        elif contradiction.type == ContradictionType.TIMELINE:
+        elif contradiction.contradiction_type == ContradictionType.TIMELINE:
             # 时间线被质疑 - 中高威胁
             return ThreatLevel.HIGH
 
-        elif contradiction.type == ContradictionType.SPATIAL:
+        elif contradiction.contradiction_type == ContradictionType.SPATIAL:
             # 空间关系矛盾 - 中等威胁
             return ThreatLevel.MEDIUM
 
@@ -130,10 +130,10 @@ class RefusalDecisionEngine:
         检查反驳证据充分度（0-1）
         """
         # 检查counter_evidence中是否有相关证据
-        contradiction_key = contradiction.description[:20]  # 取前20字作为key
+        contradiction_desc = contradiction.description
 
-        for key, evidence in refuting_suspect.counter_evidence.items():
-            if key in contradiction.description or contradiction_key in key:
+        for evidence in refuting_suspect.counter_evidence:
+            if evidence in contradiction_desc or contradiction_desc in evidence:
                 # 有确凿证据
                 return 1.0
 

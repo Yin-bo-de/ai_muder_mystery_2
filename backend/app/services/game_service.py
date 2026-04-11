@@ -95,26 +95,59 @@ class GameService:
         :param session_id: 会话ID
         :return: 游戏状态信息
         """
+        from app.models.case import CaseBasicInfo
+        from app.core.constants import SuspectMood
+
         session = session_service.get_session(session_id)
         if not session:
             raise SessionNotFoundException()
 
         # 获取嫌疑人状态
         dialogue_manager = dialogue_managers.get(session_id)
-        suspect_states = []
-        if dialogue_manager:
-            suspect_states = dialogue_manager.get_suspect_state()
+        suspect_states_dict: Dict[str, SuspectState] = {}
+
+        # 优先使用 session 中的 suspect_states
+        if session.suspect_states:
+            suspect_states_dict = session.suspect_states
+        elif dialogue_manager:
+            states_list = dialogue_manager.get_suspect_state()
+            # 将字典列表转换为 SuspectState 对象字典
+            for state_dict in states_list:
+                if isinstance(state_dict, dict) and 'suspect_id' in state_dict:
+                    suspect_id = state_dict['suspect_id']
+                    # 转换为 SuspectState 对象
+                    suspect_state = SuspectState(
+                        suspect_id=suspect_id,
+                        mood=SuspectMood(state_dict.get('mood', 'calm')),
+                        pressure_level=float(state_dict.get('stress_level', 0.0)),
+                        lies_count=int(state_dict.get('lied_count', 0))
+                    )
+                    suspect_states_dict[suspect_id] = suspect_state
+
+        # 构建案件基础信息
+        case_basic = CaseBasicInfo(
+            case_id=session.case.case_id,
+            title=session.case.title,
+            description=session.case.description,
+            victim_name=session.case.victim.name,
+            suspect_count=len(session.case.suspects),
+            scenes=session.case.scenes,
+            difficulty=session.case.difficulty
+        )
 
         return GameStatusResponse(
             session_id=session.session_id,
             game_status=session.game_status,
-            collected_clues_count=len(session.collected_clues),
-            total_clues_count=len(session.case.clues),
-            play_time=int((datetime.now() - session.start_time).total_seconds()),
+            case_basic=case_basic,
+            suspect_states=suspect_states_dict,
+            collected_clue_count=len(session.collected_clues),
+            total_clue_count=len(session.case.clues),
+            clue_reveal_count=session.clue_reveal_count,
             wrong_guess_count=session.wrong_guess_count,
-            max_wrong_guess=settings.MAX_WRONG_GUESS,
-            suspect_states=suspect_states,
-            current_mode="investigation",  # TODO: 从状态中获取
+            current_mode=session.current_mode,
+            target_suspect=session.target_suspect,
+            reasoning_score=session.reasoning_score,
+            elapsed_time=int((datetime.now() - session.start_time).total_seconds()),
         )
 
     @staticmethod
@@ -270,7 +303,7 @@ class GameService:
             raise GameCompletedException("游戏已失败，请重新开始")
 
         # 校验参数
-        if not suspect_id or not motive or not modus_operandi or not evidence:
+        if not suspect_id or not motive or not modus_operandi or evidence is None:
             raise AccusationInvalidException("指认信息不完整，请补充必要信息")
 
         # 调用裁判Agent判断

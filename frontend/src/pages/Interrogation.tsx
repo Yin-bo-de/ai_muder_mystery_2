@@ -76,14 +76,35 @@ const Interrogation = () => {
   const [selectedSuspect, setSelectedSuspect] = useState<string | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const [targetSuspects, setTargetSuspects] = useState<string[]>([])
+  // 记录组件挂载时间，只有在挂载后收到的消息才显示打字机效果
+  const [componentMountedAt] = useState(Date.now())
 
   const { sessionId, suspects } = useGameStore()
-  const { messages, isSending, addMessage, setIsSending } = useDialogueStore()
+  const {
+    messages,
+    isSending,
+    addMessage,
+    setIsSending,
+    setDialogueMode: setStoreDialogueMode,
+    addSystemPrompt,
+    getFilteredMessages,
+  } = useDialogueStore()
 
-  // 滚动到底部
+  // 滚动到底部 - 初始化时直接跳转，新消息时平滑滚动
+  const [isInitialScroll, setIsInitialScroll] = useState(true)
+
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages])
+    if (messagesEndRef.current) {
+      if (isInitialScroll) {
+        // 初始加载时直接跳转到最新消息，不使用平滑滚动
+        messagesEndRef.current.scrollIntoView({ behavior: 'auto' })
+        setIsInitialScroll(false)
+      } else {
+        // 新消息时使用平滑滚动
+        messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
+      }
+    }
+  }, [messages, isInitialScroll])
 
   const handleInputChange = (value: string, newTargetSuspects: string[]) => {
     setInputMessage(value)
@@ -107,6 +128,8 @@ const Interrogation = () => {
       role: 'user',
       content: messageContent,
       type: 'text',
+      dialogueMode: dialogueMode,
+      suspectId: selectedSuspect || undefined,
     })
 
     setInputMessage('')
@@ -119,24 +142,30 @@ const Interrogation = () => {
         target_suspects: finalTargetSuspects
       })
 
-      // 添加嫌疑人回复
-      res.responses.forEach((resp: any) => {
-        addMessage({
-          role: 'suspect',
-          content: resp.content,
-          sender_id: resp.suspect_id,
-          sender_name: resp.name,
-          mood: resp.mood,
-          type: resp.is_refusal ? 'text' : 'text',
-        })
+      // 按顺序显示嫌疑人回复，每条间隔3.5秒（足够打字机显示完）
+      res.responses.forEach((resp: any, index: number) => {
+        setTimeout(() => {
+          addMessage({
+            role: 'suspect',
+            content: resp.content,
+            sender_id: resp.suspect_id,
+            sender_name: resp.name,
+            mood: resp.mood,
+            type: resp.is_refusal ? 'text' : 'text',
+            dialogueMode: dialogueMode,
+            suspectId: resp.suspect_id,
+          })
+        }, index * 3500)
       })
 
-      // 添加系统提示
+      // 添加系统提示（直接显示）
       res.system_prompts.forEach((prompt: string) => {
         addMessage({
           role: 'system',
           content: prompt,
           type: 'system_prompt',
+          dialogueMode: dialogueMode,
+          suspectId: selectedSuspect || undefined,
         })
       })
 
@@ -160,6 +189,7 @@ const Interrogation = () => {
       }
       await switchInterrogationMode(sessionId, params)
       setDialogueMode(mode)
+      setStoreDialogueMode(mode, selectedSuspect)
       message.success(`已切换到${mode === 'single' ? '单独审讯' : '全体质询'}模式`)
     } catch (error) {
       message.error('切换模式失败')
@@ -167,25 +197,20 @@ const Interrogation = () => {
   }
 
   const handleSuspectSelect = async (suspectId: string) => {
-    setSelectedSuspect(suspectId)
-    if (dialogueMode === 'single') {
-      // 已经是 single 模式，不需要重复切换
-      message.success(`已选择 ${displaySuspects.find(s => s.suspect_id === suspectId)?.name} 为审讯对象`)
-    } else {
-      // 切换到 single 模式，需要先设置 selectedSuspect 再切换
-      if (!sessionId) {
-        message.error('游戏会话不存在，请重新开始')
-        return
-      }
+    if (!sessionId) {
+      message.error('游戏会话不存在，请重新开始')
+      return
+    }
 
-      try {
-        const params: any = { mode: 'single', suspect_id: suspectId }
-        await switchInterrogationMode(sessionId, params)
-        setDialogueMode('single')
-        message.success(`已切换到单独审讯模式，现在可以单独审讯 ${displaySuspects.find(s => s.suspect_id === suspectId)?.name}`)
-      } catch (error) {
-        message.error('切换模式失败')
-      }
+    try {
+      const params: any = { mode: 'single', suspect_id: suspectId }
+      await switchInterrogationMode(sessionId, params)
+      setSelectedSuspect(suspectId)
+      setDialogueMode('single')
+      setStoreDialogueMode('single', suspectId)
+      message.success(`已切换到单独审讯模式，现在可以单独审讯 ${displaySuspects.find(s => s.suspect_id === suspectId)?.name}`)
+    } catch (error) {
+      message.error('切换模式失败')
     }
   }
 
@@ -295,27 +320,34 @@ const Interrogation = () => {
           zIndex: 100,
         }}
       >
-        {messages.length === 0 ? (
-          <Empty
-            description="开始提问吧，看看嫌疑人会露出什么破绽..."
-            image={Empty.PRESENTED_IMAGE_SIMPLE}
-            style={{ color: 'rgba(255,255,255,0.45)' }}
-          />
-        ) : (
-          messages.map(msg => (
-            <MessageBox
-              key={msg.id}
-              id={msg.id}
-              role={msg.role}
-              content={msg.content}
-              senderName={msg.sender_name}
-              timestamp={msg.timestamp}
-              mood={msg.mood}
-              type={msg.type}
-              enableTypewriter={true}
+        {(() => {
+          const filteredMessages = getFilteredMessages(dialogueMode, selectedSuspect)
+          return filteredMessages.length === 0 ? (
+            <Empty
+              description="开始提问吧，看看嫌疑人会露出什么破绽..."
+              image={Empty.PRESENTED_IMAGE_SIMPLE}
+              style={{ color: 'rgba(255,255,255,0.45)' }}
             />
-          ))
-        )}
+          ) : (
+            filteredMessages.map((msg) => {
+              // 只有组件挂载后收到的消息才使用打字机效果
+              const isNewMessage = msg.timestamp >= componentMountedAt
+              return (
+                <MessageBox
+                  key={msg.id}
+                  id={msg.id}
+                  role={msg.role}
+                  content={msg.content}
+                  senderName={msg.sender_name}
+                  timestamp={msg.timestamp}
+                  mood={msg.mood}
+                  type={msg.type}
+                  enableTypewriter={isNewMessage && msg.role === 'suspect'}
+                />
+              )
+            })
+          )
+        })()}
         <div ref={messagesEndRef} />
       </div>
 
@@ -325,7 +357,8 @@ const Interrogation = () => {
           suspects={displaySuspects}
           value={inputMessage}
           onChange={handleInputChange}
-          placeholder={`${dialogueMode === 'single' ? '对' + (selectedSuspect ? displaySuspects.find(s => s.suspect_id === selectedSuspect)?.name : '嫌疑人') : '对所有嫌疑人'}说点什么... (输入@可指定嫌疑人)`}
+          onSend={handleSendMessage}
+          placeholder={`${dialogueMode === 'single' ? '对' + (selectedSuspect ? displaySuspects.find(s => s.suspect_id === selectedSuspect)?.name : '嫌疑人') : '对所有嫌疑人'}说点什么... (输入@可指定嫌疑人，Enter发送，Shift+Enter换行)`}
           disabled={isSending || (dialogueMode === 'single' && !selectedSuspect)}
         />
         <Button

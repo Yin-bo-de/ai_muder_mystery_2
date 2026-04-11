@@ -1,9 +1,16 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing import List, Optional, Union
+import os
+
+# 获取当前文件所在目录的绝对路径
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 class Settings(BaseSettings):
     """项目配置"""
-    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
+    model_config = SettingsConfigDict(
+        env_file=os.path.join(BASE_DIR, ".env"),
+        env_file_encoding="utf-8"
+    )
 
     # 基础配置
     PROJECT_NAME: str = "AI Murder Mystery"

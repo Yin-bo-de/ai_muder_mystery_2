@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Typography, Row, Col, Tabs, Empty, Spin, message, Tag, Button, Modal, Form, Select } from 'antd'
+import { Typography, Row, Col, Tabs, Empty, Spin, message, Tag, Button, Modal, Form, Select, Input } from 'antd'
 import { FolderOpenOutlined, SearchOutlined, UnlockOutlined, LinkOutlined } from '@ant-design/icons'
 import ClueCard from '@/components/ClueCard'
 import { useGameStore } from '@/store/gameStore'
@@ -21,7 +21,7 @@ const ClueLibrary = () => {
   const [selectedCluesForAssociation, setSelectedCluesForAssociation] = useState<string[]>([])
   const [form] = Form.useForm()
 
-  const { sessionId } = useGameStore()
+  const { sessionId, suspects } = useGameStore()
   const { collectedClues, setCollectedClues, getClueById } = useClueStore()
 
   // 加载线索数据
@@ -186,6 +186,7 @@ const ClueLibrary = () => {
                   status={clue.status}
                   scene={clue.scene}
                   relatedSuspects={clue.related_suspects}
+                  suspects={suspects}
                   onDecrypt={() => handleDecrypt(clue)}
                   onAssociate={() => {
                     setSelectedCluesForAssociation([clue.clue_id])
