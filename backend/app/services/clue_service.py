@@ -212,10 +212,20 @@ class ClueService:
         if not hasattr(session.case, "clues") or not session.case.clues:
             return []
 
-        # 找到未发现的线索
+        # 获取已收集的线索ID
+        collected_clue_ids = {c.clue_id for c in session.collected_clues} if hasattr(session, "collected_clues") else set()
+
+        # 找到未发现的线索（状态是 HIDDEN/UNDISCOVERED 且未被收集）
         undiscovered_clues = []
         for clue in session.case.clues:
-            if clue and hasattr(clue, "status") and clue.status == ClueStatus.UNDISCOVERED:
+            if not clue or not hasattr(clue, "clue_id") or not hasattr(clue, "status"):
+                continue
+            # 检查线索是否未被收集
+            if clue.clue_id in collected_clue_ids:
+                continue
+            # 检查状态是否是未发现（兼容多种状态值）
+            status_str = str(clue.status).lower()
+            if status_str in ["hidden", "undiscovered", "undiscover"]:
                 undiscovered_clues.append(clue)
 
         hints = []

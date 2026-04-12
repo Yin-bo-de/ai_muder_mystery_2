@@ -173,6 +173,8 @@ class CaseGeneratorAgent:
                     clue.clue_id = f"c{i+1}"
                 # 修复不合法的clue_type
                 clue.clue_type = self._fix_clue_type(clue.clue_type)
+                # 确保所有线索的初始状态都是 HIDDEN
+                clue.status = ClueStatus.HIDDEN
 
             # 校验案件完整性
             self._validate_case(case)
@@ -582,6 +584,8 @@ class CaseGeneratorAgent:
                     clue.clue_id = f"c{i+1}"
                 # 修复不合法的clue_type
                 clue.clue_type = self._fix_clue_type(clue.clue_type)
+                # 确保所有线索的初始状态都是 HIDDEN
+                clue.status = ClueStatus.HIDDEN
 
             # 校验案件完整性
             self._validate_case(case)

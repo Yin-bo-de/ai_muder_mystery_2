@@ -170,24 +170,38 @@ class GameService:
         if session.game_status != GameStatus.IN_PROGRESS:
             raise GameCompletedException()
 
-        # 查找该场景的线索
+        # 获取已收集的线索ID列表
+        collected_clue_ids = [c.clue_id for c in session.collected_clues]
+
+        # 查找该场景的线索 - 只返回未发现且未收集的线索
         case = session.case
         scene_clues = [
             clue for clue in case.clues
-            if clue.scene == scene and clue.status == ClueStatus.UNDISCOVERED
+            if clue.scene == scene
+            and clue.status == ClueStatus.UNDISCOVERED
+            and clue.clue_id not in collected_clue_ids
         ]
 
         found_clue = None
+        already_collected = False
+
         if scene_clues and random.random() < 0.7:  # 70%概率找到线索
             # 随机选一个线索
             found_clue = random.choice(scene_clues)
-            found_clue.status = ClueStatus.DISCOVERED
-            session.collected_clues.append(found_clue)
 
-            # 更新会话
-            session_service.update_session(session)
+            # 双重检查：确保这个线索确实没有被收集过
+            if found_clue.clue_id in collected_clue_ids:
+                logger.warning(f"线索 {found_clue.clue_id} 已被收集，跳过重复添加")
+                found_clue = None
+                already_collected = True
+            else:
+                found_clue.status = ClueStatus.DISCOVERED
+                session.collected_clues.append(found_clue)
 
-            logger.info(f"会话 {session_id} 在场景 {scene} 找到线索: {found_clue.name}")
+                # 更新会话
+                session_service.update_session(session)
+
+                logger.info(f"会话 {session_id} 在场景 {scene} 找到线索: {found_clue.name}")
 
         # 记录操作
         session_service.add_user_operation(
@@ -196,11 +210,16 @@ class GameService:
             {"scene": scene, "item": item, "found_clue": found_clue.clue_id if found_clue else None}
         )
 
+        if already_collected:
+            message = f"在{scene}勘查完成，但线索已被收集过了"
+        else:
+            message = f"在{scene}勘查完成" + (f"，发现了线索：{found_clue.name}" if found_clue else "，没有发现有价值的线索")
+
         return {
             "success": True,
             "clue_found": found_clue is not None,
             "clue": found_clue.dict() if found_clue else None,
-            "message": f"在{scene}勘查完成" + (f"，发现了线索：{found_clue.name}" if found_clue else "，没有发现有价值的线索"),
+            "message": message,
         }
 
     @staticmethod

@@ -15,7 +15,7 @@ export type DialogueMode = 'single' | 'group'
 export type SuspectMood = 'calm' | 'nervous' | 'angry' | 'scared' | 'guilty'
 
 // 线索类型
-export type ClueType = 'physical' | 'testimony' | 'association' | 'decrypted'
+export type ClueType = 'physical' | 'testimony' | 'association' | 'decrypt' | 'document'
 
 // 线索状态
 export type ClueStatus = 'undiscovered' | 'discovered' | 'decrypted' | 'associated'

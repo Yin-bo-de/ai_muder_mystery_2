@@ -91,6 +91,13 @@ async def get_clue_statistics(session_id: str) -> Any:
         session_id=session_id
     )
 
+@router.get("/{session_id}/clues/hints", summary="获取线索提示")
+async def get_clue_hints(session_id: str) -> Any:
+    """获取未发现线索的提示（卡关时使用）"""
+    return clue_service.get_undiscovered_clue_hints(
+        session_id=session_id
+    )
+
 @router.get("/{session_id}/clues/{clue_id}", summary="获取线索详情")
 async def get_clue_detail(session_id: str, clue_id: str) -> Any:
     """获取指定线索的详细信息"""
@@ -108,12 +115,5 @@ async def associate_clues(
     return clue_service.associate_clues(
         session_id=session_id,
         clue_ids=clue_ids
-    )
-
-@router.get("/{session_id}/clues/hints", summary="获取线索提示")
-async def get_clue_hints(session_id: str) -> Any:
-    """获取未发现线索的提示（卡关时使用）"""
-    return clue_service.get_undiscovered_clue_hints(
-        session_id=session_id
     )
 

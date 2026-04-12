@@ -107,7 +107,15 @@ class GameSession(BaseModel):
     )
     dialogue_history: List["Message"] = Field(
         default_factory=list,
-        description="完整对话历史"
+        description="完整对话历史（向后兼容）"
+    )
+    group_dialogue_history: List["Message"] = Field(
+        default_factory=list,
+        description="全体质询模式对话历史"
+    )
+    single_dialogue_histories: Dict[str, List["Message"]] = Field(
+        default_factory=dict,
+        description="各嫌疑人单独审讯对话历史，key为嫌疑人ID"
     )
     suspect_states: Dict[str, SuspectState] = Field(
         default_factory=dict,

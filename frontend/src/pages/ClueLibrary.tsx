@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Typography, Row, Col, Tabs, Empty, Spin, message, Tag, Button, Modal, Form, Select, Input } from 'antd'
 import { FolderOpenOutlined, SearchOutlined, UnlockOutlined, LinkOutlined } from '@ant-design/icons'
 import ClueCard from '@/components/ClueCard'
+import ClueAnalysisModal from '@/components/ClueAnalysisModal'
 import { useGameStore } from '@/store/gameStore'
 import { useClueStore } from '@/store/clueStore'
 import { getCollectedClues, getClueStatistics, associateClues, decryptClue } from '@/services/gameApi'
@@ -17,6 +18,7 @@ const ClueLibrary = () => {
   const [statistics, setStatistics] = useState<any>(null)
   const [associateModalVisible, setAssociateModalVisible] = useState(false)
   const [decryptModalVisible, setDecryptModalVisible] = useState(false)
+  const [analysisModalVisible, setAnalysisModalVisible] = useState(false)
   const [selectedClue, setSelectedClue] = useState<Clue | null>(null)
   const [selectedCluesForAssociation, setSelectedCluesForAssociation] = useState<string[]>([])
   const [form] = Form.useForm()
@@ -51,6 +53,11 @@ const ClueLibrary = () => {
   const handleDecrypt = async (clue: Clue) => {
     setSelectedClue(clue)
     setDecryptModalVisible(true)
+  }
+
+  const handleViewAnalysis = (clue: Clue) => {
+    setSelectedClue(clue)
+    setAnalysisModalVisible(true)
   }
 
   const handleDecryptSubmit = async () => {
@@ -192,6 +199,7 @@ const ClueLibrary = () => {
                     setSelectedCluesForAssociation([clue.clue_id])
                     setAssociateModalVisible(true)
                   }}
+                  onClick={() => handleViewAnalysis(clue)}
                 />
               </Col>
             ))}
@@ -273,6 +281,14 @@ const ClueLibrary = () => {
           )}
         </Form>
       </Modal>
+
+      {/* 侦探分析笔记弹窗 */}
+      <ClueAnalysisModal
+        open={analysisModalVisible}
+        onClose={() => setAnalysisModalVisible(false)}
+        clue={selectedClue}
+        suspects={suspects}
+      />
     </div>
   )
 }

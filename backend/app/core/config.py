@@ -51,4 +51,8 @@ class Settings(BaseSettings):
     CASE_GENERATE_TIMEOUT: int = 60  # 案件生成超时时间（秒）
     AGENT_RESPONSE_TIMEOUT: int = 30  # Agent响应超时时间（秒）
 
+    # 意图识别 Agent 配置
+    ENABLE_INTENT_RECOGNITION_AGENT: bool = True  # 是否启用基于 LLM 的意图识别 Agent
+    INTENT_RECOGNITION_HISTORY_WINDOW: int = 30  # 意图识别使用的对话历史窗口大小
+
 settings = Settings()
