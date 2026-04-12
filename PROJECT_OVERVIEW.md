@@ -32,9 +32,13 @@ ai_muder_mystery_2/
 │   │   │   ├── config.py            # 配置管理
 │   │   │   ├── constants.py         # 常量定义
 │   │   │   └── exceptions.py        # 异常定义
+│   │   ├── middlewares/              # 中间件
+│   │   │   ├── __init__.py
+│   │   │   └── trace_middleware.py  # 链路追踪中间件（LogID）
 │   │   ├── agents/                   # LangChain Agent实现
 │   │   │   ├── case_generator_agent.py    # 案件生成Agent
 │   │   │   ├── dialogue_manager.py        # 对话管理器
+│   │   │   ├── intent_recognition_agent.py # 意图识别Agent（新增）
 │   │   │   ├── contradiction_detector.py  # 矛盾检测器
 │   │   │   ├── refusal_decision_engine.py # 反驳决策引擎
 │   │   │   └── suspect_agent.py          # 嫌疑人Agent
@@ -107,6 +111,45 @@ ai_muder_mystery_2/
 
 ## 最近修复的关键问题
 
+### 2026-04-11 问题修复：
+1. ✅ **线索提示API 400错误修复** - 修复路由匹配顺序问题
+   - 问题：`/clues/hints` 被错误匹配到 `/clues/{clue_id}` 路由
+   - 修复：调整路由定义顺序，将 `/clues/hints` 放在前面
+   - 文件：`backend/app/api/v1/game.py`
+   - 增强：`clue_service.py` 兼容多种线索状态值
+   - 增强：`case_generator_agent.py` 强制设置线索初始状态为 HIDDEN
+
+### 2026-04-11 新增功能与修复：
+1. ✅ **侦探分析笔记** - 线索详情弹窗，提供沉浸式探案体验
+   - 文件：`frontend/src/components/ClueAnalysisModal.tsx`
+   - 功能：侦探观察、初步推测、线索关联、追问方向
+   - 集成：ClueLibrary和Investigation页面
+
+2. ✅ **重复线索防护** - 前后端双重去重机制
+   - 后端：`game_service.py` 检查已收集线索
+   - 前端：`clueStore.ts` 添加去重逻辑
+   - 用户提示：发现重复线索时友好提示
+
+3. ✅ **新线索提示** - 自动检查未发现线索并提示
+   - API：`/game/{sessionId}/clues/hints`
+   - 每30秒自动检查
+   - 可关闭的提示横幅
+
+4. ✅ **单独审讯消息展示优化** - 历史消息直接展示，不使用打字机效果
+   - 基于视图切换时间判断消息新旧
+   - 切换嫌疑人时强制滚动到底部
+   - 只有新消息使用打字机效果
+
+5. ✅ **线索类型混淆修复** - 统一类型与状态的区分
+   - `ClueType`: `physical` / `testimony` / `association` / `decrypt` / `document`
+   - `ClueStatus`: `decrypted` 是状态，不是类型
+   - 更新所有相关组件的类型配置
+
+6. ✅ **线索提示错误处理** - 用户友好的错误提示
+   - 只在首次失败时提示用户
+   - 使用useRef追踪错误提示状态
+   - 避免频繁打扰用户
+
 ### 2026-04-11 修复内容：
 1. ✅ 切换单独审讯角色不生效 - 每次切换都调用后端API
 2. ✅ 角色头像下方显示名字 - 修改SuspectAvatar组件
@@ -115,6 +158,29 @@ ai_muder_mystery_2/
 5. ✅ 回车发送/Shift+Enter换行 - 在SuspectMentions中添加键盘事件处理
 6. ✅ 页面跳转后保持消息滚动位置 - 记录componentMountedAt，只有新消息才用打字机效果
 7. ✅ 线索相关嫌疑人显示名字而非代号 - 修改ClueCard组件，添加suspects属性和ID→名字转换
+
+### 2026-04-11 新增功能：
+1. ✅ **意图识别Agent** - 新增基于LLM的意图识别，支持结合对话历史理解用户提问意图
+   - 文件：`backend/app/agents/intent_recognition_agent.py`
+   - 配置：`ENABLE_INTENT_RECOGNITION_AGENT`、`INTENT_RECOGNITION_HISTORY_WINDOW`
+   - 测试：17个单元测试全部通过
+
+2. ✅ **LogID链路追踪** - 新增前后端调用链路追踪，提升可观测性
+   - 后端中间件：`backend/app/middlewares/trace_middleware.py`
+   - 前端：生成UUID并添加`X-Request-ID`请求头
+   - 使用`contextvars`存储请求上下文
+
+3. ✅ **修复对话历史获取** - 重构DialogueManager，从外部传入对话历史
+   - 修改`process_user_message()`签名，添加`dialogue_history`参数
+   - 移除未实现的`_get_dialogue_history()`方法
+   - 意图识别历史消息处理：超过30条取最近30条，不足30条取全部
+
+4. ✅ **对话历史分离存储** - 按对话模式和嫌疑人维度分离存储对话历史
+   - **Message模型**：新增`dialogue_mode`和`single_interrogation_target`字段
+   - **GameSession模型**：新增`group_dialogue_history`和`single_dialogue_histories`字段
+   - **SessionService**：修改`add_dialogue_message()`支持分离存储，新增`get_relevant_dialogue_history()`
+   - **DialogueManager**：意图识别时自动筛选当前模式相关的对话历史
+   - **向后兼容**：保留`dialogue_history`字段作为完整历史
 
 ## 常用命令
 
@@ -146,6 +212,8 @@ cd frontend && npm run build
 | 嫌疑人头像组件 | frontend/src/components/SuspectAvatar.tsx |
 | @嫌疑人组件 | frontend/src/components/SuspectMentions.tsx |
 | 对话管理器 | backend/app/agents/dialogue_manager.py |
+| 意图识别Agent | backend/app/agents/intent_recognition_agent.py |
+| 链路追踪中间件 | backend/app/middlewares/trace_middleware.py |
 | 对话服务 | backend/app/services/dialogue_service.py |
 | 类型定义 | frontend/src/types/game.ts |
 

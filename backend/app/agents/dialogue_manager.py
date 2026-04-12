@@ -12,6 +12,7 @@ from app.models.case import Suspect, Case
 from app.agents.suspect_agent import SuspectAgent
 from app.agents.contradiction_detector import ContradictionDetector
 from app.agents.refusal_decision_engine import RefusalDecisionEngine
+from app.agents.intent_recognition_agent import IntentRecognitionAgent, IntentRecognitionResult
 from app.utils.logger import logger
 
 
@@ -69,12 +70,21 @@ class DialogueManager:
         self.last_refusal_reset: datetime = datetime.utcnow()
         self.max_refusals_per_round: int = 2
 
+        # 新增：意图识别 Agent
+        self.intent_recognition_agent: Optional[IntentRecognitionAgent] = None
+        if settings.ENABLE_INTENT_RECOGNITION_AGENT:
+            self.intent_recognition_agent = IntentRecognitionAgent(
+                suspect_id_to_name=self.suspect_names
+            )
+            logger.info("意图识别 Agent 已启用")
+
     async def process_user_message(
         self,
         message: str,
         target_suspects: Optional[List[str]] = None,
         is_accusation: bool = False,
         evidence_shown: Optional[str] = None,
+        dialogue_history: Optional[List[Message]] = None,
     ) -> Tuple[List[Dict[str, Any]], List[str]]:
         """
         处理用户发送的消息，生成嫌疑人回复（增强版：包含矛盾检测和反驳机制）
@@ -82,15 +92,19 @@ class DialogueManager:
         :param target_suspects: @的嫌疑人ID列表
         :param is_accusation: 是否是指控
         :param evidence_shown: 出示的证据内容
+        :param dialogue_history: 对话历史（从外部传入）
         :return: (嫌疑人回复列表, 系统提示列表)
         """
         logger.info(f"处理用户消息: {message}, 目标嫌疑人: {target_suspects}")
+
+        # 使用传入的对话历史，如果没有则使用空列表
+        dialogue_history = dialogue_history or []
 
         # 1. 重置反驳计数（每轮用户消息开始时）
         self._reset_refusal_count()
 
         # 2. 确定需要回复的嫌疑人优先级
-        priority_queue = self._determine_reply_priority(message, target_suspects, is_accusation)
+        priority_queue = await self._determine_reply_priority(message, target_suspects, is_accusation, dialogue_history)
 
         responses = []
         system_prompts = []
@@ -130,7 +144,7 @@ class DialogueManager:
         refutable_contradictions = []
         if self.contradiction_detector:
             system_hints_from_detector, refutable_contradictions = await self.contradiction_detector.analyze_dialogue(
-                self._get_dialogue_history(),
+                dialogue_history,
                 responses
             )
             system_prompts.extend(system_hints_from_detector)
@@ -143,7 +157,7 @@ class DialogueManager:
                 should_refuse, refusal_prompt = await self.refusal_decision_engine.make_refusal_decision(
                     contradiction_info,
                     self.refusal_count,
-                    self._get_dialogue_history()
+                    dialogue_history
                 )
 
                 if should_refuse and refusal_prompt:
@@ -218,11 +232,88 @@ class DialogueManager:
         logger.info(f"未明确指向，默认为对所有人提问: {message}")
         return UserIntent.ALL, list(self.suspect_agents.keys())
 
-    def _determine_reply_priority(
+    async def _analyze_user_intent_with_context(
+        self,
+        message: str,
+        dialogue_history: List[Message],
+    ) -> Tuple[UserIntent, List[str]]:
+        """
+        结合上下文分析用户意图（使用 IntentRecognitionAgent）
+        :param message: 当前用户消息
+        :param dialogue_history: 完整对话历史
+        :return: (意图类型, 目标嫌疑人ID列表)
+        """
+        # 如果 Agent 未启用，回退到规则
+        if not self.intent_recognition_agent:
+            return self._analyze_user_intent(message)
+
+        try:
+            # 根据当前对话模式筛选相关的对话历史
+            filtered_history = []
+            if self.dialogue_mode == DialogueMode.GROUP:
+                # 全体质询模式：只使用全体质询的历史
+                filtered_history = [
+                    msg for msg in dialogue_history
+                    if msg.dialogue_mode == DialogueMode.GROUP or msg.dialogue_mode is None
+                ]
+                logger.debug(f"全体质询模式，筛选后历史记录数: {len(filtered_history)}/{len(dialogue_history)}")
+            elif self.dialogue_mode == DialogueMode.SINGLE and self.current_interrogation_suspect:
+                # 单独审讯模式：只使用针对该嫌疑人的单独审讯历史
+                target_suspect = self.current_interrogation_suspect
+                filtered_history = [
+                    msg for msg in dialogue_history
+                    if (msg.dialogue_mode == DialogueMode.SINGLE and
+                        msg.single_interrogation_target == target_suspect)
+                ]
+                logger.debug(f"单独审讯模式（目标: {target_suspect}），筛选后历史记录数: {len(filtered_history)}/{len(dialogue_history)}")
+            else:
+                # 无法确定模式时，使用完整历史
+                filtered_history = dialogue_history
+
+            # 调用意图识别 Agent（使用筛选后的历史）
+            logger.info(f"调用意图识别 Agent: {message}, 使用历史记录数: {len(filtered_history)}")
+            llm_result = await self.intent_recognition_agent.analyze(
+                message=message,
+                dialogue_history=filtered_history,
+            )
+
+            # 验证结果
+            return self._validate_result(llm_result)
+
+        except Exception as e:
+            logger.error(f"意图识别 Agent 调用失败，回退到规则: {e}")
+            # 失败时回退到规则
+            return self._analyze_user_intent(message)
+
+    def _validate_result(
+        self,
+        llm_result: IntentRecognitionResult,
+    ) -> Tuple[UserIntent, List[str]]:
+        """
+        验证意图识别结果
+        :param llm_result: IntentRecognitionAgent 返回的结果
+        :return: (意图类型, 目标嫌疑人ID列表)
+        """
+        # 验证嫌疑人ID是否有效
+        valid_targets = [
+            sid for sid in llm_result.target_suspect_ids
+            if sid in self.suspect_agents
+        ]
+
+        if not valid_targets:
+            logger.warning(f"LLM 返回的目标嫌疑人无效，回退到所有人: {llm_result.target_suspect_ids}")
+            return UserIntent.ALL, list(self.suspect_agents.keys())
+
+        # 使用 LLM 的结果
+        logger.info(f"使用意图识别结果: {llm_result.intent_type}, {valid_targets}")
+        return llm_result.intent_type, valid_targets
+
+    async def _determine_reply_priority(
         self,
         message: str,
         target_suspects: Optional[List[str]],
         is_accusation: bool,
+        dialogue_history: Optional[List[Message]] = None,
     ) -> List[Tuple[str, int]]:
         """确定嫌疑人回复优先级"""
         priority_list = []
@@ -242,7 +333,12 @@ class DialogueManager:
             return priority_list
 
         # 分析用户意图（当没有明确@时）
-        intent, intent_targets = self._analyze_user_intent(message)
+        if dialogue_history and self.intent_recognition_agent:
+            # 使用基于上下文的意图识别
+            intent, intent_targets = await self._analyze_user_intent_with_context(message, dialogue_history)
+        else:
+            # 回退到规则匹配
+            intent, intent_targets = self._analyze_user_intent(message)
 
         # 根据意图确定优先级
         if intent == UserIntent.SINGLE:
@@ -424,11 +520,6 @@ class DialogueManager:
             # 每轮新用户消息也重置
             self.refusal_count = 0
             self.last_refusal_reset = now
-
-    def _get_dialogue_history(self) -> List[Message]:
-        """获取对话历史（从session_service获取，v1.0返回空列表）"""
-        # 简化实现，实际从session获取
-        return []
 
     def reset(self) -> None:
         """重置对话管理器状态"""

@@ -8,6 +8,12 @@ from typing import List, Dict, Optional, Any
 from enum import Enum
 from pydantic import BaseModel, Field
 
+# 导入 DialogueMode 避免循环依赖
+class DialogueMode(str, Enum):
+    """对话模式枚举"""
+    GROUP = "group"  # 全体质询
+    SINGLE = "single"  # 单独审讯
+
 
 class MessageRole(str, Enum):
     """消息角色枚举"""
@@ -53,6 +59,14 @@ class Message(BaseModel):
     target_suspects: List[str] = Field(
         default_factory=list,
         description="目标嫌疑人ID列表（仅@指定角色的消息）"
+    )
+    dialogue_mode: Optional[DialogueMode] = Field(
+        None,
+        description="对话模式：全体质询(group)或单独审讯(single)"
+    )
+    single_interrogation_target: Optional[str] = Field(
+        None,
+        description="单独审讯时的目标嫌疑人ID"
     )
     metadata: Dict[str, Any] = Field(
         default_factory=dict,

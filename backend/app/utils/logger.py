@@ -6,7 +6,7 @@ from loguru import logger
 LOG_PATH = Path("logs")
 LOG_PATH.mkdir(exist_ok=True)
 
-# 日志格式
+# 简单的日志格式，先确保基本功能正常
 LOG_FORMAT = (
     "<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | "
     "<level>{level: <8}</level> | "
@@ -17,7 +17,7 @@ LOG_FORMAT = (
 # 移除默认处理器
 logger.remove()
 
-# 添加控制台处理器
+# 添加控制台处理器（简单格式，先不包含request_id）
 logger.add(
     sys.stdout,
     format=LOG_FORMAT,
@@ -25,7 +25,7 @@ logger.add(
     enqueue=True,
 )
 
-# 添加文件处理器
+# 添加文件处理器（简单格式，先不包含request_id）
 logger.add(
     LOG_PATH / "app_{time:YYYY-MM-DD}.log",
     format=LOG_FORMAT,

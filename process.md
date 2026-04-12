@@ -577,3 +577,90 @@
 3. **知识库建立**：
    - PROJECT_OVERVIEW.md 项目概览文档
    - 便于后续开发和维护
+
+---
+
+## Wave 11：意图识别 Agent 实现 ✅ 100% 完成
+### 完成时间：2026-04-11
+### 需求来源：用户需求 - 全体质询模式下识别用户提问意图（结合对话历史）
+
+### 已完成任务：
+
+1. ✅ **技术方案设计**
+   - 创建完整的技术方案文档：`docs/意图识别Agent技术方案.md`
+   - 设计纯 LLM 策略（无混合），所有场景都使用 Agent
+   - 配置支持：ENABLE_INTENT_RECOGNITION_AGENT、INTENT_RECOGNITION_HISTORY_WINDOW（默认30轮）
+   - 设计完整的兜底机制（LLM失败自动回退到规则）
+
+2. ✅ **IntentRecognitionAgent 核心实现**
+   - 创建 `backend/app/agents/intent_recognition_agent.py`
+   - 实现 IntentRecognitionResult Pydantic 模型
+   - 实现高质量的 system prompt，包含：
+     - 清晰的角色定位
+     - 6个详细的场景说明（追问、指代消解等）
+     - 完整的输入输出格式要求
+   - 实现 async analyze() 方法
+   - 完整的日志记录和错误处理
+
+3. ✅ **DialogueManager 集成**
+   - 修改 `backend/app/agents/dialogue_manager.py`
+   - 在 __init__() 中初始化 IntentRecognitionAgent
+   - 新增 async _analyze_user_intent_with_context() 方法
+   - 新增 _validate_result() 结果验证方法
+   - 将 _determine_reply_priority() 改为异步方法
+   - 在 process_user_message() 中传递对话历史
+
+4. ✅ **配置项添加**
+   - 修改 `backend/app/core/config.py`
+   - 添加 ENABLE_INTENT_RECOGNITION_AGENT = True
+   - 添加 INTENT_RECOGNITION_HISTORY_WINDOW = 30
+
+5. ✅ **完整测试套件**
+   - 创建 `backend/tests/unit/test_intent_recognition_agent.py`
+   - 17个单元测试，全部通过 ✅
+   - 测试覆盖：
+     - IntentRecognitionResult 模型验证
+     - Agent 初始化
+     - Prompt 构建
+     - analyze() 方法（Mock LLM）
+     - 各种场景（单个人/部分人/所有人/追问/指代消解/LLM失败回退）
+     - 对话历史窗口处理
+
+### 团队协作成果：
+- Orchestrator 统筹规划和任务分解
+- Backend-specialist 实现核心 Agent 和集成
+- Test-specialist 编写完整测试用例
+- 所有代码已提交并验证
+
+---
+
+## 项目总进度更新
+- **当前阶段**：Wave 11 意图识别 Agent 完成
+- **总进度**：100%
+- **状态**：✅ 所有功能已实现，所有已知Bug已修复，意图识别 Agent 已集成
+- **可运行状态**：✅ 前后端服务可正常启动，完整游戏流程已验证
+
+### 新增功能清单（Wave11）：
+1. **意图识别 Agent**：
+   - 基于 LLM 的上下文意图识别
+   - 支持结合30轮对话历史理解意图
+   - 可配置开关（默认启用）
+   - 失败自动回退到规则匹配
+
+2. **高质量 Prompt 设计**：
+   - 追问场景处理（"你呢？"）
+   - 指代消解处理（"他"、"她"）
+   - 对所有人/部分人/单个人识别
+   - 详细的示例和指导
+
+3. **完整测试覆盖**：
+   - 17个单元测试，全部通过
+   - Mock LLM 测试，不依赖真实 API
+   - 覆盖所有核心场景
+
+### 验证结果：
+- ✅ 模块导入验证通过
+- ✅ DialogueManager 新方法验证通过
+- ✅ 配置项验证通过
+- ✅ UserIntent 枚举一致性验证通过
+- ✅ 17个单元测试全部通过

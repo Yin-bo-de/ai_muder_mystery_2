@@ -5,7 +5,7 @@ from typing import Dict, Optional, List
 from collections import defaultdict
 
 from app.core.config import settings
-from app.core.constants import GameStatus
+from app.core.constants import GameStatus, DialogueMode
 from app.models.case import Case
 from app.models.game import GameSession, UserOperation, SuspectState, SuspectMood
 from app.models.agent import Message
@@ -135,20 +135,79 @@ class SessionService:
         return True
 
     @staticmethod
-    def add_dialogue_message(session_id: str, message: Message) -> bool:
+    def add_dialogue_message(
+        session_id: str,
+        message: Message,
+        dialogue_mode: Optional[DialogueMode] = None,
+        single_interrogation_target: Optional[str] = None,
+    ) -> bool:
         """
-        添加对话消息到历史记录
+        添加对话消息到历史记录（支持按模式分离存储）
         :param session_id: 会话ID
         :param message: 消息对象
+        :param dialogue_mode: 对话模式
+        :param single_interrogation_target: 单独审讯的目标嫌疑人ID
         :return: 是否添加成功
         """
         session = sessions.get(session_id)
         if not session:
             return False
 
+        # 设置消息的模式信息
+        if dialogue_mode:
+            message.dialogue_mode = dialogue_mode
+        if single_interrogation_target:
+            message.single_interrogation_target = single_interrogation_target
+
+        # 添加到完整历史（向后兼容）
         session.dialogue_history.append(message)
+
+        # 按模式分离存储
+        current_mode = dialogue_mode or session.current_mode
+        if current_mode == DialogueMode.GROUP:
+            session.group_dialogue_history.append(message)
+        elif current_mode == DialogueMode.SINGLE:
+            target = single_interrogation_target or session.target_suspect
+            if target:
+                if target not in session.single_dialogue_histories:
+                    session.single_dialogue_histories[target] = []
+                session.single_dialogue_histories[target].append(message)
+
         session.last_active_time = datetime.now()
         return True
+
+    @staticmethod
+    def get_relevant_dialogue_history(
+        session_id: str,
+        dialogue_mode: Optional[DialogueMode] = None,
+        single_interrogation_target: Optional[str] = None,
+    ) -> List[Message]:
+        """
+        获取相关的对话历史（根据当前模式筛选）
+        :param session_id: 会话ID
+        :param dialogue_mode: 对话模式（默认使用会话当前模式）
+        :param single_interrogation_target: 单独审讯的目标嫌疑人ID
+        :return: 筛选后的对话历史
+        """
+        session = sessions.get(session_id)
+        if not session:
+            return []
+
+        mode = dialogue_mode or session.current_mode
+
+        if mode == DialogueMode.GROUP:
+            # 全体质询模式：返回全体历史
+            return session.group_dialogue_history.copy()
+        elif mode == DialogueMode.SINGLE:
+            target = single_interrogation_target or session.target_suspect
+            if target and target in session.single_dialogue_histories:
+                # 单独审讯模式：返回该嫌疑人的单独审讯历史
+                return session.single_dialogue_histories[target].copy()
+            # 如果没有该嫌疑人的历史，返回空列表
+            return []
+
+        # 默认返回完整历史
+        return session.dialogue_history.copy()
 
     @staticmethod
     def increment_wrong_guess(session_id: str) -> int:

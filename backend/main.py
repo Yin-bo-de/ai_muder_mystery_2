@@ -5,6 +5,7 @@ from contextlib import asynccontextmanager
 
 from app.core.config import settings
 from app.core.exceptions import AppBaseException
+from app.middlewares.trace_middleware import TraceMiddleware
 from app.utils.logger import logger
 
 # 生命周期事件
@@ -40,6 +41,9 @@ app.add_middleware(
     allow_methods=settings.CORS_METHODS,
     allow_headers=settings.CORS_HEADERS,
 )
+
+# 添加追踪中间件（注意：先添加的中间件后执行，追踪中间件应该最先执行）
+app.add_middleware(TraceMiddleware)
 
 # 注册路由
 from app.api.v1 import game, agent, user

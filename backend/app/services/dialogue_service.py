@@ -39,7 +39,7 @@ class DialogueService:
         if not dialogue_manager:
             raise SessionNotFoundException()
 
-        # 保存用户消息到历史
+        # 保存用户消息到历史（按模式分离存储）
         user_message = Message(
             role=MessageRole.USER,
             sender_id="user",
@@ -48,17 +48,23 @@ class DialogueService:
             message_type=message_type,
             timestamp=datetime.now(),
         )
-        session_service.add_dialogue_message(session_id, user_message)
+        session_service.add_dialogue_message(
+            session_id,
+            user_message,
+            dialogue_mode=dialogue_manager.dialogue_mode,
+            single_interrogation_target=dialogue_manager.current_interrogation_suspect,
+        )
 
-        # 处理用户消息，获取嫌疑人回复
+        # 处理用户消息，获取嫌疑人回复（传入对话历史）
         responses, system_prompts = await dialogue_manager.process_user_message(
             message=message,
             target_suspects=target_suspects,
             is_accusation=message_type == MessageType.ACCUSATION,
             evidence_shown=message if message_type == MessageType.EVIDENCE else None,
+            dialogue_history=session.dialogue_history,
         )
 
-        # 保存嫌疑人回复到历史
+        # 保存嫌疑人回复到历史（按模式分离存储）
         for resp in responses:
             suspect_message = Message(
                 role=MessageRole.SUSPECT,
@@ -68,9 +74,14 @@ class DialogueService:
                 message_type=MessageType.TEXT,
                 timestamp=datetime.now(),
             )
-            session_service.add_dialogue_message(session_id, suspect_message)
+            session_service.add_dialogue_message(
+                session_id,
+                suspect_message,
+                dialogue_mode=dialogue_manager.dialogue_mode,
+                single_interrogation_target=dialogue_manager.current_interrogation_suspect,
+            )
 
-        # 保存系统提示到历史
+        # 保存系统提示到历史（按模式分离存储）
         for prompt in system_prompts:
             system_message = Message(
                 role=MessageRole.SYSTEM,
@@ -80,7 +91,12 @@ class DialogueService:
                 message_type=MessageType.TEXT,
                 timestamp=datetime.now(),
             )
-            session_service.add_dialogue_message(session_id, system_message)
+            session_service.add_dialogue_message(
+                session_id,
+                system_message,
+                dialogue_mode=dialogue_manager.dialogue_mode,
+                single_interrogation_target=dialogue_manager.current_interrogation_suspect,
+            )
 
         # 更新会话嫌疑人状态
         session.suspect_states = {
@@ -135,7 +151,7 @@ class DialogueService:
             {"mode": mode, "suspect_id": suspect_id}
         )
 
-        # 添加系统提示
+        # 添加系统提示（按模式分离存储）
         system_message = Message(
             role=MessageRole.SYSTEM,
             sender_id="system",
@@ -144,7 +160,12 @@ class DialogueService:
             message_type=MessageType.TEXT,
             timestamp=datetime.now(),
         )
-        session_service.add_dialogue_message(session_id, system_message)
+        session_service.add_dialogue_message(
+            session_id,
+            system_message,
+            dialogue_mode=mode,
+            single_interrogation_target=suspect_id,
+        )
 
         return result
 
@@ -179,7 +200,8 @@ class DialogueService:
 
         result_message = handler()
 
-        # 添加系统提示
+        # 添加系统提示（按模式分离存储）
+        dialogue_manager = game_service.get_dialogue_manager(session_id)
         system_message = Message(
             role=MessageRole.SYSTEM,
             sender_id="system",
@@ -188,7 +210,12 @@ class DialogueService:
             message_type=MessageType.TEXT,
             timestamp=datetime.now(),
         )
-        session_service.add_dialogue_message(session_id, system_message)
+        session_service.add_dialogue_message(
+            session_id,
+            system_message,
+            dialogue_mode=dialogue_manager.dialogue_mode if dialogue_manager else None,
+            single_interrogation_target=dialogue_manager.current_interrogation_suspect if dialogue_manager else None,
+        )
 
         logger.info(f"会话 {session_id} 执行控场指令: {command}")
 
@@ -255,6 +282,8 @@ class DialogueService:
             return False
 
         session.dialogue_history = []
+        session.group_dialogue_history = []
+        session.single_dialogue_histories = {}
         session_service.update_session(session)
 
         # 同时清空嫌疑人Agent的记忆

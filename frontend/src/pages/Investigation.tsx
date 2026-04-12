@@ -1,11 +1,13 @@
-import { useState, useEffect } from 'react'
-import { Typography, Row, Col, Card, Descriptions, Modal, Avatar, Tag, Collapse, Space, App as AntdApp } from 'antd'
-import { SearchOutlined, InfoCircleOutlined, TeamOutlined } from '@ant-design/icons'
+import { useState, useEffect, useRef } from 'react'
+import { Typography, Row, Col, Card, Descriptions, Modal, Avatar, Tag, Collapse, Space, App as AntdApp, Button } from 'antd'
+import { SearchOutlined, InfoCircleOutlined, TeamOutlined, BulbOutlined } from '@ant-design/icons'
 import SceneItem from '@/components/SceneItem'
 import ClueCard from '@/components/ClueCard'
+import ClueAnalysisModal from '@/components/ClueAnalysisModal'
 import { useGameStore } from '@/store/gameStore'
 import { useClueStore } from '@/store/clueStore'
-import { submitInvestigation, getClueStatistics } from '@/services/gameApi'
+import { submitInvestigation, getClueStatistics, getClueHints } from '@/services/gameApi'
+import type { Clue } from '@/types/game'
 
 const { Title, Text, Paragraph } = Typography
 
@@ -14,7 +16,14 @@ const Investigation = () => {
   const [selectedScene, setSelectedScene] = useState<any>(null)
   const [selectedSuspect, setSelectedSuspect] = useState<any>(null)
   const [investigating, setInvestigating] = useState(false)
+  const [analysisModalVisible, setAnalysisModalVisible] = useState(false)
+  const [selectedClue, setSelectedClue] = useState<Clue | null>(null)
+  const [clueHints, setClueHints] = useState<Array<{ hint: string; scene: string }>>([])
+  const [showHintBanner, setShowHintBanner] = useState(false)
   const { message } = AntdApp.useApp()
+
+  // 追踪是否已经显示过线索提示错误（避免频繁打扰用户）
+  const hasShownHintError = useRef(false)
 
   const { sessionId, caseInfo, suspects, totalCluesCount, updateCluesCount } = useGameStore()
   const { addClue, collectedClues } = useClueStore()
@@ -56,9 +65,13 @@ const Investigation = () => {
       const res = await submitInvestigation(sessionId, { scene: sceneId })
 
       if (res.clue_found) {
-        addClue(res.clue)
-        updateCluesCount(collectedClues.length + 1, totalCluesCount)
-        message.success(`发现新线索：${res.clue.name}`)
+        const added = addClue(res.clue)
+        if (added) {
+          updateCluesCount(collectedClues.length + 1, totalCluesCount)
+          message.success(`发现新线索：${res.clue.name}`)
+        } else {
+          message.info(`这条线索「${res.clue.name}」已经收集过了`)
+        }
       } else {
         message.info('这里没有发现有价值的线索')
       }
@@ -81,6 +94,36 @@ const Investigation = () => {
     setSelectedScene(scene)
   }
 
+  const handleViewAnalysis = (clue: Clue) => {
+    setSelectedClue(clue)
+    setAnalysisModalVisible(true)
+  }
+
+  const fetchClueHints = async () => {
+    if (!sessionId) return
+    try {
+      const hints = await getClueHints(sessionId)
+      if (hints && hints.length > 0) {
+        setClueHints(hints)
+        setShowHintBanner(true)
+      }
+    } catch (error) {
+      console.error('获取线索提示失败:', error)
+      // 只在首次失败时提示用户，避免频繁打扰
+      if (!hasShownHintError.current) {
+        hasShownHintError.current = true
+        message.warning('侦探提示服务暂时不可用，稍后会自动重试')
+      }
+    }
+  }
+
+  useEffect(() => {
+    // 定期检查新线索提示（每30秒）
+    fetchClueHints()
+    const interval = setInterval(fetchClueHints, 30000)
+    return () => clearInterval(interval)
+  }, [sessionId])
+
   // 如果没有案件信息，显示加载状态
   if (!caseInfo) {
     return (
@@ -101,6 +144,42 @@ const Investigation = () => {
       <Title level={2} style={{ color: '#fff', marginBottom: 24 }}>
         <SearchOutlined /> 现场勘查
       </Title>
+
+      {/* 新线索提示横幅 */}
+      {showHintBanner && clueHints.length > 0 && (
+        <Card
+          style={{
+            marginBottom: 24,
+            background: 'linear-gradient(135deg, rgba(114, 46, 209, 0.2) 0%, rgba(114, 46, 209, 0.1) 100%)',
+            border: '1px solid #722ed1',
+          }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              <BulbOutlined style={{ color: '#ffd700', fontSize: '24px' }} />
+              <div>
+                <Text strong style={{ color: '#fff', fontSize: '15px' }}>
+                  🕵️ 侦探提示
+                </Text>
+                <div style={{ marginTop: 4 }}>
+                  {clueHints.map((hint, index) => (
+                    <Text key={index} style={{ color: 'rgba(255, 255, 255, 0.8)', display: 'block' }}>
+                      • {hint.hint}
+                    </Text>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <Button
+              size="small"
+              onClick={() => setShowHintBanner(false)}
+              style={{ background: 'rgba(255, 255, 255, 0.1)', border: 'none', color: '#fff' }}
+            >
+              知道了
+            </Button>
+          </div>
+        </Card>
+      )}
 
       <Card style={{ marginBottom: 24, background: '#141414' }}>
         <Descriptions title="案发现场信息" column={2}>
@@ -194,6 +273,7 @@ const Investigation = () => {
                   scene={clue.scene}
                   relatedSuspects={clue.related_suspects || []}
                   suspects={suspects}
+                  onClick={() => handleViewAnalysis(clue)}
                 />
               </Col>
             ))}
@@ -248,6 +328,14 @@ const Investigation = () => {
           </>
         )}
       </Modal>
+
+      {/* 侦探分析笔记弹窗 */}
+      <ClueAnalysisModal
+        open={analysisModalVisible}
+        onClose={() => setAnalysisModalVisible(false)}
+        clue={selectedClue}
+        suspects={suspects}
+      />
     </div>
   )
 }

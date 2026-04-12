@@ -76,8 +76,10 @@ const Interrogation = () => {
   const [selectedSuspect, setSelectedSuspect] = useState<string | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const [targetSuspects, setTargetSuspects] = useState<string[]>([])
-  // 记录组件挂载时间，只有在挂载后收到的消息才显示打字机效果
-  const [componentMountedAt] = useState(Date.now())
+  // 记录当前对话视图切换时间，只有切换后收到的新消息才显示打字机效果
+  const [viewSwitchedAt, setViewSwitchedAt] = useState(Date.now())
+  // 记录当前的对话视图key（用于判断是否切换了视图）
+  const [currentViewKey, setCurrentViewKey] = useState('group')
 
   const { sessionId, suspects } = useGameStore()
   const {
@@ -90,21 +92,37 @@ const Interrogation = () => {
     getFilteredMessages,
   } = useDialogueStore()
 
-  // 滚动到底部 - 初始化时直接跳转，新消息时平滑滚动
-  const [isInitialScroll, setIsInitialScroll] = useState(true)
+  // 滚动到底部 - 视图切换时直接跳转，新消息时平滑滚动
+  const [needsForceScroll, setNeedsForceScroll] = useState(true)
 
   useEffect(() => {
     if (messagesEndRef.current) {
-      if (isInitialScroll) {
-        // 初始加载时直接跳转到最新消息，不使用平滑滚动
+      if (needsForceScroll) {
+        // 视图切换时直接跳转到最新消息，不使用平滑滚动
         messagesEndRef.current.scrollIntoView({ behavior: 'auto' })
-        setIsInitialScroll(false)
+        setNeedsForceScroll(false)
       } else {
         // 新消息时使用平滑滚动
         messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
       }
     }
-  }, [messages, isInitialScroll])
+  }, [messages, needsForceScroll])
+
+  // 计算当前视图的key
+  const getViewKey = (mode: DialogueMode, suspectId: string | null): string => {
+    return mode === 'single' && suspectId ? `single_${suspectId}` : 'group'
+  }
+
+  // 监听对话模式和嫌疑人变化，更新视图切换时间
+  useEffect(() => {
+    const newViewKey = getViewKey(dialogueMode, selectedSuspect)
+    if (newViewKey !== currentViewKey) {
+      console.log(`[Interrogation] 切换对话视图: ${currentViewKey} -> ${newViewKey}`)
+      setCurrentViewKey(newViewKey)
+      setViewSwitchedAt(Date.now())
+      setNeedsForceScroll(true)
+    }
+  }, [dialogueMode, selectedSuspect, currentViewKey])
 
   const handleInputChange = (value: string, newTargetSuspects: string[]) => {
     setInputMessage(value)
@@ -330,8 +348,8 @@ const Interrogation = () => {
             />
           ) : (
             filteredMessages.map((msg) => {
-              // 只有组件挂载后收到的消息才使用打字机效果
-              const isNewMessage = msg.timestamp >= componentMountedAt
+              // 只有当前视图切换后收到的新消息才使用打字机效果
+              const isNewMessageForCurrentView = msg.timestamp >= viewSwitchedAt
               return (
                 <MessageBox
                   key={msg.id}
@@ -342,7 +360,7 @@ const Interrogation = () => {
                   timestamp={msg.timestamp}
                   mood={msg.mood}
                   type={msg.type}
-                  enableTypewriter={isNewMessage && msg.role === 'suspect'}
+                  enableTypewriter={isNewMessageForCurrentView && msg.role === 'suspect'}
                 />
               )
             })

@@ -1,5 +1,5 @@
 import { Card, Tag, Typography, Button, Tooltip } from 'antd'
-import { SearchOutlined, LockOutlined, UnlockOutlined, LinkOutlined } from '@ant-design/icons'
+import { SearchOutlined, LockOutlined, UnlockOutlined, LinkOutlined, EyeOutlined } from '@ant-design/icons'
 import type { ClueType, ClueStatus, Suspect } from '../types/game'
 
 const { Text, Paragraph } = Typography
@@ -18,15 +18,15 @@ interface ClueCardProps {
   onAssociate?: () => void
   onClick?: () => void
   size?: 'small' | 'default'
+  showViewHint?: boolean
 }
 
 const typeConfig = {
   physical: { color: '#1890ff', text: '物证', icon: <SearchOutlined /> },
   testimony: { color: '#52c41a', text: '证词', icon: <LinkOutlined /> },
   association: { color: '#faad14', text: '关联线索', icon: <LinkOutlined /> },
-  decrypted: { color: '#722ed1', text: '解密线索', icon: <UnlockOutlined /> },
-  document: { color: '#13c2c2', text: '文档', icon: <SearchOutlined /> },
   decrypt: { color: '#722ed1', text: '需解密', icon: <LockOutlined /> },
+  document: { color: '#13c2c2', text: '文档', icon: <SearchOutlined /> },
 }
 
 const statusConfig = {
@@ -54,12 +54,13 @@ const ClueCard: React.FC<ClueCardProps> = ({
   onAssociate,
   onClick,
   size = 'default',
+  showViewHint = true,
 }) => {
   const typeInfo = typeConfig[type] || { color: '#8c8c8c', text: '未知类型', icon: <SearchOutlined /> }
   const statusInfo = statusConfig[status] || { color: '#8c8c8c', text: '未知状态' }
 
   const isLocked = status === 'undiscovered'
-  const canDecrypt = type === 'decrypted' && status === 'discovered'
+  const canDecrypt = type === 'decrypt' && status !== 'decrypted'
   const canAssociate = type === 'association' && status === 'discovered'
 
   // 将嫌疑人ID转换为名字
@@ -73,13 +74,14 @@ const ClueCard: React.FC<ClueCardProps> = ({
   return (
     <Card
       size={size}
-      hoverable
-      onClick={onClick}
+      hoverable={!isLocked}
+      onClick={!isLocked ? onClick : undefined}
       style={{
         marginBottom: 12,
         background: isLocked ? '#1a1a1a' : '#141414',
         border: `1px solid ${isLocked ? '#2a2a2a' : '#303030'}`,
         opacity: isLocked ? 0.6 : 1,
+        cursor: isLocked ? 'not-allowed' : 'pointer',
       }}
       className="card-hover"
       extra={
@@ -96,6 +98,11 @@ const ClueCard: React.FC<ClueCardProps> = ({
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           {isLocked && <LockOutlined style={{ color: '#faad14' }} />}
           <Text strong style={{ color: '#fff' }}>{name}</Text>
+          {!isLocked && showViewHint && (
+            <Tag color="blue" icon={<EyeOutlined />} style={{ fontSize: '11px', marginLeft: 'auto' }}>
+              查看笔记
+            </Tag>
+          )}
         </div>
       }
     >
